@@ -33,7 +33,8 @@ class QuestionHelper extends Helper
 {
     private $inputStream;
     private static $shell;
-    private static $stty;
+    private static $stty = true;
+    private static $stdinIsInteractive;
 
     /**
      * Asks a question to the user.
@@ -96,7 +97,7 @@ class QuestionHelper extends Helper
     /**
      * Asks the question to the user.
      *
-     * @return bool|mixed|string|null
+     * @return mixed
      *
      * @throws RuntimeException In case the fallback is deactivated and the response cannot be hidden
      */
@@ -104,10 +105,10 @@ class QuestionHelper extends Helper
     {
         $this->writePrompt($output, $question);
 
-        $inputStream = $this->inputStream ?: STDIN;
+        $inputStream = $this->inputStream ?: \STDIN;
         $autocomplete = $question->getAutocompleterCallback();
 
-        if (null === $autocomplete || !Terminal::hasSttyAvailable()) {
+        if (null === $autocomplete || !self::$stty || !Terminal::hasSttyAvailable()) {
             $ret = false;
             if ($question->isHidden()) {
                 try {
@@ -121,7 +122,9 @@ class QuestionHelper extends Helper
             }
 
             if (false === $ret) {
+                $cp = $this->setIOCodepage();
                 $ret = fgets($inputStream, 4096);
+                $ret = $this->resetIOCodepage($cp, $ret);
                 if (false === $ret) {
                     throw new MissingInputException('Aborted.');
                 }
@@ -164,13 +167,13 @@ class QuestionHelper extends Helper
             $choices = $question->getChoices();
 
             if (!$question->isMultiselect()) {
-                return isset($choices[$default]) ? $choices[$default] : $default;
+                return $choices[$default] ?? $default;
             }
 
             $default = explode(',', $default);
             foreach ($default as $k => $v) {
                 $v = $question->isTrimmable() ? trim($v) : $v;
-                $default[$k] = isset($choices[$v]) ? $choices[$v] : $v;
+                $default[$k] = $choices[$v] ?? $v;
             }
         }
 
@@ -303,12 +306,12 @@ class QuestionHelper extends Helper
                         $remainingCharacters = substr($ret, \strlen(trim($this->mostRecentlyEnteredValue($fullChoice))));
                         $output->write($remainingCharacters);
                         $fullChoice .= $remainingCharacters;
-                        $i = self::strlen($fullChoice);
+                        $i = (false === $encoding = mb_detect_encoding($fullChoice, null, true)) ? \strlen($fullChoice) : mb_strlen($fullChoice, $encoding);
 
                         $matches = array_filter(
                             $autocomplete($ret),
                             function ($match) use ($ret) {
-                                return '' === $ret || 0 === strpos($match, $ret);
+                                return '' === $ret || str_starts_with($match, $ret);
                             }
                         );
                         $numMatches = \count($matches);
@@ -345,7 +348,7 @@ class QuestionHelper extends Helper
 
                 foreach ($autocomplete($ret) as $value) {
                     // If typed characters match the beginning chunk of value (e.g. [AcmeDe]moBundle)
-                    if (0 === strpos($value, $tempRet)) {
+                    if (str_starts_with($value, $tempRet)) {
                         $matches[$numMatches++] = $value;
                     }
                 }
@@ -374,12 +377,12 @@ class QuestionHelper extends Helper
     private function mostRecentlyEnteredValue(string $entered): string
     {
         // Determine the most recent value that the user entered
-        if (false === strpos($entered, ',')) {
+        if (!str_contains($entered, ',')) {
             return $entered;
         }
 
         $choices = explode(',', $entered);
-        if (\strlen($lastChoice = trim($choices[\count($choices) - 1])) > 0) {
+        if ('' !== $lastChoice = trim($choices[\count($choices) - 1])) {
             return $lastChoice;
         }
 
@@ -406,7 +409,7 @@ class QuestionHelper extends Helper
                 $exe = $tmpExe;
             }
 
-            $sExec = shell_exec($exe);
+            $sExec = shell_exec('"'.$exe.'"');
             $value = $trimmable ? rtrim($sExec) : $sExec;
             $output->writeln('');
 
@@ -417,35 +420,28 @@ class QuestionHelper extends Helper
             return $value;
         }
 
-        if (Terminal::hasSttyAvailable()) {
+        if (self::$stty && Terminal::hasSttyAvailable()) {
             $sttyMode = shell_exec('stty -g');
-
             shell_exec('stty -echo');
-            $value = fgets($inputStream, 4096);
+        } elseif ($this->isInteractiveInput($inputStream)) {
+            throw new RuntimeException('Unable to hide the response.');
+        }
+
+        $value = fgets($inputStream, 4096);
+
+        if (self::$stty && Terminal::hasSttyAvailable()) {
             shell_exec(sprintf('stty %s', $sttyMode));
-
-            if (false === $value) {
-                throw new MissingInputException('Aborted.');
-            }
-            if ($trimmable) {
-                $value = trim($value);
-            }
-            $output->writeln('');
-
-            return $value;
         }
 
-        if (false !== $shell = $this->getShell()) {
-            $readCmd = 'csh' === $shell ? 'set mypassword = $<' : 'read -r mypassword';
-            $command = sprintf("/usr/bin/env %s -c 'stty -echo; %s; stty echo; echo \$mypassword'", $shell, $readCmd);
-            $sCommand = shell_exec($command);
-            $value = $trimmable ? rtrim($sCommand) : $sCommand;
-            $output->writeln('');
-
-            return $value;
+        if (false === $value) {
+            throw new MissingInputException('Aborted.');
         }
+        if ($trimmable) {
+            $value = trim($value);
+        }
+        $output->writeln('');
 
-        throw new RuntimeException('Unable to hide the response.');
+        return $value;
     }
 
     /**
@@ -461,6 +457,7 @@ class QuestionHelper extends Helper
     {
         $error = null;
         $attempts = $question->getMaxAttempts();
+
         while (null === $attempts || $attempts--) {
             if (null !== $error) {
                 $this->writeError($output, $error);
@@ -477,30 +474,67 @@ class QuestionHelper extends Helper
         throw $error;
     }
 
-    /**
-     * Returns a valid unix shell.
-     *
-     * @return string|bool The valid shell name, false in case no valid shell is found
-     */
-    private function getShell()
+    private function isInteractiveInput($inputStream): bool
     {
-        if (null !== self::$shell) {
-            return self::$shell;
+        if ('php://stdin' !== (stream_get_meta_data($inputStream)['uri'] ?? null)) {
+            return false;
         }
 
-        self::$shell = false;
+        if (null !== self::$stdinIsInteractive) {
+            return self::$stdinIsInteractive;
+        }
 
-        if (file_exists('/usr/bin/env')) {
-            // handle other OSs with bash/zsh/ksh/csh if available to hide the answer
-            $test = "/usr/bin/env %s -c 'echo OK' 2> /dev/null";
-            foreach (['bash', 'zsh', 'ksh', 'csh'] as $sh) {
-                if ('OK' === rtrim(shell_exec(sprintf($test, $sh)))) {
-                    self::$shell = $sh;
-                    break;
-                }
+        if (\function_exists('stream_isatty')) {
+            return self::$stdinIsInteractive = stream_isatty(fopen('php://stdin', 'r'));
+        }
+
+        if (\function_exists('posix_isatty')) {
+            return self::$stdinIsInteractive = posix_isatty(fopen('php://stdin', 'r'));
+        }
+
+        if (!\function_exists('exec')) {
+            return self::$stdinIsInteractive = true;
+        }
+
+        exec('stty 2> /dev/null', $output, $status);
+
+        return self::$stdinIsInteractive = 1 !== $status;
+    }
+
+    /**
+     * Sets console I/O to the host code page.
+     *
+     * @return int Previous code page in IBM/EBCDIC format
+     */
+    private function setIOCodepage(): int
+    {
+        if (\function_exists('sapi_windows_cp_set')) {
+            $cp = sapi_windows_cp_get();
+            sapi_windows_cp_set(sapi_windows_cp_get('oem'));
+
+            return $cp;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Sets console I/O to the specified code page and converts the user input.
+     *
+     * @param string|false $input
+     *
+     * @return string|false
+     */
+    private function resetIOCodepage(int $cp, $input)
+    {
+        if (0 !== $cp) {
+            sapi_windows_cp_set($cp);
+
+            if (false !== $input && '' !== $input) {
+                $input = sapi_windows_cp_conv(sapi_windows_cp_get('oem'), $cp, $input);
             }
         }
 
-        return self::$shell;
+        return $input;
     }
 }

@@ -20,12 +20,6 @@ use League\CommonMark\Cursor;
 
 final class FencedCodeParser implements BlockParserInterface
 {
-    /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
-     *
-     * @return bool
-     */
     public function parse(ContextInterface $context, Cursor $cursor): bool
     {
         if ($cursor->isIndented()) {
@@ -38,7 +32,7 @@ final class FencedCodeParser implements BlockParserInterface
         }
 
         $indent = $cursor->getIndent();
-        $fence = $cursor->match('/^[ \t]*(?:`{3,}(?!.*`)|^~{3,})/');
+        $fence = $cursor->match('/^[ \t]*(?:`{3,}(?!.*`)|~{3,})/');
         if ($fence === null) {
             return false;
         }

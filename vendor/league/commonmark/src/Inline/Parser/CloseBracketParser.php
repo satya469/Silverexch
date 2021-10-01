@@ -18,10 +18,12 @@ use League\CommonMark\Cursor;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\EnvironmentAwareInterface;
 use League\CommonMark\EnvironmentInterface;
+use League\CommonMark\Extension\Mention\Mention;
 use League\CommonMark\Inline\AdjacentTextMerger;
 use League\CommonMark\Inline\Element\AbstractWebResource;
 use League\CommonMark\Inline\Element\Image;
 use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\InlineParserContext;
 use League\CommonMark\Reference\ReferenceInterface;
 use League\CommonMark\Reference\ReferenceMapInterface;
@@ -35,19 +37,11 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
      */
     private $environment;
 
-    /**
-     * @return string[]
-     */
     public function getCharacters(): array
     {
         return [']'];
     }
 
-    /**
-     * @param InlineParserContext $inlineContext
-     *
-     * @return bool
-     */
     public function parse(InlineParserContext $inlineContext): bool
     {
         // Look through stack of delimiters for a [ or !
@@ -84,6 +78,13 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         $inline = $this->createInline($link['url'], $link['title'], $isImage);
         $opener->getInlineNode()->replaceWith($inline);
         while (($label = $inline->next()) !== null) {
+            // Is there a Mention contained within this link?
+            // CommonMark does not allow nested links, so we'll restore the original text.
+            if ($label instanceof Mention) {
+                $label->replaceWith($replacement = new Text($label->getSymbol() . $label->getIdentifier()));
+                $label = $replacement;
+            }
+
             $inline->appendChild($label);
         }
 
@@ -105,9 +106,6 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         return true;
     }
 
-    /**
-     * @param EnvironmentInterface $environment
-     */
     public function setEnvironment(EnvironmentInterface $environment)
     {
         $this->environment = $environment;
@@ -119,7 +117,7 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
      * @param DelimiterInterface    $opener
      * @param int                   $startPos
      *
-     * @return array|bool
+     * @return array<string, string>|false
      */
     private function tryParseLink(Cursor $cursor, ReferenceMapInterface $referenceMap, DelimiterInterface $opener, int $startPos)
     {
@@ -139,7 +137,7 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
     /**
      * @param Cursor $cursor
      *
-     * @return array|bool
+     * @return array<string, string>|false
      */
     private function tryParseInlineLinkAndTitle(Cursor $cursor)
     {
@@ -178,14 +176,6 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         return ['url' => $dest, 'title' => $title];
     }
 
-    /**
-     * @param Cursor                $cursor
-     * @param ReferenceMapInterface $referenceMap
-     * @param DelimiterInterface    $opener
-     * @param int                   $startPos
-     *
-     * @return ReferenceInterface|null
-     */
     private function tryParseReference(Cursor $cursor, ReferenceMapInterface $referenceMap, DelimiterInterface $opener, int $startPos): ?ReferenceInterface
     {
         if ($opener->getIndex() === null) {
@@ -213,13 +203,6 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         return $referenceMap->getReference($referenceLabel);
     }
 
-    /**
-     * @param string $url
-     * @param string $title
-     * @param bool   $isImage
-     *
-     * @return AbstractWebResource
-     */
     private function createInline(string $url, string $title, bool $isImage): AbstractWebResource
     {
         if ($isImage) {

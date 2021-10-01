@@ -26,24 +26,53 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
  */
 class FlattenException extends LegacyFlattenException
 {
+    /** @var string */
     private $message;
+
+    /** @var int|string */
     private $code;
+
+    /** @var self|null */
     private $previous;
+
+    /** @var array */
     private $trace;
+
+    /** @var string */
     private $traceAsString;
+
+    /** @var string */
     private $class;
+
+    /** @var int */
     private $statusCode;
+
+    /** @var string */
     private $statusText;
+
+    /** @var array */
     private $headers;
+
+    /** @var string */
     private $file;
+
+    /** @var int */
     private $line;
+
+    /** @var string|null */
     private $asString;
 
+    /**
+     * @return static
+     */
     public static function create(\Exception $exception, $statusCode = null, array $headers = []): self
     {
         return static::createFromThrowable($exception, $statusCode, $headers);
     }
 
+    /**
+     * @return static
+     */
     public static function createFromThrowable(\Throwable $exception, int $statusCode = null, array $headers = []): self
     {
         $e = new static();
@@ -104,6 +133,8 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param int $code
+     *
      * @return $this
      */
     public function setStatusCode($code): self
@@ -134,11 +165,13 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param string $class
+     *
      * @return $this
      */
     public function setClass($class): self
     {
-        $this->class = 'c' === $class[0] && 0 === strpos($class, "class@anonymous\0") ? get_parent_class($class).'@anonymous' : $class;
+        $this->class = false !== strpos($class, "@anonymous\0") ? (get_parent_class($class) ?: key(class_implements($class)) ?: 'class').'@anonymous' : $class;
 
         return $this;
     }
@@ -149,6 +182,8 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param string $file
+     *
      * @return $this
      */
     public function setFile($file): self
@@ -164,6 +199,8 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param int $line
+     *
      * @return $this
      */
     public function setLine($line): self
@@ -191,13 +228,15 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param string $message
+     *
      * @return $this
      */
     public function setMessage($message): self
     {
-        if (false !== strpos($message, "class@anonymous\0")) {
-            $message = preg_replace_callback('/class@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)[0-9a-fA-F]++/', function ($m) {
-                return class_exists($m[0], false) ? get_parent_class($m[0]).'@anonymous' : $m[0];
+        if (false !== strpos($message, "@anonymous\0")) {
+            $message = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)[0-9a-fA-F]++/', function ($m) {
+                return class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0];
             }, $message);
         }
 
@@ -215,6 +254,8 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param int|string $code
+     *
      * @return $this
      */
     public function setCode($code): self
@@ -266,7 +307,7 @@ class FlattenException extends LegacyFlattenException
      */
     public function setTraceFromException(\Exception $exception)
     {
-        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.1, use "setTraceFromThrowable()" instead.', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.1, use "setTraceFromThrowable()" instead.', __METHOD__), \E_USER_DEPRECATED);
 
         $this->setTraceFromThrowable($exception);
     }
@@ -282,6 +323,10 @@ class FlattenException extends LegacyFlattenException
     }
 
     /**
+     * @param array       $trace
+     * @param string|null $file
+     * @param int|null    $line
+     *
      * @return $this
      */
     public function setTrace($trace, $file, $line): self
@@ -309,11 +354,11 @@ class FlattenException extends LegacyFlattenException
             $this->trace[] = [
                 'namespace' => $namespace,
                 'short_class' => $class,
-                'class' => isset($entry['class']) ? $entry['class'] : '',
-                'type' => isset($entry['type']) ? $entry['type'] : '',
-                'function' => isset($entry['function']) ? $entry['function'] : null,
-                'file' => isset($entry['file']) ? $entry['file'] : null,
-                'line' => isset($entry['line']) ? $entry['line'] : null,
+                'class' => $entry['class'] ?? '',
+                'type' => $entry['type'] ?? '',
+                'function' => $entry['function'] ?? null,
+                'file' => $entry['file'] ?? null,
+                'line' => $entry['line'] ?? null,
                 'args' => isset($entry['args']) ? $this->flattenArgs($entry['args']) : [],
             ];
         }

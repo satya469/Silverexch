@@ -90,6 +90,9 @@ final class Environment implements ConfigurableEnvironmentInterface
      */
     private $inlineParserCharacterRegex;
 
+    /**
+     * @param array<string, mixed> $config
+     */
     public function __construct(array $config = [])
     {
         $this->config = new Configuration($config);
@@ -99,37 +102,31 @@ final class Environment implements ConfigurableEnvironmentInterface
         $this->delimiterProcessors = new DelimiterProcessorCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function mergeConfig(array $config = [])
     {
+        if (\func_num_args() === 0) {
+            @\trigger_error('Calling Environment::mergeConfig() without any parameters is deprecated in league/commonmark 1.6 and will not be allowed in 2.0', \E_USER_DEPRECATED);
+        }
+
         $this->assertUninitialized('Failed to modify configuration.');
 
         $this->config->merge($config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setConfig(array $config = [])
     {
+        @\trigger_error('The Environment::setConfig() method is deprecated in league/commonmark 1.6 and will be removed in 2.0. Use mergeConfig() instead.', \E_USER_DEPRECATED);
+
         $this->assertUninitialized('Failed to modify configuration.');
 
         $this->config->replace($config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfig($key = null, $default = null)
     {
         return $this->config->get($key, $default);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addBlockParser(BlockParserInterface $parser, int $priority = 0): ConfigurableEnvironmentInterface
     {
         $this->assertUninitialized('Failed to add block parser.');
@@ -140,9 +137,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addInlineParser(InlineParserInterface $parser, int $priority = 0): ConfigurableEnvironmentInterface
     {
         $this->assertUninitialized('Failed to add inline parser.');
@@ -161,9 +155,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addDelimiterProcessor(DelimiterProcessorInterface $processor): ConfigurableEnvironmentInterface
     {
         $this->assertUninitialized('Failed to add delimiter processor.');
@@ -173,9 +164,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addBlockRenderer($blockClass, BlockRendererInterface $blockRenderer, int $priority = 0): ConfigurableEnvironmentInterface
     {
         $this->assertUninitialized('Failed to add block renderer.');
@@ -190,9 +178,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addInlineRenderer(string $inlineClass, InlineRendererInterface $renderer, int $priority = 0): ConfigurableEnvironmentInterface
     {
         $this->assertUninitialized('Failed to add inline renderer.');
@@ -207,9 +192,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockParsers(): iterable
     {
         if (!$this->extensionsInitialized) {
@@ -219,9 +201,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this->blockParsers->getIterator();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInlineParsersForCharacter(string $character): iterable
     {
         if (!$this->extensionsInitialized) {
@@ -235,9 +214,6 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this->inlineParsersByCharacter[$character]->getIterator();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDelimiterProcessors(): DelimiterProcessorCollection
     {
         if (!$this->extensionsInitialized) {
@@ -247,36 +223,22 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this->delimiterProcessors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockRenderersForClass(string $blockClass): iterable
     {
         if (!$this->extensionsInitialized) {
             $this->initializeExtensions();
         }
 
-        if (!isset($this->blockRenderersByClass[$blockClass])) {
-            return [];
-        }
-
-        return $this->blockRenderersByClass[$blockClass]->getIterator();
+        return $this->getRenderersByClass($this->blockRenderersByClass, $blockClass, BlockRendererInterface::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInlineRenderersForClass(string $inlineClass): iterable
     {
         if (!$this->extensionsInitialized) {
             $this->initializeExtensions();
         }
 
-        if (!isset($this->inlineRenderersByClass[$inlineClass])) {
-            return [];
-        }
-
-        return $this->inlineRenderersByClass[$inlineClass]->getIterator();
+        return $this->getRenderersByClass($this->inlineRenderersByClass, $inlineClass, InlineRendererInterface::class);
     }
 
     /**
@@ -306,7 +268,7 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $this;
     }
 
-    private function initializeExtensions()
+    private function initializeExtensions(): void
     {
         // Ask all extensions to register their components
         while (!empty($this->uninitializedExtensions)) {
@@ -323,7 +285,10 @@ final class Environment implements ConfigurableEnvironmentInterface
         $this->buildInlineParserCharacterRegex();
     }
 
-    private function injectEnvironmentAndConfigurationIfNeeded($object)
+    /**
+     * @param object $object
+     */
+    private function injectEnvironmentAndConfigurationIfNeeded($object): void
     {
         if ($object instanceof EnvironmentAwareInterface) {
             $object->setEnvironment($this);
@@ -346,7 +311,7 @@ final class Environment implements ConfigurableEnvironmentInterface
             ],
             'html_input'         => self::HTML_INPUT_ALLOW,
             'allow_unsafe_links' => true,
-            'max_nesting_level'  => \INF,
+            'max_nesting_level'  => \PHP_INT_MAX,
         ]);
 
         return $environment;
@@ -360,17 +325,11 @@ final class Environment implements ConfigurableEnvironmentInterface
         return $environment;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getInlineParserCharacterRegex(): string
     {
         return $this->inlineParserCharacterRegex;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addEventListener(string $eventClass, callable $listener, int $priority = 0): ConfigurableEnvironmentInterface
     {
         $this->assertUninitialized('Failed to add event listener.');
@@ -383,14 +342,13 @@ final class Environment implements ConfigurableEnvironmentInterface
 
         if (\is_object($listener)) {
             $this->injectEnvironmentAndConfigurationIfNeeded($listener);
+        } elseif (\is_array($listener) && \is_object($listener[0])) {
+            $this->injectEnvironmentAndConfigurationIfNeeded($listener[0]);
         }
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dispatch(AbstractEvent $event): void
     {
         if (!$this->extensionsInitialized) {
@@ -408,7 +366,7 @@ final class Environment implements ConfigurableEnvironmentInterface
         }
     }
 
-    private function buildInlineParserCharacterRegex()
+    private function buildInlineParserCharacterRegex(): void
     {
         $chars = \array_unique(\array_merge(
             \array_keys($this->inlineParsersByCharacter),
@@ -417,10 +375,15 @@ final class Environment implements ConfigurableEnvironmentInterface
 
         if (empty($chars)) {
             // If no special inline characters exist then parse the whole line
-            $this->inlineParserCharacterRegex = '/^.+$/u';
+            $this->inlineParserCharacterRegex = '/^.+$/';
         } else {
             // Match any character which inline parsers are not interested in
-            $this->inlineParserCharacterRegex = '/^[^' . \preg_quote(\implode('', $chars), '/') . ']+/u';
+            $this->inlineParserCharacterRegex = '/^[^' . \preg_quote(\implode('', $chars), '/') . ']+/';
+
+            // Only add the u modifier (which slows down performance) if we have a multi-byte UTF-8 character in our regex
+            if (\strlen($this->inlineParserCharacterRegex) > \mb_strlen($this->inlineParserCharacterRegex)) {
+                $this->inlineParserCharacterRegex .= 'u';
+            }
         }
     }
 
@@ -429,10 +392,44 @@ final class Environment implements ConfigurableEnvironmentInterface
      *
      * @throws \RuntimeException
      */
-    private function assertUninitialized(string $message)
+    private function assertUninitialized(string $message): void
     {
         if ($this->extensionsInitialized) {
             throw new \RuntimeException($message . ' Extensions have already been initialized.');
         }
+    }
+
+    /**
+     * @param array<string, PrioritizedList> $list
+     * @param string                         $class
+     * @param string                         $type
+     *
+     * @return iterable
+     *
+     * @phpstan-template T
+     *
+     * @phpstan-param array<string, PrioritizedList<T>> $list
+     * @phpstan-param string                            $class
+     * @phpstan-param class-string<T>                   $type
+     *
+     * @phpstan-return iterable<T>
+     */
+    private function getRenderersByClass(array &$list, string $class, string $type): iterable
+    {
+        // If renderers are defined for this specific class, return them immediately
+        if (isset($list[$class])) {
+            return $list[$class];
+        }
+
+        while (\class_exists($parent = $parent ?? $class) && $parent = \get_parent_class($parent)) {
+            if (!isset($list[$parent])) {
+                continue;
+            }
+
+            // "Cache" this result to avoid future loops
+            return $list[$class] = $list[$parent];
+        }
+
+        return [];
     }
 }

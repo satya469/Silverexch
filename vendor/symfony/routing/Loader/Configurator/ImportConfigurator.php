@@ -13,6 +13,7 @@ namespace Symfony\Component\Routing\Loader\Configurator;
 
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\RouteCompiler;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -27,6 +28,19 @@ class ImportConfigurator
     {
         $this->parent = $parent;
         $this->route = $route;
+    }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+
+    public function __wakeup()
+    {
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
 
     public function __destruct()
@@ -63,6 +77,7 @@ class ImportConfigurator
                     foreach ($prefix as $locale => $localePrefix) {
                         $localizedRoute = clone $route;
                         $localizedRoute->setDefault('_locale', $locale);
+                        $localizedRoute->setRequirement('_locale', preg_quote($locale, RouteCompiler::REGEX_DELIMITER));
                         $localizedRoute->setDefault('_canonical_route', $name);
                         $localizedRoute->setPath($localePrefix.(!$trailingSlashOnRoot && '/' === $route->getPath() ? '' : $route->getPath()));
                         $this->route->add($name.'.'.$locale, $localizedRoute);

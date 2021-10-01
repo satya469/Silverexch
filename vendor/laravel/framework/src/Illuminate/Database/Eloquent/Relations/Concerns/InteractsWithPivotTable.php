@@ -225,7 +225,7 @@ trait InteractsWithPivotTable
             $this->relatedPivotKey => $this->parseId($id),
         ], true);
 
-        $pivot->timestamps = in_array($this->updatedAt(), $this->pivotColumns);
+        $pivot->timestamps = $updated && in_array($this->updatedAt(), $this->pivotColumns);
 
         $pivot->fill($attributes)->save();
 
@@ -429,7 +429,7 @@ trait InteractsWithPivotTable
                     return 0;
                 }
 
-                $query->whereIn($this->relatedPivotKey, (array) $ids);
+                $query->whereIn($this->getQualifiedRelatedPivotKeyName(), (array) $ids);
             }
 
             // Once we have all of the conditions set on the statement, we are ready
@@ -537,14 +537,14 @@ trait InteractsWithPivotTable
         $query = $this->newPivotStatement();
 
         foreach ($this->pivotWheres as $arguments) {
-            call_user_func_array([$query, 'where'], $arguments);
+            $query->where(...$arguments);
         }
 
         foreach ($this->pivotWhereIns as $arguments) {
-            call_user_func_array([$query, 'whereIn'], $arguments);
+            $query->whereIn(...$arguments);
         }
 
-        return $query->where($this->foreignPivotKey, $this->parent->{$this->parentKey});
+        return $query->where($this->getQualifiedForeignPivotKeyName(), $this->parent->{$this->parentKey});
     }
 
     /**

@@ -2,6 +2,34 @@
 
 All notable changes to `laravel-web-tinker` will be documented in this file
 
+## 1.7.7 - 2021-01-04
+
+- add PHP 8 support (#72)
+
+## 1.7.6 - 2020-10-22
+
+- fix typo in config
+- bump lodash from 4.17.15 to 4.17.19
+- bump elliptic from 6.5.0 to 6.5.3
+- bump http-proxy from 1.17.0 to 1.18.1
+- bump node-sass from 4.12.0 to 4.14.1
+
+## 1.7.5 - 2020-09-09
+
+- Support Laravel 8
+
+## 1.7.4 - 2020-07-23
+
+- Fix execution (#62)
+
+## 1.7.3 - 2020-05-07
+
+- fix infinite loop using custom execution closure class (#55)
+
+## 1.7.2 - 2020-03-05
+
+- fix for running Laravel from subfolder (#53)
+
 ## 1.7.1 - 2020-03-04
 
 - fix install command in Laravel 7

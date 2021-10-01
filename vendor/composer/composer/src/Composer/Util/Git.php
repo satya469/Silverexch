@@ -20,7 +20,7 @@ use Composer\IO\IOInterface;
  */
 class Git
 {
-    private static $version;
+    private static $version = false;
 
     /** @var IOInterface */
     protected $io;
@@ -165,7 +165,7 @@ class Git
                     $errorMsg = $this->process->getErrorOutput();
                 }
             } elseif (
-                preg_match('{^(git)@' . self::getGitLabDomainsRegex($this->config) . ':(.+?)\.git$}i', $url, $match)
+                preg_match('{^(git)@' . self::getGitLabDomainsRegex($this->config) . ':(.+?\.git)$}i', $url, $match)
                 || preg_match('{^(https?)://' . self::getGitLabDomainsRegex($this->config) . '/(.*)}', $url, $match)
             ) {
                 if ($match[1] === 'git') {
@@ -254,7 +254,7 @@ class Git
                 $commandCallable = function ($url) {
                     $sanitizedUrl = preg_replace('{://([^@]+?):(.+?)@}', '://', $url);
 
-                    return sprintf('git remote set-url origin %s && git remote update --prune origin && git remote set-url origin %s', ProcessExecutor::escape($url), ProcessExecutor::escape($sanitizedUrl));
+                    return sprintf('git remote set-url origin -- %s && git remote update --prune origin && git remote set-url origin -- %s', ProcessExecutor::escape($url), ProcessExecutor::escape($sanitizedUrl));
                 };
                 $this->runCommand($commandCallable, $url, $dir);
             } catch (\Exception $e) {
@@ -270,7 +270,7 @@ class Git
         $this->filesystem->removeDirectory($dir);
 
         $commandCallable = function ($url) use ($dir) {
-            return sprintf('git clone --mirror %s %s', ProcessExecutor::escape($url), ProcessExecutor::escape($dir));
+            return sprintf('git clone --mirror -- %s %s', ProcessExecutor::escape($url), ProcessExecutor::escape($dir));
         };
 
         $this->runCommand($commandCallable, $url, $dir, true);
@@ -289,6 +289,16 @@ class Git
         }
 
         return false;
+    }
+
+    public static function getNoShowSignatureFlag(ProcessExecutor $process)
+    {
+        $gitVersion = self::getVersion($process);
+        if ($gitVersion && version_compare($gitVersion, '2.10.0-rc0', '>=')) {
+            return ' --no-show-signature';
+        }
+
+        return '';
     }
 
     private function checkRefIsInMirror($url, $dir, $ref)
@@ -337,7 +347,7 @@ class Git
         // added in git 1.7.1, prevents prompting the user for username/password
         if (getenv('GIT_ASKPASS') !== 'echo') {
             putenv('GIT_ASKPASS=echo');
-            unset($_SERVER['GIT_ASKPASS']);
+            $_SERVER['GIT_ASKPASS'] = 'echo';
         }
 
         // clean up rogue git env vars in case this is running in a git hook
@@ -353,6 +363,7 @@ class Git
         // Run processes with predictable LANGUAGE
         if (getenv('LANGUAGE') !== 'C') {
             putenv('LANGUAGE=C');
+            $_SERVER['LANGUAGE'] = 'C';
         }
 
         // clean up env for OSX, see https://github.com/composer/composer/issues/2146#issuecomment-35478940
@@ -398,16 +409,18 @@ class Git
      *
      * @return string|null The git version number.
      */
-    public function getVersion()
+    public static function getVersion(ProcessExecutor $process = null)
     {
-        if (isset(self::$version)) {
-            return self::$version;
+        if (false === self::$version) {
+            self::$version = null;
+            if (!$process) {
+                $process = new ProcessExecutor;
+            }
+            if (0 === $process->execute('git --version', $output) && preg_match('/^git version (\d+(?:\.\d+)+)/m', $output, $matches)) {
+                self::$version = $matches[1];
+            }
         }
-        if (0 !== $this->process->execute('git --version', $output)) {
-            return;
-        }
-        if (preg_match('/^git version (\d+(?:\.\d+)+)/m', $output, $matches)) {
-            return self::$version = $matches[1];
-        }
+
+        return self::$version;
     }
 }

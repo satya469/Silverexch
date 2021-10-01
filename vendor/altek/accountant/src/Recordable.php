@@ -128,7 +128,7 @@ trait Recordable
     /**
      * {@inheritdoc}
      */
-    public function collect(string $event): array
+    public function gather(string $event): array
     {
         if (! $this->isRecordingEnabled()) {
             throw new AccountantException('Recording is not enabled');

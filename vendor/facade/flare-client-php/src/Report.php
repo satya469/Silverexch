@@ -15,7 +15,8 @@ use Throwable;
 
 class Report
 {
-    use UsesTime, HasContext;
+    use UsesTime;
+    use HasContext;
 
     /** @var \Facade\FlareClient\Stacktrace\Stacktrace */
     private $stacktrace;
@@ -37,6 +38,9 @@ class Report
 
     /** @var string */
     private $applicationPath;
+
+    /** @var ?string */
+    private $applicationVersion;
 
     /** @var array */
     private $userProvidedContext = [];
@@ -60,18 +64,40 @@ class Report
     private $openFrameIndex;
 
     /** @var string */
-    private $groupBy;
+    private $groupBy ;
 
-    public static function createForThrowable(Throwable $throwable, ContextInterface $context, ?string $applicationPath = null): self
-    {
+    /** @var string */
+    private $trackingUuid;
+
+    /** @var null string|null */
+    public static $fakeTrackingUuid = null;
+
+    public static function createForThrowable(
+        Throwable $throwable,
+        ContextInterface $context,
+        ?string $applicationPath = null,
+        ?string $version = null
+    ): self {
         return (new static())
             ->setApplicationPath($applicationPath)
             ->throwable($throwable)
             ->useContext($context)
-            ->exceptionClass(get_class($throwable))
+            ->exceptionClass(self::getClassForThrowable($throwable))
             ->message($throwable->getMessage())
             ->stackTrace(Stacktrace::createForThrowable($throwable, $applicationPath))
-            ->exceptionContext($throwable);
+            ->exceptionContext($throwable)
+            ->setApplicationVersion($version);
+    }
+
+    protected static function getClassForThrowable(Throwable $throwable): string
+    {
+        if ($throwable instanceof \Facade\Ignition\Exceptions\ViewException) {
+            if ($previous = $throwable->getPrevious()) {
+                return get_class($previous);
+            }
+        }
+
+        return get_class($throwable);
     }
 
     public static function createForMessage(string $message, string $logLevel, ContextInterface $context, ?string $applicationPath = null): self
@@ -85,6 +111,16 @@ class Report
             ->exceptionClass($logLevel)
             ->stacktrace($stacktrace)
             ->openFrameIndex($stacktrace->firstApplicationFrameIndex());
+    }
+
+    public function __construct()
+    {
+        $this->trackingUuid = self::$fakeTrackingUuid ?? $this->generateUuid();
+    }
+
+    public function trackingUuid(): string
+    {
+        return $this->trackingUuid;
     }
 
     public function exceptionClass(string $exceptionClass)
@@ -182,6 +218,18 @@ class Report
         return $this->applicationPath;
     }
 
+    public function setApplicationVersion(?string $applicationVersion)
+    {
+        $this->applicationVersion = $applicationVersion;
+
+        return $this;
+    }
+
+    public function getApplicationVersion(): ?string
+    {
+        return $this->applicationVersion;
+    }
+
     public function view(?View $view)
     {
         $this->view = $view;
@@ -210,6 +258,7 @@ class Report
         return $this;
     }
 
+    /** @deprecated  */
     public function groupByTopFrame()
     {
         $this->groupBy = GroupingTypes::TOP_FRAME;
@@ -217,6 +266,7 @@ class Report
         return $this;
     }
 
+    /** @deprecated  */
     public function groupByException()
     {
         $this->groupBy = GroupingTypes::EXCEPTION;
@@ -259,8 +309,27 @@ class Report
             'stage' => $this->stage,
             'message_level' => $this->messageLevel,
             'open_frame_index' => $this->openFrameIndex,
-            'group_by' => $this->groupBy ?? GroupingTypes::TOP_FRAME,
             'application_path' => $this->applicationPath,
+            'application_version' => $this->applicationVersion,
+            'tracking_uuid' => $this->trackingUuid,
         ];
+    }
+
+    /*
+ * Found on https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid/15875555#15875555
+ */
+    private function generateUuid(): string
+    {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }

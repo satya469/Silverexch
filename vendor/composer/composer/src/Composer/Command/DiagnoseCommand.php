@@ -172,7 +172,7 @@ EOT
             $io->write(sprintf('PHP binary path: <comment>%s</comment>', PHP_BINARY));
         }
 
-        $io->write(sprintf('OpenSSL version: <comment>%s</comment>', OPENSSL_VERSION_TEXT));
+        $io->write('OpenSSL version: ' . (defined('OPENSSL_VERSION_TEXT') ? '<comment>'.OPENSSL_VERSION_TEXT.'</comment>' : '<error>missing</error>'));
 
         return $this->exitCode;
     }
@@ -432,7 +432,11 @@ EOT
         }
 
         $versionsUtil = new Versions($config, $this->rfs);
-        $latest = $versionsUtil->getLatest();
+        try {
+            $latest = $versionsUtil->getLatest();
+        } catch (\Exception $e) {
+            return $e;
+        }
 
         if (Composer::VERSION !== $latest['version'] && Composer::VERSION !== '@package_version@') {
             return '<comment>You are not running the latest '.$versionsUtil->getChannel().' version, run `composer self-update` to update ('.Composer::VERSION.' => '.$latest['version'].')</comment>';

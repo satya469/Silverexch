@@ -22,9 +22,12 @@ echo Element::withTag('p')->text('This is the content!');
 ## `A`
 
 - `function href(?string $href)`
+- `function target(string $target)`
 
 ## `Button`
 
+- `function disabled($disabled = true)`
+- `function name(?string $name)`
 - `function type(?string $type)`
 - `function value(?string $value)`
 
@@ -32,22 +35,50 @@ echo Element::withTag('p')->text('This is the content!');
 
 ## `Fieldset`
 
+- `function disabled($disabled = true)`
 - `function legend(?string $contents)`
+
+## `File`
+- `function accept(?string $value)`
+- `function acceptAudio()`
+- `function acceptImage()`
+- `function acceptVideo()`
+- `function autofocus(?$autofocus)`
+- `function multiple()`
+- `function name(?string $name)`
+- `function required()`
 
 ## `Form`
 
 - `function action(?string $action)`
 - `function method(?string $method)`
 - `function acceptsFiles()`
+- `function novalidate($novalidate = true)`
+- `function target(string $target)`
+
+
+## `I`
+
+## `Img`
+
+- `function alt(?string $alt)`
+- `function src(?string $src)`
 
 ## `Input`
 
-- `function autofocus()`
+- `function autofocus(?$autofocus)`
+- `function checked($checked = true)`
+- `function disabled($disabled = true)`
 - `function name(?string $name)`
 - `function placeholder(?string $placeholder)`
-- `function required()`
+- `function readonly($readonly = true)`
+- `function required($required = true)`
+- `function size($size)`
 - `function type(?string $type)`
+- `function unchecked()`
 - `function value(?string $value)`
+- `function maxlength(int $maxlength)`
+- `function minlength(int $minlength)`
 
 ## `Label`
 
@@ -55,8 +86,14 @@ echo Element::withTag('p')->text('This is the content!');
 
 ## `Legend`
 
+## `Optgroup`
+
+- `function disabled($disabled = true)`
+- `function label(?string $label)`
+
 ## `Option`
 
+- `function disabled($disabled = true)`
 - `function selected()`
 - `function selectedIf(bool $condition)`
 - `function unselected()`
@@ -64,15 +101,30 @@ echo Element::withTag('p')->text('This is the content!');
 
 ## `Select`
 
+- `function autofocus(?$autofocus)`
+- `function disabled(?$disabled)`
+- `function multiple()`
 - `function name(?string $name)`
+- `function optgroup(string $label, iterable $options)`
 - `function options(iterable $options)`
+- `function placeholder(?$text)`
+- `function readonly(?$readonly)`
+- `function required(?$required)`
 - `function value(?string $value)`
-- `function applyValueToOptions()`
 
 ## `Span`
 
-## `TextArea`
+## `Textarea`
 
 - `function autofocus()`
+- `function cols(int $cols)`
+- `function disabled(?$disabled)`
+- `function maxlength(int $maxlength)`
+- `function minlength(int $minlength)`
 - `function name(?string $name)`
+- `function placeholder(?string $placeholder)`
+- `function readonly(?$readonly)`
+- `function required()`
+- `function required(?$required)`
+- `function rows(int $rows)`
 - `function value(?string $value)`

@@ -17,44 +17,36 @@ namespace League\CommonMark;
 /**
  * Converts CommonMark-compatible Markdown to HTML.
  */
-class CommonMarkConverter extends Converter
+class CommonMarkConverter extends MarkdownConverter
 {
     /**
      * The currently-installed version.
      *
      * This might be a typical `x.y.z` version, or `x.y-dev`.
+     *
+     * @deprecated in 1.5.0 and will be removed from 2.0.0.
+     *   Use \Composer\InstalledVersions provided by composer-runtime-api instead.
      */
-    public const VERSION = '1.3.3';
-
-    /** @var EnvironmentInterface */
-    protected $environment;
+    public const VERSION = '1.6.6';
 
     /**
      * Create a new commonmark converter instance.
      *
-     * @param array                     $config
+     * @param array<string, mixed>      $config
      * @param EnvironmentInterface|null $environment
      */
     public function __construct(array $config = [], EnvironmentInterface $environment = null)
     {
         if ($environment === null) {
             $environment = Environment::createCommonMarkEnvironment();
+        } else {
+            @\trigger_error(\sprintf('Passing an $environment into the "%s" constructor is deprecated in 1.6 and will not be supported in 2.0; use MarkdownConverter instead. See https://commonmark.thephpleague.com/2.0/upgrading/consumers/#commonmarkconverter-and-githubflavoredmarkdownconverter-constructors for more details.', self::class), \E_USER_DEPRECATED);
         }
 
         if ($environment instanceof ConfigurableEnvironmentInterface) {
             $environment->mergeConfig($config);
         }
 
-        $this->environment = $environment;
-
-        parent::__construct(new DocParser($environment), new HtmlRenderer($environment));
-    }
-
-    /**
-     * @return EnvironmentInterface
-     */
-    public function getEnvironment(): EnvironmentInterface
-    {
-        return $this->environment;
+        parent::__construct($environment);
     }
 }

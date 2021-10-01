@@ -53,7 +53,7 @@ interface Recordable extends Identifiable
     public function getLedgerDriver(): ?string;
 
     /**
-     * Collect the data for recording.
+     * Gather data for recording.
      *
      * @param string $event
      *
@@ -61,7 +61,7 @@ interface Recordable extends Identifiable
      *
      * @return array
      */
-    public function collect(string $event): array;
+    public function gather(string $event): array;
 
     /**
      * Supply extra data for recording.

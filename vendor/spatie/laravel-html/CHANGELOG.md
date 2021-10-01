@@ -2,6 +2,30 @@
 
 All notable changes to `laravel-html` will be documented in this file.
 
+## 2.30.0 - 2022-07-09
+
+- Better support for numeric values in attributes
+
+## 2.29.0 - 2021-02-09
+
+- Add `target` attribute method to links and button
+
+## 2.28.1 - 2020-11-30
+
+- add support for PHP 8
+
+## 2.28.0 - 2020-09-30
+
+- add the disabled method to all elements that support the attribute (#165)
+
+## 2.27.0 - 2020-09-09
+
+- Add support for Laravel 8
+
+## 2.26.0 - 2020-04-20
+
+- Internal refactor to normalize availabel attribute methods
+
 ## 2.25.0 - 2020-03-02
 
 - add Laravel 7 support

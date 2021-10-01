@@ -130,23 +130,11 @@ class FencedCode extends AbstractStringContainerBlock
         return $this;
     }
 
-    /**
-     * Returns true if this block can contain the given block as a child node
-     *
-     * @param AbstractBlock $block
-     *
-     * @return bool
-     */
     public function canContain(AbstractBlock $block): bool
     {
         return false;
     }
 
-    /**
-     * Whether this is a code block
-     *
-     * @return bool
-     */
     public function isCode(): bool
     {
         return true;
@@ -173,7 +161,12 @@ class FencedCode extends AbstractStringContainerBlock
         parent::finalize($context, $endLineNumber);
 
         // first line becomes info string
-        $this->info = RegexHelper::unescape(\trim($this->strings->first()));
+        $firstLine = $this->strings->first();
+        if ($firstLine === false) {
+            $firstLine = '';
+        }
+
+        $this->info = RegexHelper::unescape(\trim($firstLine));
 
         if ($this->strings->count() === 1) {
             $this->finalStringContents = '';
@@ -182,10 +175,6 @@ class FencedCode extends AbstractStringContainerBlock
         }
     }
 
-    /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
-     */
     public function handleRemainingContents(ContextInterface $context, Cursor $cursor)
     {
         /** @var self $container */
@@ -193,7 +182,7 @@ class FencedCode extends AbstractStringContainerBlock
 
         // check for closing code fence
         if ($cursor->getIndent() <= 3 && $cursor->getNextNonSpaceCharacter() === $container->getChar()) {
-            $match = RegexHelper::matchAll('/^(?:`{3,}|~{3,})(?= *$)/', $cursor->getLine(), $cursor->getNextNonSpacePosition());
+            $match = RegexHelper::matchFirst('/^(?:`{3,}|~{3,})(?= *$)/', $cursor->getLine(), $cursor->getNextNonSpacePosition());
             if ($match !== null && \strlen($match[0]) >= $container->getLength()) {
                 // don't add closing fence to container; instead, close it:
                 $this->setLength(-1); // -1 means we've passed closer
@@ -205,12 +194,6 @@ class FencedCode extends AbstractStringContainerBlock
         $container->addLine($cursor->getRemainder());
     }
 
-    /**
-     * @param Cursor $cursor
-     * @param int    $currentLineNumber
-     *
-     * @return bool
-     */
     public function shouldLastLineBeBlank(Cursor $cursor, int $currentLineNumber): bool
     {
         return false;

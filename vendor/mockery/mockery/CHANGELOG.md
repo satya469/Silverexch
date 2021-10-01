@@ -1,5 +1,55 @@
 # Change Log
 
+## 1.4.4 (2021-09-13)
+* Fixes auto-generated return values #1144
+* Adds support for tentative types #1130
+* Fixes for PHP 8.1 Support (#1130 and #1140)
+* Add method that allows defining a set of arguments the mock should yield #1133
+* Added option to configure default matchers for objects `\Mockery::getConfiguration()->setDefaultMatcher($class, $matcherClass)` #1120
+
+## 1.4.3 (2021-02-24)
+* Fixes calls to fetchMock before initialisation #1113
+* Allow shouldIgnoreMissing() to behave in a recursive fashion #1097
+* Custom object formatters #766 (Needs Docs)
+* Fix crash on a union type including null #1106
+
+## 1.3.4 (2021-02-24)
+* Fixes calls to fetchMock before initialisation #1113
+* Fix crash on a union type including null #1106
+
+## 1.4.2 (2020-08-11)
+* Fix array to string conversion in ConstantsPass (#1086)
+* Fixed nullable PHP 8.0 union types (#1088, #1089)
+* Fixed support for PHP 8.0 parent type (#1088, #1089)
+* Fixed PHP 8.0 mixed type support (#1088, #1089)
+* Fixed PHP 8.0 union return types (#1088, #1089)
+
+## 1.4.1 (2020-07-09)
+
+* Allow quick definitions to use 'at least once' expectation
+  `\Mockery::getConfiguration()->getQuickDefinitions()->shouldBeCalledAtLeastOnce(true)` (#1056)
+* Added provisional support for PHP 8.0 (#1068, #1072,#1079)
+* Fix mocking methods with iterable return type without specifying a return value (#1075)
+
+## 1.3.3 (2020-08-11)
+* Fix array to string conversion in ConstantsPass (#1086)
+* Fixed nullable PHP 8.0 union types (#1088)
+* Fixed support for PHP 8.0 parent type (#1088)
+* Fixed PHP 8.0 mixed type support (#1088)
+* Fixed PHP 8.0 union return types (#1088)
+
+## 1.3.2 (2020-07-09)
+* Fix mocking with anonymous classes (#1039)
+* Fix andAnyOthers() to properly match earlier expectations (#1051)
+* Added provisional support for PHP 8.0 (#1068, #1072,#1079)
+* Fix mocking methods with iterable return type without specifying a return value (#1075)
+
+## 1.4.0 (2020-05-19)
+
+* Fix mocking with anonymous classes (#1039)
+* Fix andAnyOthers() to properly match earlier expectations (#1051)
+* Drops support for PHP < 7.3 and PHPUnit < 8 (#1059)
+
 ## 1.3.1 (2019-12-26)
 * Revert improved exception debugging due to BC breaks (#1032)
 
@@ -24,7 +74,7 @@
 
 ## 1.2.2 (2019-02-13)
 
-* Fix a BC breaking change for PHP 5.6/PHPUnit 5.7.27 (#947) 
+* Fix a BC breaking change for PHP 5.6/PHPUnit 5.7.27 (#947)
 
 ## 1.2.1 (2019-02-07)
 
@@ -67,7 +117,7 @@
 ## 1.0.0 (2017-09-06)
 
 * Destructors (`__destruct`) are stubbed out where it makes sense
-* Allow passing a closure argument to `withArgs()` to validate multiple arguments at once. 
+* Allow passing a closure argument to `withArgs()` to validate multiple arguments at once.
 * `Mockery\Adapter\Phpunit\TestListener` has been rewritten because it
   incorrectly marked some tests as risky. It will no longer verify mock
   expectations but instead check that tests do that themselves. PHPUnit 6 is
@@ -90,7 +140,7 @@
 * BC BREAK - Fix Mockery not trying default expectations if there is any concrete expectation
 * BC BREAK - Mockery's PHPUnit integration will mark a test as risky if it
   thinks one it's exceptions has been swallowed in PHPUnit > 5.7.6. Use `$e->dismiss()` to dismiss.
- 
+
 ## 0.9.4 (XXXX-XX-XX)
 
 * `shouldIgnoreMissing` will respect global `allowMockingNonExistentMethods`

@@ -77,7 +77,7 @@ trait AsPivot
 
         $instance->timestamps = $instance->hasTimestampAttributes($attributes);
 
-        $instance->setRawAttributes($attributes, true);
+        $instance->setRawAttributes($attributes, $exists);
 
         return $instance;
     }
@@ -284,6 +284,8 @@ trait AsPivot
      */
     protected function newQueryForCollectionRestoration(array $ids)
     {
+        $ids = array_values($ids);
+
         if (! Str::contains($ids[0], ':')) {
             return parent::newQueryForRestoration($ids);
         }

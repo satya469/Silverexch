@@ -63,14 +63,9 @@ final class RegexHelper
     public const REGEX_WHITESPACE_CHAR = '/^[ \t\n\x0b\x0c\x0d]/';
     public const REGEX_WHITESPACE = '/[ \t\n\x0b\x0c\x0d]+/';
     public const REGEX_UNICODE_WHITESPACE_CHAR = '/^\pZ|\s/u';
-    public const REGEX_THEMATIC_BREAK = '/^(?:(?:\*[ \t]*){3,}|(?:_[ \t]*){3,}|(?:-[ \t]*){3,})[ \t]*$/';
+    public const REGEX_THEMATIC_BREAK = '/^(?:\*[ \t]*){3,}$|^(?:_[ \t]*){3,}$|^(?:-[ \t]*){3,}$/';
     public const REGEX_LINK_DESTINATION_BRACES = '/^(?:<(?:[^<>\\n\\\\\\x00]|\\\\.)*>)/';
 
-    /**
-     * @param string $character
-     *
-     * @return bool
-     */
     public static function isEscapable(string $character): bool
     {
         return \preg_match('/' . self::PARTIAL_ESCAPABLE . '/', $character) === 1;
@@ -106,10 +101,14 @@ final class RegexHelper
      * @param string $subject
      * @param int    $offset
      *
-     * @return array|null
+     * @return array<string>|null
+     *
+     * @deprecated in 1.6; use matchFirst() instead
      */
     public static function matchAll(string $pattern, string $subject, int $offset = 0): ?array
     {
+        @\trigger_error('RegexHelper::matchAll() is deprecated in league/commonmark 1.6 and will be removed in 2.0; use RegexHelper::matchFirst() instead', \E_USER_DEPRECATED);
+
         if ($offset !== 0) {
             $subject = \substr($subject, $offset);
         }
@@ -128,6 +127,28 @@ final class RegexHelper
         }
 
         return $matches ?: null;
+    }
+
+    /**
+     * Functional wrapper around preg_match_all which only returns the first set of matches
+     *
+     * @return string[]|null
+     *
+     * @psalm-pure
+     */
+    public static function matchFirst(string $pattern, string $subject, int $offset = 0): ?array
+    {
+        if ($offset !== 0) {
+            $subject = \substr($subject, $offset);
+        }
+
+        \preg_match_all($pattern, $subject, $matches, \PREG_SET_ORDER);
+
+        if ($matches === []) {
+            return null;
+        }
+
+        return $matches[0] ?: null;
     }
 
     /**
@@ -163,7 +184,7 @@ final class RegexHelper
     {
         switch ($type) {
             case HtmlBlock::TYPE_1_CODE_CONTAINER:
-                return '/^<(?:script|pre|style)(?:\s|>|$)/i';
+                return '/^<(?:script|pre|textarea|style)(?:\s|>|$)/i';
             case HtmlBlock::TYPE_2_COMMENT:
                 return '/^<!--/';
             case HtmlBlock::TYPE_3:
@@ -192,7 +213,7 @@ final class RegexHelper
     {
         switch ($type) {
             case HtmlBlock::TYPE_1_CODE_CONTAINER:
-                return '%<\/(?:script|pre|style)>%i';
+                return '%<\/(?:script|pre|textarea|style)>%i';
             case HtmlBlock::TYPE_2_COMMENT:
                 return '/-->/';
             case HtmlBlock::TYPE_3:
@@ -206,11 +227,6 @@ final class RegexHelper
         throw new \InvalidArgumentException('Invalid HTML block type');
     }
 
-    /**
-     * @param string $url
-     *
-     * @return bool
-     */
     public static function isLinkPotentiallyUnsafe(string $url): bool
     {
         return \preg_match(self::REGEX_UNSAFE_PROTOCOL, $url) !== 0 && \preg_match(self::REGEX_SAFE_DATA_PROTOCOL, $url) === 0;

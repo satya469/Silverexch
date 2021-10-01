@@ -16,38 +16,32 @@ namespace League\CommonMark\Util;
 
 final class Configuration implements ConfigurationInterface
 {
+    /** @var array<string, mixed> */
     private $config;
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      */
     public function __construct(array $config = [])
     {
         $this->config = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function merge(array $config = [])
     {
         $this->config = \array_replace_recursive($this->config, $config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function replace(array $config = [])
     {
         $this->config = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(?string $key = null, $default = null)
     {
         if ($key === null) {
+            @\trigger_error('Calling Configuration::get() without a $key is deprecated in league/commonmark 1.6 and will not be allowed in 2.0', \E_USER_DEPRECATED);
+
             return $this->config;
         }
 
@@ -63,17 +57,23 @@ final class Configuration implements ConfigurationInterface
         return $this->config[$key];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function set(string $key, $value = null)
     {
+        if (\func_num_args() === 1) {
+            @\trigger_error('Calling Configuration::set() without a $value is deprecated in league/commonmark 1.6 and will not be allowed in 2.0', \E_USER_DEPRECATED);
+        }
+
         // accept a/b/c as ['a']['b']['c']
         if (\strpos($key, '/')) {
             $this->setByPath($key, $value);
         }
 
         $this->config[$key] = $value;
+    }
+
+    public function exists(string $key): bool
+    {
+        return $this->getConfigByPath($key, self::MISSING) !== self::MISSING;
     }
 
     /**
@@ -101,7 +101,7 @@ final class Configuration implements ConfigurationInterface
      * @param string      $keyPath
      * @param string|null $value
      */
-    private function setByPath(string $keyPath, $value = null)
+    private function setByPath(string $keyPath, $value = null): void
     {
         $keyArr = \explode('/', $keyPath);
         $pointer = &$this->config;

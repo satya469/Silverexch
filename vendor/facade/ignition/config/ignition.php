@@ -9,8 +9,9 @@ return [
     |
     | Choose your preferred editor to use when clicking any edit button.
     |
-    | Supported: "phpstorm", "vscode", "vscode-insiders",
-    |            "sublime", "atom"
+    | Supported: "phpstorm", "vscode", "vscode-insiders", "textmate", "emacs",
+    |            "sublime", "atom", "nova", "macvim", "idea", "netbeans",
+    |            "xdebug"
     |
     */
 
@@ -69,7 +70,7 @@ return [
     */
 
     'ignored_solution_providers' => [
-        //
+        Facade\Ignition\SolutionProviders\MissingPackageSolutionProvider::class,
     ],
 
     /*

@@ -21,11 +21,12 @@ use Composer\Json\JsonFile;
  */
 class Versions
 {
-    const CHANNELS = array('stable', 'preview', 'snapshot', '1', '2');
+    public static $channels = array('stable', 'preview', 'snapshot', '1', '2');
 
     private $rfs;
     private $config;
     private $channel;
+    private $versionsData;
 
     public function __construct(Config $config, RemoteFilesystem $rfs)
     {
@@ -52,8 +53,8 @@ class Versions
 
     public function setChannel($channel)
     {
-        if (!in_array($channel, self::CHANNELS, true)) {
-            throw new \InvalidArgumentException('Invalid channel '.$channel.', must be one of: ' . implode(', ', self::CHANNELS));
+        if (!in_array($channel, self::$channels, true)) {
+            throw new \InvalidArgumentException('Invalid channel '.$channel.', must be one of: ' . implode(', ', self::$channels));
         }
 
         $channelFile = $this->config->get('home').'/update-channel';
@@ -63,8 +64,7 @@ class Versions
 
     public function getLatest($channel = null)
     {
-        $protocol = extension_loaded('openssl') ? 'https' : 'http';
-        $versions = JsonFile::parseJson($this->rfs->getContents('getcomposer.org', $protocol . '://getcomposer.org/versions', false));
+        $versions = $this->getVersionsData();
 
         foreach ($versions[$channel ?: $this->getChannel()] as $version) {
             if ($version['min-php'] <= PHP_VERSION_ID) {
@@ -72,6 +72,21 @@ class Versions
             }
         }
 
-        throw new \LogicException('There is no version of Composer available for your PHP version ('.PHP_VERSION.')');
+        throw new \UnexpectedValueException('There is no version of Composer available for your PHP version ('.PHP_VERSION.')');
+    }
+
+    private function getVersionsData()
+    {
+        if (!$this->versionsData) {
+            if ($this->config->get('disable-tls') === true) {
+                $protocol = 'http';
+            } else {
+                $protocol = 'https';
+            }
+
+            $this->versionsData = JsonFile::parseJson($this->rfs->getContents('getcomposer.org', $protocol . '://getcomposer.org/versions', false));
+        }
+
+        return $this->versionsData;
     }
 }

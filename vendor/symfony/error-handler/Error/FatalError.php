@@ -33,8 +33,7 @@ class FatalError extends \Error
                 }
             }
         } elseif (null !== $traceOffset) {
-            if (\function_exists('xdebug_get_function_stack')) {
-                $trace = xdebug_get_function_stack();
+            if (\function_exists('xdebug_get_function_stack') && $trace = @xdebug_get_function_stack()) {
                 if (0 < $traceOffset) {
                     array_splice($trace, -$traceOffset);
                 }
@@ -72,9 +71,11 @@ class FatalError extends \Error
             'line' => $error['line'],
             'trace' => $trace,
         ] as $property => $value) {
-            $refl = new \ReflectionProperty(\Error::class, $property);
-            $refl->setAccessible(true);
-            $refl->setValue($this, $value);
+            if (null !== $value) {
+                $refl = new \ReflectionProperty(\Error::class, $property);
+                $refl->setAccessible(true);
+                $refl->setValue($this, $value);
+            }
         }
     }
 

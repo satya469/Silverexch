@@ -3,10 +3,15 @@
 namespace Spatie\Html\Elements;
 
 use Spatie\Html\BaseElement;
+use Spatie\Html\Elements\Attributes\Disabled;
+use Spatie\Html\Elements\Attributes\Value;
 use Spatie\Html\Selectable;
 
 class Option extends BaseElement implements Selectable
 {
+    use Disabled;
+    use Value;
+
     /** @var string */
     protected $tag = 'option';
 
@@ -36,15 +41,5 @@ class Option extends BaseElement implements Selectable
     public function unselected()
     {
         return $this->forgetAttribute('selected');
-    }
-
-    /**
-     * @param string|null $value
-     *
-     * @return static
-     */
-    public function value($value)
-    {
-        return $this->attribute('value', $value);
     }
 }

@@ -14,16 +14,27 @@ namespace League\CommonMark\Util;
 interface ConfigurationInterface
 {
     /**
+     * @internal
+     *
+     * @deprecated
+     */
+    public const MISSING = '833f2700-af8d-49d4-9171-4b5f12d3bfbc';
+
+    /**
      * Merge an existing array into the current configuration
      *
-     * @param array $config
+     * @param array<string, mixed> $config
+     *
+     * @return void
      */
     public function merge(array $config = []);
 
     /**
      * Replace the entire array with something else
      *
-     * @param array $config
+     * @param array<string, mixed> $config
+     *
+     * @return void
      */
     public function replace(array $config = []);
 
@@ -46,6 +57,8 @@ interface ConfigurationInterface
      *
      * @param string     $key
      * @param mixed|null $value
+     *
+     * @return void
      */
     public function set(string $key, $value = null);
 }

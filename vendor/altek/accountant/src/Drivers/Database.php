@@ -37,7 +37,7 @@ class Database implements LedgerDriver
         $ledger = new $implementation();
 
         // Set the Ledger properties
-        foreach ($model->collect($event) as $property => $value) {
+        foreach ($model->gather($event) as $property => $value) {
             $ledger->setAttribute($property, $value);
         }
 

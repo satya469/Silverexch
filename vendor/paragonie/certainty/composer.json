@@ -27,13 +27,13 @@
     "php": "^5.5|^7|^8",
     "ext-curl": "*",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^6",
+    "guzzlehttp/guzzle": "^6|^7",
     "paragonie/constant_time_encoding": "^1|^2",
-    "paragonie/sodium_compat": "^1.11"
+    "paragonie/sodium_compat": "^1.13"
   },
   "require-dev": {
-    "composer/composer": "^1",
-    "phpunit/phpunit": "^4|^5|^6"
+    "composer/composer": "^1|>=2.0.14",
+    "phpunit/phpunit": "^4|^5|^6|^7|^8|^9"
   },
   "scripts": {
     "post-autoload-dump": [

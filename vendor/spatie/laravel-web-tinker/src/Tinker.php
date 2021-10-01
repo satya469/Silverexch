@@ -35,7 +35,7 @@ class Tinker
     public function execute(string $phpCode): string
     {
         $phpCode = $this->removeComments($phpCode);
-
+        
         $this->shell->addInput($phpCode);
 
         $closure = new ExecutionLoopClosure($this->shell);

@@ -3,6 +3,7 @@
 namespace Doctrine\DBAL\Schema;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+
 use function array_map;
 use function crc32;
 use function dechex;
@@ -23,14 +24,14 @@ use function substr;
 abstract class AbstractAsset
 {
     /** @var string */
-    protected $_name;
+    protected $_name = '';
 
     /**
      * Namespace of the asset. If none isset the default namespace is assumed.
      *
      * @var string|null
      */
-    protected $_namespace = null;
+    protected $_namespace;
 
     /** @var bool */
     protected $_quoted = false;
@@ -48,11 +49,13 @@ abstract class AbstractAsset
             $this->_quoted = true;
             $name          = $this->trimQuotes($name);
         }
+
         if (strpos($name, '.') !== false) {
             $parts            = explode('.', $name);
             $this->_namespace = $parts[0];
             $name             = $parts[1];
         }
+
         $this->_name = $name;
     }
 

@@ -1,5 +1,43 @@
 # Laravel Impersonate Changelog
 
+## 1.7.2
+
+### Added
+
+- Supports for PHP 8.0 (thanks to [pascalbaljet](https://github.com/pascalbaljet), [#121](https://github.com/404labfr/laravel-impersonate/pull/121))
+
+### Fixed
+
+- getImpersonator() when working with multiple guards (thanks to [carsso](https://github.com/carsso)), [#120](https://github.com/404labfr/laravel-impersonate/pull/120))
+- Can't leave impersonation when multi-guard is used (thanks to [ctf0](https://github.com/ctf0), [#116](https://github.com/404labfr/laravel-impersonate/pull/117))
+
+### Changed
+
+- Allow guard name in blade directives (thanks to [ctf0](https://github.com/ctf0), [#115](https://github.com/404labfr/laravel-impersonate/pull/117))
+- Documentation about multi-guard usage (thanks to [ctf0](https://github.com/ctf0), [#117](https://github.com/404labfr/laravel-impersonate/pull/117))
+
+### Removed
+
+- composer.lock
+
+## 1.7.1
+
+### Added
+
+- Laravel 8.x support
+
+## 1.7.0
+
+### Added
+
+- `ImpersonateManager@findUserById` will now throw a `MissingUserProvider` exception when guard has no user provider [baa722b](https://github.com/404labfr/laravel-impersonate/commit/baa722b1bde0aefd9efbd9454c699b7894ddc49b)
+- `ImpersonateManager@findUserById` will now throw a `InvalidUserProvider` exception when guard has an invalid user provider [baa722b](https://github.com/404labfr/laravel-impersonate/commit/baa722b1bde0aefd9efbd9454c699b7894ddc49b)
+
+### Changed
+
+- Helper `can_be_impersonated` now use model `getAuthIdentifier()` instead of hardcoded `id` column [#105](https://github.com/404labfr/laravel-impersonate/pull/105)
+- Git attributes [#108](https://github.com/404labfr/laravel-impersonate/pull/108)
+
 ## 1.6.0
 
 ### Added

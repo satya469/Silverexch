@@ -39,7 +39,7 @@
         "illuminate/filesystem": "^5.2 || ^6.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.8 || ^4.1",
+        "orchestra/testbench": "^3.6 || ^4.1",
         "altek/eventually": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.16",
         "roave/security-advisories": "dev-master"

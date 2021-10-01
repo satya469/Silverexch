@@ -71,13 +71,14 @@ trait Ledger
     }
 
     /**
-     * Get a new Recordable instance.
+     * Get a Recordable instance.
      *
      * @return \Altek\Accountant\Contracts\Recordable
      */
     protected function getRecordableInstance(): Recordable
     {
-        return $this->recordable()->getRelated();
+        // Return a shallow object if we're dealing with a deleted record
+        return $this->recordable ?? $this->recordable()->getRelated();
     }
 
     /**
@@ -249,7 +250,7 @@ trait Ledger
             $value = $this->getProperty(\sprintf('recordable_%s', $key));
 
             $data[$key] = $value instanceof DateTimeInterface
-                ? $this->serializeDate($value)
+                ? $this->getRecordableInstance()->serializeDate($value)
                 : $value;
         }
 

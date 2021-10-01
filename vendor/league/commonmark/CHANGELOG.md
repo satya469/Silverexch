@@ -4,6 +4,250 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased][unreleased]
 
+## [1.6.6] - 2021-07-17
+
+### Fixed
+
+ - Fixed Mentions inside of links creating nested links against the spec's rules (#688)
+
+## [1.6.5] - 2021-06-26
+
+### Changed
+
+ - Simplified checks for thematic breaks
+
+### Fixed
+
+ - Fixed ExternalLinkProcessor not handling autolinks by adjusting its priority to -50 (#681)
+
+## [1.6.4] - 2021-06-19
+
+### Changed
+
+ - Optimized attribute parsing to avoid inspecting every space character (30% performance boost)
+
+## [1.6.3] - 2021-06-19
+
+### Fixed
+
+ - Fixed incorrect parsing of tilde-fenced code blocks with leading spaces (#676)
+
+## [1.6.2] - 2021-05-12
+
+### Fixed
+
+ - Fixed incorrect error level for deprecation notices
+
+## [1.6.1] - 2021-05-08
+
+### Fixed
+
+ - Fixed `HeadingPermalinkProcessor` skipping text contents from certain nodes (#615)
+
+## [1.6.0] - 2021-05-01
+
+### Added
+
+ - Added forward-compatibility for [configuration options which will be changing in 2.0](https://commonmark.thephpleague.com/1.6/upgrading/):
+   - `commonmark/enable_em` (currently `enable_em` in 1.x)
+   - `commonmark/enable_strong` (currently `enable_strong` in 1.x)
+   - `commonmark/use_asterisk` (currently `use_asterisk` in 1.x)
+   - `commonmark/use_underscore` (currently `use_underscore` in 1.x)
+   - `commonmark/unordered_list_markers` (currently `unordered_list_markers` in 1.x)
+   - `mentions/*/prefix` (currently `mentions/*/symbol` in 1.x)
+   - `mentions/*/pattern` (currently `mentions/*/regex` in 1.x)
+   - `max_nesting_level` (currently supports `int` and `float` values in 1.x; will only support `int` in 2.0)
+ - Added new `MarkdownConverter` class for creating converters with custom environments; this replaces the previously-deprecated `Converter` class
+ - Added new `RegexHelper::matchFirst()` method
+ - Added new `Configuration::exists()` method
+
+### Changed
+
+ - The `max_nesting_level` option now defaults to `PHP_INT_MAX` instead of `INF`
+
+### Deprecated
+
+ - Deprecated the [configuration options shown above](https://commonmark.thephpleague.com/1.6/upgrading/)
+ - Deprecated the ability to pass a custom `Environment` into the constructors of `CommonMarkConverter` and `GithubFlavoredMarkdownConverter`; use `MarkdownConverter` instead
+ - Deprecated `ConfigurableEnvironmentInterface::setConfig()`; use `mergeConfig()` instead
+ - Deprecated calling `ConfigurableEnvironmentInterface::mergeConfig()` without any parameters
+ - Deprecated calling `Configuration::get()` and `EnvironmentInterface::getConfig()` without any parameters
+ - Deprecated calling `Configuration::set()` without the second `$value` parameter
+ - Deprecated `RegexHelper::matchAll()`; use `RegexHelper::matchFirst()` instead
+ - Deprecated extending the `ArrayCollection` class; will be marked `final` in 2.0
+
+### Fixed
+
+ - Fixed missing check for empty arrays being passed into the `unordered_list_markers` configuration option
+
+## [1.5.8] - 2021-03-28
+
+### Fixed
+
+ - Fixed Table of Contents not rendering heading inlines properly (#587, #588)
+ - Fixed parsing of tables within list items (#590)
+
+## [1.5.7] - 2020-10-31
+
+### Fixed
+
+ - Fixed mentions not being parsed when appearing after non-word characters (#582)
+
+## [1.5.6] - 2020-10-17
+
+### Changed
+
+ - Blocks added outside of the parsing context now have their start/end line numbers defaulted to 0 to avoid type errors (#579)
+
+### Fixed
+
+ - Fixed replacement blocks not inheriting the start line number of the container they're replacing (#579)
+ - Fixed Table of Contents blocks not having correct start/end line numbers (#579)
+
+## [1.5.5] - 2020-09-13
+
+### Changed
+
+ - Bumped CommonMark spec compliance to 0.28.2
+
+### Fixed
+
+ - Fixed `textarea` elements not being treated as a type 1 HTML block (like `script`, `style`, or `pre`)
+ - Fixed autolink processor not handling other unmatched trailing parentheses
+
+## [1.5.4] - 2020-08-17
+
+### Fixed
+
+ - Fixed footnote ID configuration not taking effect (#524, #530)
+ - Fixed heading permalink slugs not being unique (#531, #534)
+
+## [1.5.3] - 2020-07-19
+
+### Fixed
+
+ - Fixed regression of multi-byte inline parser characters not being matched
+
+## [1.5.2] - 2020-07-19
+
+### Changed
+
+ - Significantly improved performance of the inline parser regex
+
+### Fixed
+
+ - Fixed parent class lookups for non-existent classes on PHP 8 (#517)
+
+## [1.5.1] - 2020-06-27
+
+### Fixed
+
+ - Fixed UTF-8 encoding not being checked in the `UrlEncoder` utility (#509) or the `Cursor`
+
+## [1.5.0] - 2020-06-21
+
+### Added
+
+ - Added new `AttributesExtension` based on <https://github.com/webuni/commonmark-attributes-extension> (#474)
+ - Added new `FootnoteExtension` based on <https://github.com/rezozero/commonmark-ext-footnotes> (#474)
+ - Added new `MentionExtension` to replace `InlineMentionParser` with more flexibility and customization
+ - Added the ability to render `TableOfContents` nodes anywhere in a document (given by a placeholder)
+ - Added the ability to properly clone `Node` objects
+ - Added options to customize the value of `rel` attributes set via the `ExternalLink` extension (#476)
+ - Added a new `heading_permalink/slug_normalizer` configuration option to allow custom slug generation (#460)
+ - Added a new `heading_permalink/symbol` configuration option to replace the now deprecated `heading_permalink/inner_contents` configuration option (#505)
+ - Added `SlugNormalizer` and `TextNormalizer` classes to make normalization reusable by extensions (#485)
+ - Added new classes:
+   - `TableOfContentsGenerator`
+   - `TableOfContentsGeneratorInterface`
+   - `TableOfContentsPlaceholder`
+   - `TableOfContentsPlaceholderParser`
+   - `TableOfContentsPlaceholderRenderer`
+
+### Changed
+
+ - "Moved" the `TableOfContents` class into a new `Node` sub-namespace (with backward-compatibility)
+ - Reference labels are now generated and stored in lower-case instead of upper-case
+ - Reference labels are no longer normalized inside the `Reference`, only the `ReferenceMap`
+
+### Fixed
+
+ - Fixed reference label case folding polyfill not being consistent between different PHP versions
+
+### Deprecated
+
+ - Deprecated the `CommonMarkConverter::VERSION` constant (#496)
+ - Deprecated `League\CommonMark\Extension\Autolink\InlineMentionParser` (use `League\CommonMark\Extension\Mention\MentionParser` instead)
+ - Deprecated everything under `League\CommonMark\Extension\HeadingPermalink\Slug` (use the classes under `League\CommonMark\Normalizer` instead)
+ - Deprecated `League\CommonMark\Extension\TableOfContents\TableOfContents` (use the one in the new `Node` sub-namespace instead)
+ - Deprecated the `STYLE_` and `NORMALIZE_` constants in `TableOfContentsBuilder` (use the ones in `TableOfContentsGenerator` instead)
+ - Deprecated the `\League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkRenderer::DEFAULT_INNER_CONTENTS` constant (#505)
+ - Deprecated the `heading_permalink/inner_contents` configuration option in the `HeadingPermalink` extension (use the new `heading_permalink/symbol` configuration option instead) (#505)
+
+## [1.4.3] - 2020-05-04
+
+### Fixed
+
+ - Fixed certain Unicode letters, numbers, and marks not being preserved when generating URL slugs (#467)
+
+## [1.4.2] - 2020-04-24
+
+### Fixed
+
+ - Fixed inline code blocks not be included within heading permalinks (#457)
+
+## [1.4.1] - 2020-04-20
+
+### Fixed
+
+ - Fixed BC break caused by ConverterInterface alias not being used by some DI containers (#454)
+
+## [1.4.0] - 2020-04-18
+
+### Added
+
+ - Added new [Heading Permalink extension](https://commonmark.thephpleague.com/extensions/heading-permalinks/) (#420)
+ - Added new [Table of Contents extension](https://commonmark.thephpleague.com/extensions/table-of-contents/) (#441)
+ - Added new `MarkdownConverterInterface` as a long-term replacement for `ConverterInterface` (#439)
+ - Added new `DocumentPreParsedEvent` event (#427, #359, #399)
+ - Added new `ListBlock::TYPE_BULLET` constant as a replacement for `ListBlock::TYPE_UNORDERED`
+ - Added new `MarkdownInput` class and `MarkdownInputInterface` to handle pre-parsing and allow listeners to replace Markdown contents
+
+### Changed
+
+ - Block & inline renderers will now render child classes automatically (#222, #209)
+ - The `ListBlock` constants now use fully-lowercased values instead of titlecased values
+ - Significantly improved typing
+
+### Fixed
+
+ - Fixed loose comparison when checking for table alignment
+ - Fixed `StaggeredDelimiterProcessor` returning from a `void` function
+
+### Deprecated
+
+ - The `Converter` class has been deprecated; use `CommonMarkConverter` instead (#438, #439)
+ - The `ConverterInterface` has been deprecated; use `MarkdownConverterInterface` instead (#438, #439)
+ - The `bin/commonmark` script has been deprecated
+ - The following methods of `ArrayCollection` have been deprecated:
+   - `add()`
+   - `set()`
+   - `get()`
+   - `remove()`
+   - `isEmpty()`
+   - `contains()`
+   - `indexOf()`
+   - `containsKey()`
+   - `replaceWith()`
+   - `removeGaps()`
+ - The `ListBlock::TYPE_UNORDERED` constant has been deprecated, use `ListBlock::TYPE_BULLET` instead
+
+## [1.3.4] - 2020-04-13
+
+### Fixed
+
+ - Fixed configuration/environment not being injected into event listeners when adding them via `[$instance, 'method']` callable syntax (#440)
+
 ## [1.3.3] - 2020-04-05
 
 ### Fixed
@@ -237,7 +481,28 @@ No changes were made since 1.0.0-rc1.
    - Removed `DelimiterStack::iterateByCharacters()` (use the new `processDelimiters()` method instead)
    - Removed the protected `DelimiterStack::findMatchingOpener()` method
 
-[unreleased]: https://github.com/thephpleague/commonmark/compare/1.3.3...HEAD
+[unreleased]: https://github.com/thephpleague/commonmark/compare/1.6.6...1.6
+[1.6.6]: https://github.com/thephpleague/commonmark/compare/1.6.5...1.6.6
+[1.6.5]: https://github.com/thephpleague/commonmark/compare/1.6.4...1.6.5
+[1.6.4]: https://github.com/thephpleague/commonmark/compare/1.6.3...1.6.4
+[1.6.3]: https://github.com/thephpleague/commonmark/compare/1.6.2...1.6.3
+[1.6.2]: https://github.com/thephpleague/commonmark/compare/1.6.1...1.6.2
+[1.6.1]: https://github.com/thephpleague/commonmark/compare/1.6.0...1.6.1
+[1.6.0]: https://github.com/thephpleague/commonmark/compare/1.5.8...1.6.0
+[1.5.8]: https://github.com/thephpleague/commonmark/compare/1.5.7...1.5.8
+[1.5.7]: https://github.com/thephpleague/commonmark/compare/1.5.6...1.5.7
+[1.5.6]: https://github.com/thephpleague/commonmark/compare/1.5.5...1.5.6
+[1.5.5]: https://github.com/thephpleague/commonmark/compare/1.5.4...1.5.5
+[1.5.4]: https://github.com/thephpleague/commonmark/compare/1.5.3...1.5.4
+[1.5.3]: https://github.com/thephpleague/commonmark/compare/1.5.2...1.5.3
+[1.5.2]: https://github.com/thephpleague/commonmark/compare/1.5.1...1.5.2
+[1.5.1]: https://github.com/thephpleague/commonmark/compare/1.5.0...1.5.1
+[1.5.0]: https://github.com/thephpleague/commonmark/compare/1.4.3...1.5.0
+[1.4.3]: https://github.com/thephpleague/commonmark/compare/1.4.2...1.4.3
+[1.4.2]: https://github.com/thephpleague/commonmark/compare/1.4.1...1.4.2
+[1.4.1]: https://github.com/thephpleague/commonmark/compare/1.4.0...1.4.1
+[1.4.0]: https://github.com/thephpleague/commonmark/compare/1.3.4...1.4.0
+[1.3.4]: https://github.com/thephpleague/commonmark/compare/1.3.3...1.3.4
 [1.3.3]: https://github.com/thephpleague/commonmark/compare/1.3.2...1.3.3
 [1.3.2]: https://github.com/thephpleague/commonmark/compare/1.3.1...1.3.2
 [1.3.1]: https://github.com/thephpleague/commonmark/compare/1.3.0...1.3.1

@@ -4,6 +4,7 @@ namespace Doctrine\DBAL\Driver\SQLAnywhere;
 
 use Doctrine\DBAL\Driver\AbstractDriverException;
 use InvalidArgumentException;
+
 use function sasql_error;
 use function sasql_errorcode;
 use function sasql_sqlstate;
@@ -12,6 +13,10 @@ use function sasql_stmt_error;
 
 /**
  * SAP Sybase SQL Anywhere driver exception.
+ *
+ * @deprecated Support for SQLAnywhere will be removed in 3.0.
+ *
+ * @psalm-immutable
  */
 class SQLAnywhereException extends AbstractDriverException
 {

@@ -1,0 +1,367 @@
+
+@media only screen and (max-width: 768px) {
+    .row{margin-right: 10px;margin-left: 0px;}    
+    .col-sm-12 {width: 100%;margin-right: 15px;margin-left: -15px;}
+    .col-sm-11 {width: 91.66666667%;}
+    .col-sm-10 {width: 83.33333333%;}
+    .col-sm-9 {width: 75%;}
+    .col-sm-8 {width: 66.66666667%;}
+    .col-sm-7 {width: 58.33333333%;}
+    .col-sm-6 {width: 50%;}
+    .col-sm-5 {width: 41.66666667%;}
+    .col-sm-4 {width: 33.33333333%;}
+    .col-sm-3 {width: 25%;}
+    .col-sm-2 {width: 16.66666667%;}
+    .col-sm-1 {width: 8.33333333%;}
+    .odd{padding: 5px;line-height: 1.5;}
+    .game-icon{width:auto;}
+    .bottom20{margin-bottom: 10px;}
+    .mobile-scroll{overflow-y: auto;max-height: 240px;}
+    .pl0{padding-left: 0px;}
+    .pb10{padding-bottom: 12px;}
+    .game-view{
+        max-width: 25% !important;
+        width: 25% !important;
+        float: left !important;
+        padding:2px !important;
+    }
+    .gameList123{padding-left:15px !important}
+    .bbottom{border-bottom: 1px solid #dadada;}
+    .game-name .text-dark b{font-size: 15px !important;}
+    .mobileViewOdds .odd{
+        line-height:2.5 !important;
+        font-size: 14px !important;
+        font-weight: bold;
+    }
+    .casino-name {
+        background-image: linear-gradient(var(--theme1-bg),var(--theme2-bg));
+        color: var(--primary-color);
+        padding: 0px;
+        position: absolute;
+        width: 22.9%;
+        margin-top: -15px;
+        bottom: auto !important;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-radius: 0px;
+        font-size: 8px;
+        margin-left: 4px;
+    }
+    .destopview,.sidebar-right-bar,
+    .sidebar {
+        display: none;
+    }
+    /*.modal-body{padding: 0;}*/
+    .modal-dialog{text-align: center;width: 95%;top: 5px;}
+    .mobileView{
+        display: block;
+        font-size: 12px;
+    }
+
+        /** GAME LIST **/
+    .mobilebetOdds{
+        padding: 10px;
+    }
+    .mobileTV{
+        float: right;
+    }
+    .mobileTV i{
+        font-size: 16px;
+    }
+    .mobilebetOdds .oddsMenu{
+        margin-right: 10px;
+        border-right: 2px solid #fff;
+        padding-right: 12px;
+    }
+    #myBet{padding: 0;}
+    .mobilebetOdds .matchbets{
+        
+    }
+    .game-icons {
+        float: left;
+        width: 100%;
+        text-align: right;
+    }
+    .gameList img{
+        width: 50%;
+    }
+    .gameList a{
+        width: 46% !important;
+        float: left;
+    }
+    .featured-box-detail,
+    .featured-box {
+        padding-top: 0px;
+        max-width: 100% !important;
+        -ms-flex: 0 0 85% !important;
+        flex: 0 0 100% !important;
+    }
+    .showBookBtn {float: right;padding: 0px 4px;margin-right: 35px !important;}
+    /****** Single game page *******/
+    .game-heading .card-header-title{
+        font-size: 13px;
+    }
+    .market-title{
+         font-size: 12px;
+    }
+    .team-name, .country-name,.min-max,
+    .table-row > div .odd,.box-1 b,
+    .game-heading .float-right{
+        font-size: 10px;
+    }
+    .container-fluid-5 {
+        padding-left: 0px !important;
+        padding-right: 5px !important;
+    }
+    .boolmakertitlediv{
+        width: 41.66666667%;
+    }
+    .boolmakerNotesdiv{
+        display: none;
+    }
+    .boolmakerminmaxdiv{
+        width: 58.33333333%;
+    }
+    .value-buttons button {
+        margin-right: 3px;
+        margin-bottom: 5px;
+    }
+    .coupon-table button {
+	width: auto;
+	min-width: 31%;
+	 height: auto; 
+	margin: 0;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	text-align: center;
+	display: inline-block;
+	padding: 4px !important;
+	color: #fffaff;
+	border: 0;
+	font-size: 15px;
+	font-weight: 700;
+	cursor: pointer;
+	border-radius: 0px;
+	background-color: #273a47;
+    }
+    .submitBtn{
+        margin-top: 8px !important;
+        background-color: #08c !important;
+        width: 85px !important;
+        padding: 2px !important;
+    }
+    .bet-stake input{width: 100px !important;}
+    /******* FANCY ********/
+    .addSessionMarket .team{
+        
+    }
+    
+    /********** MAIN MUNU ***********/
+    .header-bottom li a{
+        font-size: 12px;
+    }
+    .navbar-nav123{
+        display:-webkit-box !important;
+        overflow: auto !important;
+    }
+    .navbar-nav li{
+        display: block ruby;
+    }
+    
+    .dropdown-item {
+        display: block;
+        width: 100%;
+        padding: 10px 10px;
+        clear: both;
+        font-weight: 400;
+        color: #212529;
+        text-align: inherit;
+        white-space: nowrap;
+        background-color: initial;
+        border: 1px solid #dadada;
+    }
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 10rem;
+        padding: 0;
+        margin: .125rem 0 0;
+        font-size: 1rem;
+        color: #212529;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 0;
+    }
+    .dot {
+        height: 10px;
+        width: 10px;
+        background-color: #4CAF50;
+        border-radius: 50%;
+        display: inline-block;
+      }
+    .dropdown-item:focus, .dropdown-item:hover {
+        color: #16181b;
+        text-decoration: none;
+        background-color: #007bff !important;
+    }
+    /*********** CASINO CSS *************/
+    .casinoVideo{
+        width: 100%; 
+        height: 185px !important;
+        overflow: hidden; 
+        margin: 0; 
+        padding: 0;
+    }
+    .cardsDiv {
+        font-size: 15px;
+        position: absolute;
+        color: #fff;
+        z-index: 1;
+        padding: 15px 15px 15px 10px;
+        width: 100%;
+        float: left;
+        text-align: left;
+        height: 25px;
+        margin-top: -200px !important;
+    }
+    .cardsDiv img{
+        width:15px !important;
+        height: 20px !important;
+    }
+    
+    .timerClass {
+        font-size: 14px !important;
+        position: absolute;
+        color: #fff;
+        z-index: 1;
+        right: 10px !important;
+        background-color: #333;
+        padding: 5px 5px 5px 5px !important;
+        border-radius: 7px;
+        box-shadow: 0 0 7px 0 #636762;
+        width: 43px !important;
+        float: right;
+        text-align: center;
+        height: 25px !important;
+        margin-top: -30px !important;
+    }
+    .col-md-10,
+    .featured-box{
+        padding: 0px !important;
+    }
+    .row.row5 {
+        padding-right: -10px !important;
+    }
+    
+    /*********** REPORT **************/
+    .report-main-content {
+        max-width: 100% !important;
+        -ms-flex: 0 0 100% !important;
+        flex: 0 0 100% !important;
+    }
+    .modal-body{overflow: auto !important;}
+    .mobileOddsHide{display: none;min-width:65%;max-width:65%;}
+    .mbox-1{min-width:17% !important;max-width:17% !important;}
+    .mbox-4{min-width:65% !important;max-width:65% !important;}
+    .destopViewBetLimit{display: none !important;}
+    .min-max,.mobileViewBetLimit{float: left !important;font-weight: bold;font-size: 12px;}
+    .font-size-14,.team,.teamName{font-size: 14px !important;}
+    .boolmakertitlediv{padding-left: 0px !important;}
+    .boolmakerminmaxdiv{padding-right: 0px !important;}
+    .boolmakerminmaxdiv i{margin-right: -10px;}
+    
+    /*BET POPUP*/
+    .table-borderedless th,
+    .table-borderedless td{
+        border-top: none !important;
+        border-bottom: none !important;
+        padding: 4px !important;
+    }
+    
+    /******* NEW CHANGE HARDIK **********/
+    .logo-login {
+	max-width: 50% !important;
+	margin-top: -30px;
+	margin-left: -25px;
+    }
+    
+    .navbar-nav-new {
+	display: inline flow-root list-item;
+	flex-direction: column;
+	padding-left: 0;
+	margin-bottom: 12px;
+	list-style: none;
+	float: right;
+	margin-top: -5px;
+    }
+    .mobileView-search{
+        margin-left: -68px;margin-top: 35px;background: #fff;color: black;padding: 5px;border-radius: 15px;font-size: 12px;
+    }
+    .navbar-brand-m{margin-left: -15px;}
+    .m-t-10-none{margin-top: 0px !important;}
+    .note-top{
+        background: #08084f;
+        color: #fff;
+        text-align: center;
+        padding: 8px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .menu-font{
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+}
+@media only screen and (min-width: 769px) {
+    .mobileViewBetLimit,
+    .mobilebetOdds,.mobilebetsdata,.mobile-menu,
+    .mobileView{
+        display: none !important;
+        font-size: 12px;
+    }
+    .showBookBtn {float: right;padding: 3px 10px;}
+    .casinoVideo{
+        width: 100%; 
+        height: 435px; 
+        overflow: hidden; 
+        margin: 0; 
+        padding: 0;
+    }
+    .game-view{
+        max-width: 25% !important;
+        width: 12.5% !important;
+        float: left !important;
+        padding:2px !important;
+    }
+    .casino-name {
+        background-image: linear-gradient(var(--theme1-bg),var(--theme2-bg));
+        color: var(--primary-color);
+        padding: 5px;
+        position: absolute;
+        width: 12.1%;
+        margin-top: -15px;
+        bottom: auto !important;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-radius: 0px;
+        font-size: 12px;
+        margin-left: 4px;
+    }
+    .container-fluid-5 {
+        padding-left: 0px !important;
+        /*padding-right: 0px !important;*/
+    }
+    .game-page{
+       padding-left: 5px !important;
+        padding-right: 0px !important; 
+    }
+}

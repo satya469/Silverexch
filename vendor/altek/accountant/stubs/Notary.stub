@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\Notary;
+
+class DummyClass implements Notary
+{
+    /**
+     * Generate a signature based on the contents of an array.
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    public static function sign(array $data): string
+    {
+        // TODO: Implement the signing logic
+    }
+
+    /**
+     * Validate an array against a signature.
+     *
+     * @param array  $data
+     * @param string $signature
+     *
+     * @return bool
+     */
+    public static function validate(array $data, string $signature): bool
+    {
+        // TODO: Implement the validation logic
+    }
+}

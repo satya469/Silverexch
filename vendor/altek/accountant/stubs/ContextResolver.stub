@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\ContextResolver;
+
+class DummyClass implements ContextResolver
+{
+    /**
+     * Resolve the current context.
+     *
+     * @return int
+     */
+    public static function resolve(): int
+    {
+        // TODO: Implement the resolver logic
+    }
+}

@@ -1,0 +1,384 @@
+@media only screen and (max-width: 768px) {
+/*    .row{margin-right: 10px;margin-left: 0px;}    
+*/    .col-sm-12 {width: 100% !important;margin-right: 15px;margin-left: -15px;}
+    .col-sm-11 {width: 91.66666667%;}
+    .col-sm-10 {width: 83.33333333%;}
+    .col-sm-9 {width: 75%;}
+    .col-sm-8 {width: 66.66666667% !important;}
+    .col-sm-7 {width: 58.33333333%;}
+    .col-sm-6 {width: 50% !important; }
+    .col-sm-5 {width: 41.66666667%;}
+    .col-sm-4 {width: 33.33333333% !important;}
+    .col-sm-3 {width: 25%;}
+    .col-sm-2 {width: 16.66666667%;}
+    .col-sm-1 {width: 8.33333333%;}
+    /*.row{margin-left: 0px !important;margin-right: 0px !important;}*/
+    .col-sm-6 {width: 50% !important;}
+    .odd{padding: 5px;line-height: 1.5;}
+    .game-icon{width:auto;}
+    .bottom20{margin-bottom: 10px;}
+    html, body{
+        /*font-size: 5px !important;*/
+    }
+    .modal-body{overflow: auto !important;}
+    .app-body{
+        margin-top:0px !important;
+    }
+    .main .container-fluid{
+        padding: 0px !important;
+    }
+    .featured-box-detail{margin-top: 73px;}
+    .game-heading{font-size:12px }
+    .mobileView-d-none,
+    .sidebar{ display: none;}
+    .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter{
+        float: right !important;
+    }
+    .coupon-table button span.odd,
+    .coupon-table tr td{font-size: 11px !important;}
+    .box-w1{
+        min-width: 10px !important;
+    }
+    thead .box-w1{
+        min-width: 50px !important;
+    }
+    .bookmaker-market thead, .fancy-market thead, .main-market thead, .main-market tbody, .fancy-market tbody,
+    /*.bet-info{display: revert;}*/
+    /*.bet-info:first-child { width:150px;min-width: 150px !important; }*/
+    .detail-row{margin-bottom: 10px;}
+    .main-container{padding-right: 5px!important;padding-left: 5px !important;}
+    /************** game ***************/
+    .casinoVideo{
+        width: 100%; 
+        height: 200px !important;
+        overflow: hidden;
+        /*margin-top: 40px;*/
+        margin: 0px 0 -15px 0; 
+        padding: 0;
+    }
+    .cardsDiv {
+        font-size: 15px;
+        position: absolute;
+        color: #fff;
+        z-index: 1;
+        padding: 15px 15px 15px 10px;
+        width: 100%;
+        float: left;
+        text-align: left;
+        height: 25px;
+        margin-top: -200px !important;
+    }
+    .cardsDiv img{
+        width:15px !important;
+        height: 20px !important;
+    }
+   
+    .timerClass {
+        font-size: 14px !important;
+        position: absolute;
+        color: #fff;
+        z-index: 1;
+        right: 10px !important;
+        background-color: #333;
+        padding: 5px 5px 5px 5px !important;
+        border-radius: 7px;
+        box-shadow: 0 0 7px 0 #636762;
+        width: 43px !important;
+        float: right;
+        text-align: center;
+        height: 25px !important;
+        margin-top: -30px !important;
+    }
+    .mobilebetOdds{background-color: var(--theme1-bg);padding: 20px;color: #fff;}
+    mobilebetOdds > a {color: #fff !important;}
+   /*.suspended{position: relative !important;margin-top: 100px;}*/
+   .sidebar-right,
+   .mobil-side-bar{
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .sidebar-right-bar{margin-left: 0px !important;margin-top: 75px;}
+    .sidebar-right {
+        max-width: 100% !important;
+        -ms-flex: 0 0 100% !important;
+        flex: 0 0 100% !important;
+        padding-left: 0;
+    }
+    .featured-box-detail {
+    max-width: 100% !important;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    min-height: auto;
+}
+.modal-content{padding: 0px !important;}
+    .sidebar-right-bar{margin-top:-15px;}
+    .sessionSuppend .suspended:after {
+        vertical-align: middle !important;
+        position: absolute;
+        content: attr(data-title);
+        top: 0px ;
+        right: 0;
+        background: rgba(0, 0, 0, .3);
+        color: red;
+        width: 45% !important;
+        height: 100%;
+        font-size: 15px;
+        cursor: not-allowed;
+        align-items: center !important;
+        display: flex;
+        display: -ms-flex;
+        display: -webkit-flex;
+        justify-content: center !important;
+      }
+    .suspended:after {
+        vertical-align: middle !important;
+        position: absolute;
+        content: attr(data-title);
+        top: 0px ;
+        right: 0;
+        background: rgba(0, 0, 0, .3);
+        color: red;
+        width: 100%;
+        height: 100%;
+        font-size: 20px;
+        cursor: not-allowed;
+        align-items: center !important;
+        display: flex;
+        display: -ms-flex;
+        display: -webkit-flex;
+        justify-content: center !important;
+      }
+      
+      
+      /************* REPORT *************/
+      .table-responsive td:not(.btn-td){
+          max-width: 100% !important;
+          /*white-space: inherit;*/
+      }
+      
+      /******************/
+    .d-md-down-none{display: inherit !important;}
+    /*.navbar-brand-full{height: 30px !important; }*/
+    .app-header .navbar-brand {
+        position: absolute !important;
+        top: -7px !important;
+        left: -33px !important;
+        margin-left: 0 !important;
+        width: 150px !important;
+        height: 0px !important;
+    }
+    .nav-link{
+        display:inline-table !important;
+        padding: initial !important;
+    }
+    .nav-item-top{
+        color : #fff !important;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+    .app-header .navbar-nav{
+        position: inherit;
+        width: 100%;
+        margin-top: 50px;  /*25*/
+    }
+    
+    .app-header .nav-item {
+        position: relative;
+        min-width: 50px;
+        margin: 0;
+        text-align: center;
+        font-size: 10px;
+    }
+    .app-header .navbar-nav .dropdown-menu-right {
+            right: 0;
+            left: -110px !important;
+            min-width: 180px;
+    }
+    .navbar{padding:0px !important;}
+    .destopView{display: none !important;}
+    /*.app-header .navbar-nav {
+        display: block ruby;
+        align-items: center;
+        width: 100%;
+        overflow: auto;
+    }*/
+    
+    
+    /************ MARKET ANALISY CSS ****************/
+    
+    .featured-box-detail {
+        max-width: 100% !important;
+        -ms-flex: 0 0 100% !important;
+        flex: 0 0 100% !important;
+        min-height: 13vh;
+    }
+    .box-4 {
+	width: 38%;
+	min-width: 35%;
+	max-width: 40%;
+	padding: 48px;
+    }
+    .boolmakerminmaxdiv{width: 63% !important}
+    .boolmakertitlediv{padding-left: 15px !important;}
+    .boolmakerNotesdiv{display: none;}
+    .mobile-view-btm{min-width: 112px;}
+    .game-heading .card-header-title{font-size: 11px !important;}
+    .game-heading {
+	background-color: var(--theme2-bg);
+	color: var(--secondary-color);
+	padding: 8px 10px !important;
+	font-size: 16px;
+	font-weight: 700;
+    }
+   
+    .suspended:after
+{
+    position: absolute;
+    content: attr(data-title);
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+    color: #ff0000;
+    width: 61%!important;
+    height: 100%;
+    font-size: 20px;
+    /*text-transform: uppercase;*/
+    cursor: not-allowed;
+    align-items: center;
+    display: flex;
+    display: -ms-flex;
+    display: -webkit-flex;
+    justify-content: center;
+    }
+    .team {
+        font-size: 11px;
+    }
+    .showBookBtn.btn.btn-primary.tableman_btn.pull-right {
+	padding: 5px;
+	line-height: 10px;
+        margin-right: 35px;
+    }
+    .new-nav-item{
+        padding: 6px;
+        margin: 2px 5px;
+    }
+    .market-h4{margin-left: 12px;}
+    .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover{border: none !important;}
+    
+    
+    .modal-body{overflow: auto !important;}
+    .mobileOddsHide{display: none;min-width:65%;max-width:65%;}
+    .mbox-1{min-width:17% !important;max-width:17% !important;}
+    .mbox-4{min-width:65% !important;max-width:65% !important;}
+    .destopViewBetLimit{display: none !important;}
+    .min-max,.mobileViewBetLimit{float: left !important;font-weight: bold;font-size: 12px;}
+    .font-size-14,.team,.teamName{font-size: 14px !important;}
+    .boolmakertitlediv{padding-left: 10px !important;}
+    .boolmakerminmaxdiv{padding-right: 0px !important;}
+    .boolmakerminmaxdiv i{margin-right: -10px;}
+    
+    ul .pl-3,ul .px-3{padding-left: 5px !important}
+    ul .pr-3,ul .px-3{padding-right: 5px !important}
+}
+@media only screen and (min-width: 769px) {
+    .app-body{
+        margin-top:75px !important;
+        
+    }
+    
+    .market-title{margin-top: 5px;}
+    .mobileViewBetLimit,
+    .mobileView{display: none !important}
+    .casinoVideo{
+        width: 100%; 
+        height: 475px; 
+        overflow: hidden; 
+        margin: 0; 
+        padding: 0;
+    }
+    .mobil-side-bar{
+        position: relative; 
+        top: 0px; 
+        right: 0px; 
+        width: 25.5% !important;
+    }
+    .sidebar-right{
+        max-width: 33% !important;
+    }
+    
+    /**************************/
+    
+    .featured-box-detail {
+        max-width: 67% !important;
+        -ms-flex: 0 0 70% !important;
+        flex: 0 0 67% !important;
+        min-height: 0px;
+        padding-right: 5px !important;
+        padding-left: 5px !important;
+    }
+    .mobilebetOdds{display:none;}
+    .suspended:after
+{
+    position: absolute;
+    content: attr(data-title);
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+    color: #ff0000;
+    width: 60%!important;
+    height: 100%;
+    font-size: 20px;
+    /*text-transform: uppercase;*/
+    cursor: not-allowed;
+    align-items: center;
+    display: flex;
+    display: -ms-flex;
+    display: -webkit-flex;
+    justify-content: center;
+}
+.suspended:after
+{
+    position: absolute;
+    content: attr(data-title);
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.3);
+    color: #ff0000;
+    width: 510px;
+    height: 100%;
+    font-size: 20px;
+    /*text-transform: uppercase;*/
+    cursor: not-allowed;
+    align-items: center;
+    display: flex;
+    display: -ms-flex;
+    display: -webkit-flex;
+    justify-content: center;
+}
+.showBookBtn{margin-right: 125px;}
+
+
+}
+ .newlacunch-menu a{
+	 transition: .3s ease-in; 
+	-webkit-animation: newlaunch 1s;
+	-moz-animation: newlaunch 1s;
+	 animation: newlaunch 1s; 
+	animation-iteration-count: inherit !important;
+}
+/*.app-header .dropdown-item{
+    animation-iteration-count: inherit !important;
+}*/
+.video_nav_tab .nav-item {
+    font-size: 12px;
+    width: 105px;
+    text-align: center;
+}
+.table-responsive td:not(.btn-td) {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100%;
+    }
+    
+.showBookBtn{float: right;}

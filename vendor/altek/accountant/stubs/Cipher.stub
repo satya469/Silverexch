@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+class DummyClass implements \Altek\Accountant\Contracts\Cipher
+{
+    /**
+     * Is this a one way cipher implementation?
+     *
+     * @return bool
+     */
+    public static function isOneWay(): bool
+    {
+        // TODO: Return true or false, depending on the cipher type
+    }
+
+    /**
+     * Cipher a property value.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function cipher($value)
+    {
+        // TODO: Implement the cipher logic
+    }
+
+    /**
+     * Decipher a property value.
+     *
+     * @param mixed $value
+     *
+     * @throws \Altek\Accountant\Exceptions\DecipherException
+     *
+     * @return mixed
+     */
+    public static function decipher($value)
+    {
+        // TODO: Implement the decipher logic
+    }
+}

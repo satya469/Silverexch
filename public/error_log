@@ -1,0 +1,51 @@
+[18-Jan-2021 11:37:54 Asia/Kolkata] 34 sessions flushed
+[18-Jan-2021 11:39:17 Asia/Kolkata] 6 sessions flushed
+[18-Jan-2021 13:21:14 Asia/Kolkata] 33 sessions flushed
+[18-Jan-2021 13:53:38 Asia/Kolkata] 23 sessions flushed
+[20-Jan-2021 15:10:47 Asia/Kolkata] 38 sessions flushed
+[20-Jan-2021 15:10:56 Asia/Kolkata] 2 sessions flushed
+[20-Jan-2021 16:23:54 Asia/Kolkata] 35 sessions flushed
+[20-Jan-2021 16:26:09 Asia/Kolkata] 9 sessions flushed
+[20-Jan-2021 17:25:46 Asia/Kolkata] 24 sessions flushed
+[20-Jan-2021 18:26:05 Asia/Kolkata] 35 sessions flushed
+[22-Jan-2021 08:55:03 Asia/Kolkata] 17 sessions flushed
+[10-Feb-2021 16:46:09 Asia/Kolkata] 24 sessions flushed
+[10-Feb-2021 16:47:14 Asia/Kolkata] 1 sessions flushed
+[10-Feb-2021 17:03:23 Asia/Kolkata] 3 sessions flushed
+[01-Mar-2021 00:13:58 Asia/Kolkata] 123 sessions flushed
+[05-Mar-2021 12:53:03 Asia/Kolkata] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Can't connect to MySQL server on '127.0.0.1' (115) in /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:27
+Stack trace:
+#0 /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(27): PDO->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#1 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#2 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(46): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#3 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnec in /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 669
+[05-Mar-2021 12:53:05 Asia/Kolkata] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Can't connect to MySQL server on '127.0.0.1' (115) in /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:27
+Stack trace:
+#0 /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(27): PDO->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#1 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#2 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(46): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#3 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnec in /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 669
+[05-Mar-2021 12:53:05 Asia/Kolkata] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Can't connect to MySQL server on '127.0.0.1' (115) in /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:27
+Stack trace:
+#0 /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(27): PDO->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#1 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#2 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(46): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#3 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnec in /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 669
+[05-Mar-2021 12:53:07 Asia/Kolkata] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Can't connect to MySQL server on '127.0.0.1' (115) in /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:27
+Stack trace:
+#0 /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(27): PDO->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#1 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#2 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(46): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#3 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnec in /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 669
+[05-Mar-2021 12:53:08 Asia/Kolkata] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Can't connect to MySQL server on '127.0.0.1' (115) in /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php:27
+Stack trace:
+#0 /home/starndvr/hpexch.com/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOConnection.php(27): PDO->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#1 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): Doctrine\DBAL\Driver\PDOConnection->__construct('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#2 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(46): Illuminate\Database\Connectors\Connector->createPdoConnection('mysql:host=127....', 'starndvr_diamon...', 'diamondexch@123', Array)
+#3 /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate\Database\Connectors\Connector->createConnec in /home/starndvr/hpexch.com/vendor/laravel/framework/src/Illuminate/Database/Connection.php on line 669
+[15-Mar-2021 18:26:56 Asia/Kolkata] 11 sessions flushed
+[15-Mar-2021 19:27:32 Asia/Kolkata] 9 sessions flushed
+[15-Mar-2021 19:55:55 Asia/Kolkata] 9 sessions flushed
+[02-Apr-2021 12:48:56 Asia/Kolkata] 7 sessions flushed
+[08-May-2021 13:00:32 Asia/Kolkata] 7 sessions flushed
+[09-May-2021 22:40:37 Asia/Kolkata] 18 sessions flushed

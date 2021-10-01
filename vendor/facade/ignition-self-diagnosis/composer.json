@@ -1,0 +1,63 @@
+{
+    "name": "facade/ignition-self-diagnosis",
+    "description": "Perform self diagnosis checks within your Ignition error page",
+    "keywords": [
+        "laravel",
+        "flare",
+        "ignition"
+    ],
+    "homepage": "https://github.com/facade/ignition-self-diagnosis",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcel Pociot",
+            "email": "marcel@flareapp.io",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../ignition"
+        },
+        {
+            "type": "path",
+            "url": "../flare-client-php"
+        },
+        {
+            "type": "path",
+            "url": "../ignition-contracts"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "beyondcode/laravel-self-diagnosis": "^1.3",
+        "facade/ignition": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.8",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Facade\\SelfDiagnosis\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Facade\\SelfDiagnosis\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Facade\\SelfDiagnosis\\TabServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

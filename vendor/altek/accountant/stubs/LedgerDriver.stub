@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\Ledger;
+use Altek\Accountant\Contracts\LedgerDriver;
+use Altek\Accountant\Contracts\Recordable;
+
+class DummyClass implements LedgerDriver
+{
+    /**
+     * Create a Ledger from a Recordable model.
+     *
+     * @param \Altek\Accountant\Contracts\Recordable $model
+     * @param string                                 $event
+     * @param string                                 $pivotRelation
+     * @param array                                  $pivotProperties
+     *
+     * @throws \Altek\Accountant\Exceptions\AccountantException
+     *
+     * @return \Altek\Accountant\Contracts\Ledger
+     */
+    public function record(
+        Recordable $model,
+        string $event,
+        string $pivotRelation = null,
+        array $pivotProperties = []
+    ): Ledger {
+        // TODO: Implement the recording logic
+    }
+
+    /**
+     * Remove older ledgers that go over the threshold.
+     *
+     * @param \Altek\Accountant\Contracts\Recordable $model
+     *
+     * @return bool
+     */
+    public function prune(Recordable $model): bool
+    {
+        // TODO: Implement the pruning logic
+    }
+}

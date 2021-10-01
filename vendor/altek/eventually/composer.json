@@ -1,0 +1,64 @@
+{
+    "name": "altek/eventually",
+    "description": "The missing many-to-many Eloquent events.",
+    "keywords": [
+        "attach",
+        "detach",
+        "eloquent",
+        "events",
+        "eventually",
+        "laravel",
+        "lumen",
+        "many-to-many",
+        "pivot",
+        "relations",
+        "sync",
+        "toggle",
+        "update"
+    ],
+    "homepage": "https://altek.gitlab.io/eventually",
+    "type": "package",
+    "license": "MIT",
+    "support": {
+        "issues": "https://gitlab.com/altek/eventually/issues",
+        "source": "https://gitlab.com/altek/eventually"
+    },
+    "authors": [
+        {
+            "name": "Quetzy Garcia",
+            "email": "quetzyg@altek.org"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "illuminate/database": "^5.5 || ^6.0 || ^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.8 || ^4.0 || ^5.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Altek\\Eventually\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Altek\\Eventually\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "scripts": {
+        "cs-fix": [
+            "php-cs-fixer --allow-risky=yes -v fix"
+        ],
+        "cs-check": [
+            "php-cs-fixer --allow-risky=yes -v --dry-run fix"
+        ]
+    }
+}

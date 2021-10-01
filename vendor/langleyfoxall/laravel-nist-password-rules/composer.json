@@ -1,0 +1,39 @@
+{
+    "name": "langleyfoxall/laravel-nist-password-rules",
+    "description": "🔒 Provides Laravel validation rules that follow the password related recommendations found in NIST Special Publication 800-63B.",
+    "type": "library",
+    "license": "LGPL-3.0-only",
+    "authors": [
+        {
+            "name": "Jordan Hall",
+            "email": "jordan@langleyfoxall.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "laravel/framework": "^5.4||^6.0||^7.0",
+        "divineomega/laravel-password-exposed-validation-rule": "^2.2.0"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.6",
+        "php-coveralls/php-coveralls": "^2.0",
+        "orchestra/testbench": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "LangleyFoxall\\LaravelNISTPasswordRules\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LangleyFoxall\\LaravelNISTPasswordRules\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LangleyFoxall\\LaravelNISTPasswordRules\\ServiceProvider"
+            ]
+        }
+    }
+}

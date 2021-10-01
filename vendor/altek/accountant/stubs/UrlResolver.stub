@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\UrlResolver;
+
+class DummyClass implements UrlResolver
+{
+    /**
+     * Resolve the URL.
+     *
+     * @return string
+     */
+    public static function resolve(): string
+    {
+        // TODO: Implement the resolver logic
+    }
+}

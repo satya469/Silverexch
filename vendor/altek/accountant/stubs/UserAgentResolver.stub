@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\UserAgentResolver;
+
+class DummyClass implements UserAgentResolver
+{
+    /**
+     * Resolve the User Agent.
+     *
+     * @return string
+     */
+    public static function resolve(): ?string
+    {
+        // TODO: Implement the resolver logic
+    }
+}

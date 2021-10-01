@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\Identifiable;
+use Altek\Accountant\Contracts\UserResolver;
+
+class DummyClass implements UserResolver
+{
+    /**
+     * Resolve the User.
+     *
+     * @return Identifiable
+     */
+    public static function resolve(): ?Identifiable
+    {
+        // TODO: Implement the resolver logic
+    }
+}

@@ -1,0 +1,79 @@
+{
+    "name": "altek/accountant",
+    "description": "The auditing & accountability package for Laravel's Eloquent ORM.",
+    "keywords": [
+        "accountability",
+        "accountable",
+        "accountant",
+        "audit",
+        "auditing",
+        "changes",
+        "eloquent",
+        "history",
+        "log",
+        "logging",
+        "laravel",
+        "ledger",
+        "liable",
+        "lumen",
+        "record"
+    ],
+    "homepage": "https://altek.gitlab.io/accountant/",
+    "type": "package",
+    "license": "MIT",
+    "support": {
+        "issues": "https://gitlab.com/altek/accountant/issues",
+        "source": "https://gitlab.com/altek/accountant"
+    },
+    "authors": [
+        {
+            "name": "Quetzy Garcia",
+            "email": "quetzyg@altek.org"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "ext-json": "*",
+        "illuminate/console": "^5.2 || ^6.0",
+        "illuminate/database": "^5.2 || ^6.0",
+        "illuminate/filesystem": "^5.2 || ^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.8 || ^4.1",
+        "altek/eventually": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Altek\\Accountant\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Altek\\Accountant\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Altek\\Accountant\\AccountantServiceProvider"
+            ]
+        }
+    },
+    "suggest": {
+        "altek/eventually": "Required for keeping track of BelongsToMany and MorphToMany relations.",
+        "laravelista/lumen-vendor-publish": "Required to publish the package config file in Lumen."
+    },
+    "scripts": {
+        "cs-fix": [
+            "php-cs-fixer --allow-risky=yes -v fix"
+        ],
+        "cs-check": [
+            "php-cs-fixer --allow-risky=yes -v --dry-run fix"
+        ]
+    }
+}

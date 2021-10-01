@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DummyNamespace;
+
+use Altek\Accountant\Contracts\IpAddressResolver;
+
+class DummyClass implements IpAddressResolver
+{
+    /**
+     * Resolve the IP Address.
+     *
+     * @return string
+     */
+    public static function resolve(): string
+    {
+        // TODO: Implement the resolver logic
+    }
+}

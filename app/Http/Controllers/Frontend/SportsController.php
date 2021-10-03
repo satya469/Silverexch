@@ -691,7 +691,7 @@ class SportsController extends Controller
 
                     //   dd($arr['t1']);
                     if (isset($arr['t2'][0])) {
-                        $data['bookmaker'] = $arr['t2'][0];
+                        $data['bookmaker'] = $arr['t2'][0]['bm1'];
                     }
 
                     // dd($arr['t3']);

@@ -241,24 +241,25 @@ function setodd(data) {
 }
 
 function setbookmaker(data) {
+    // console.log(data);
     $.each(data, function(i, item) {
-        $('.bookmaker' + i + ' .team-name' + i + ' > b').text(item.RunnerName);
-        $('.bookmaker' + i + ' .back1t').text(item.BackPrice1);
-        $('.bookmaker' + i + ' .back2t').text(item.BackPrice2);
-        $('.bookmaker' + i + ' .back3t').text(item.BackPrice3);
-        $('.bookmaker' + i + ' .back1k').text(item.BackSize1 + "k");
-        $('.bookmaker' + i + ' .back2k').text(item.BackSize2 + "k");
-        $('.bookmaker' + i + ' .back3k').text(item.BackSize3 + "k");
-        $('.bookmaker' + i + ' .lay1t').text(item.LayPrice1);
-        $('.bookmaker' + i + ' .lay2t').text(item.LayPrice2);
-        $('.bookmaker' + i + ' .lay3t').text(item.LayPrice3);
-        $('.bookmaker' + i + ' .lay1k').text(item.LaySize1 + "k");
-        $('.bookmaker' + i + ' .lay2k').text(item.LaySize2 + "k");
-        $('.bookmaker' + i + ' .lay3k').text(item.LaySize3 + "k");
-        var tot = (parseFloat(item.BackPrice1) + parseFloat(item.BackPrice2) + parseFloat(item.BackPrice3));
-        tot = (parseFloat(tot) + parseFloat(item.BackSize1) + parseFloat(item.BackSize2) + parseFloat(item.BackSize3));
-        tot = (parseFloat(tot) + parseFloat(item.LayPrice1) + parseFloat(item.LayPrice2) + parseFloat(item.LayPrice3));
-        tot = (parseFloat(tot) + parseFloat(item.LaySize1) + parseFloat(item.LaySize2) + parseFloat(item.LaySize3));
+        $('.bookmaker' + i + ' .team-name' + i + ' > b').text(item.remark);
+        $('.bookmaker' + i + ' .back1t').text(item.b1);
+        $('.bookmaker' + i + ' .back2t').text(item.b2);
+        $('.bookmaker' + i + ' .back3t').text(item.b3);
+        $('.bookmaker' + i + ' .back1k').text(item.bs1 + "k");
+        $('.bookmaker' + i + ' .back2k').text(item.bs2 + "k");
+        $('.bookmaker' + i + ' .back3k').text(item.bs3 + "k");
+        $('.bookmaker' + i + ' .lay1t').text(item.l1);
+        $('.bookmaker' + i + ' .lay2t').text(item.l2);
+        $('.bookmaker' + i + ' .lay3t').text(item.l3);
+        $('.bookmaker' + i + ' .lay1k').text(item.ls1 + "k");
+        $('.bookmaker' + i + ' .lay2k').text(item.ls2 + "k");
+        $('.bookmaker' + i + ' .lay3k').text(item.ls3 + "k");
+        var tot = (parseFloat(item.b1) + parseFloat(item.b2) + parseFloat(item.b3));
+        tot = (parseFloat(tot) + parseFloat(item.bs1) + parseFloat(item.bs2) + parseFloat(item.bs3));
+        tot = (parseFloat(tot) + parseFloat(item.l1) + parseFloat(item.l2) + parseFloat(item.l3));
+        tot = (parseFloat(tot) + parseFloat(item.ls1) + parseFloat(item.ls2) + parseFloat(item.ls3));
         if (parseFloat(tot) <= 0) {
             $('.bookmaker' + i).addClass('suspended');
             $('.bookmaker' + i).attr('data-title', 'SUSPENDED');

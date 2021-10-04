@@ -23,7 +23,7 @@ class HomeController extends Controller
         return view('frontend.norecordfound');
     }
     public function getdata($token){
-
+        
         $url = 'http://139.177.188.73:3000/getBM?eventId='.$token;
         $ch = curl_init( $url );
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
@@ -37,7 +37,6 @@ class HomeController extends Controller
         if(!empty($result)){
           $arr = json_decode($result,true);
         }
-
 
             if(isset($arr['t1'][0])){
                 $aaa['odd'] = $arr['t1'][0];
@@ -58,17 +57,17 @@ class HomeController extends Controller
 
 //        $aaa['session'] = $arr['session'];
 
-        $url = 'http://139.177.188.73:3000/getBM?eventId='.$token;
-        $ch = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        $SBresult = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // $url = 'http://139.177.188.73:3000/getBM?eventId='.$token;
+        // $ch = curl_init( $url );
+        // curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        // curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        // $SBresult = curl_exec($ch);
+        // $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        curl_close($ch);
-        if(isset($SBresult) && !empty($SBresult) && $httpCode != 404){
-            $aaa['SB'] = json_decode($SBresult,true);
-        }
+        // curl_close($ch);
+        // if(isset($SBresult) && !empty($SBresult) && $httpCode != 404){
+        //     $aaa['SB'] = json_decode($SBresult,true);
+        // }
 
 
         $sportModel = Sports::where(['match_id'=>$token,'active'=>1])->first();
@@ -78,8 +77,9 @@ class HomeController extends Controller
         }else{
             $aaa['matchDeclear'] = false;
         }
+        // dd($sportModel->id);
         $aaa['matchSuspended'] = MyBetsController::getMatchSuspended($sportModel->id);
-        // dd($aaa);
+
         // dd($data);
         return json_encode($aaa);
     }

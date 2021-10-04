@@ -19,7 +19,7 @@ class MyBetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-  
+
      /** CRITECT AND TENNIS LIST BETS**/
      public function userBooks(Request $request){
         $requestData = $request->all();
@@ -33,11 +33,11 @@ class MyBetsController extends Controller
         }
         return $html;
      }
-    
+
      public static function getChildUserList($userID = ''){
         if(empty($userID)){
             $userID = Auth::user()->id;
-        } 
+        }
         $model = User::where(['parent_id'=>$userID])->get();
         $userArr = array();
         foreach($model as $key=>$user){
@@ -48,7 +48,7 @@ class MyBetsController extends Controller
             }
         }
         return $userArr;
-      } 
+      }
      public static function getUserDataCricketTennis($sportID,$type){
         $myBetsModel = MyBets::where(['sportID'=>$sportID,'active'=>1,'isDeleted'=>0])->first();
         $teamNameArr = array();
@@ -76,7 +76,7 @@ class MyBetsController extends Controller
               }
               $userArr[$bet->user_id] = $bet->user_id;
               $uArr = User::where(['id'=>$bet->user_id])->first();
-              
+
               $data = self::getuserbet($sportID,$bet->user_id);
 //              if(!isset($data[$betType][$name][$betType.'_profitLost'])){
 //                continue;
@@ -113,15 +113,15 @@ class MyBetsController extends Controller
                   $color = "style='color:Green;'";
                 }
                 $body .= '<td '.$color.'>'.(isset($data[$betType][$name][$betType.'_profitLost']) ? $data[$betType][$name][$betType.'_profitLost'] : '').'</td>';
-                
+
 //                $body .= '<td>'.(isset($data['ODDS'][$name]['ODDS_profitLost']) ? $data['ODDS'][$name]['ODDS_profitLost'] : '').'</td>';
               }
               $body .= '</tr>';
             }
           }
-        
-        
-        
+
+
+
         $header = '<tr>';
         $header .= '<td><b>Sr. No.</b></td>';
         $header .= '<td><b>User Name</b></td>';
@@ -129,7 +129,7 @@ class MyBetsController extends Controller
           $header .= '<td><b>'.$name.'</b></td>';
         }
         $header .= '</tr>';
-        
+
         $html = '<table class="table table-bordered">';
         $html .= '<thead>';
           $html .= $header;
@@ -141,7 +141,7 @@ class MyBetsController extends Controller
        return $html;
      }
      public static function getuserbet($sportID,$userID){
-     
+
       $myBetsModel = MyBets::where(['sportID'=>$sportID,'user_id'=>$userID,'active'=>1,'isDeleted'=>0])->get();
       $response = array();
       $arr = array();
@@ -225,7 +225,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['ODDS'][$extra['teamname4']]['ODDS_profitLost'] += $bet_amt;
                 }
-              } 
+              }
             }
             break;
           }
@@ -292,17 +292,18 @@ class MyBetsController extends Controller
                 }else{
                   $response['BOOKMAKER'][$extra['teamname3']]['BOOKMAKER_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
-          
+
         }
       }
       return $response;
      }
      public function index(Request $request)
     {
+    // dd(1);
       $requestData = $request->all();
       $sportsModel =  Sports::where(['id'=>$requestData['sportID']])->first();
       $gameModel = Games::where(["id" => $sportsModel->game_id])->first();
@@ -310,14 +311,13 @@ class MyBetsController extends Controller
       $response = array();
       $arr = array();
       $tot = 0;
-//      dd($requestData);
       foreach($myBetsModel as $key=>$bet){
         $extra = json_decode($bet->extra,true);
         switch($bet['bet_type']){
           case "ODDS":{
             $profitAmt = $bet['bet_profit'];
             if($bet['bet_side'] == 'lay'){
-//               $tot +=$profitAmt; 
+//               $tot +=$profitAmt;
               $profitAmt = ($profitAmt*(-1));
               if(!isset($response['ODDS'][$bet['team_name']]['ODDS_profitLost'])){
 //                  $tot +=$profitAmt;
@@ -394,7 +394,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['ODDS'][$extra['teamname4']]['ODDS_profitLost'] += $bet_amt;
                 }
-              } 
+              }
             }
             break;
           }
@@ -461,7 +461,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['ODDSPAIR'][$extra['teamname3']]['ODDSPAIR_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
@@ -528,7 +528,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['BOOKMAKER'][$extra['teamname3']]['BOOKMAKER_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
@@ -538,11 +538,11 @@ class MyBetsController extends Controller
           }
         }
       }
-      
+
       foreach($response as $key=>$data){
          if($key == 'SESSION'){
              continue;
-         } 
+         }
         foreach($data as $key1=>$val){
           if(isset($val['BOOKMAKER_profitLost'])){
               $response[$key][$key1]['BOOKMAKER_profitLost'] = round($val['BOOKMAKER_profitLost']);
@@ -551,21 +551,21 @@ class MyBetsController extends Controller
               $response[$key][$key1]['ODDS_profitLost'] = round($val['ODDS_profitLost']);
           }
         }
-      }  
+      }
 //      dd($response);
-//      dd($tot);    
+//      dd($tot);
       $response['exposureAmt'] = SELF::getExAmount();
       $response['headerUserBalance'] = SELF::getBlanceAmount();
       $response['matchSuspended'] = SELF::getMatchSuspended($requestData['sportID']);
       $response['myBetData'] = view("frontend.my-bets.getBet",compact('myBetsModel'))->render();
-       
+// dd($response);
       return json_encode($response);
     }
     public static function getMatchSuspended($sportID){
-            
+
       $userChild = self::getParentUser(Auth::user()->id);
       $userChild[] = Auth::user()->id;
-      
+
       krsort($userChild);
       foreach($userChild as $key=>$userID){
         $lockUnlockModel = LockUnlockBet::where(['sportID'=>$sportID,'user_id'=>$userID,'lockType'=>'SUSPENDED'])->first();
@@ -573,7 +573,7 @@ class MyBetsController extends Controller
           break;
         }
       }
-      
+
       if(isset($lockUnlockModel)){
         if($lockUnlockModel->lockType == 'SUSPENDED'){
           if($lockUnlockModel->type == 'SUSPEND'){
@@ -603,7 +603,7 @@ class MyBetsController extends Controller
     }
 
     /** CRICKET AND TENNIS LIST END **/
-    
+
     public static function getParentUser($userID){
       $arr = array();
 //      dd($userID);
@@ -655,18 +655,18 @@ class MyBetsController extends Controller
         return json_encode($responce);
       }
       $requestData['team_name'] = str_replace('#', '+',$requestData['team_name']);
-      
+
       $responce = array();
       $responce['status'] = false;
       $responce['message'] = '<div class="alert alert-danger">bet not added</div>';
-      
+
       $userId = Auth::user()->id;
       $user = User::find($userId);
       if($user->betActive != 1){
         $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Lock By Admin</div>';
         return json_encode($responce);
       }
-//      dd($requestData['bet_amount']." > ".$user->exposelimit);
+
       if((int)$requestData['bet_amount'] > (int)$user->exposelimit){
         $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Exposure Limit Exceed1.1</div>';
         return json_encode($responce);
@@ -678,17 +678,17 @@ class MyBetsController extends Controller
         if(isset($lockUnlockModel->id) && $lockUnlockModel->type != 'UNLOCK'){
           break;
         }
-        
+
       }
       $extra = array();
       if(isset($lockUnlockModel->extra) && !empty($lockUnlockModel->extra)){
         $extra = explode(',', $lockUnlockModel->extra);
-      } 
+      }
       if($lockUnlockModel){
         if($lockUnlockModel->lockType == 'ODDS'){
-          
+
           if($lockUnlockModel->type == 'LOCK'  && $requestData['bet_type'] == 'ODDS'){
-            
+
             if(is_array($extra) && count($extra) > 0 && in_array(Auth::user()->id, $extra)){
               $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Lock By Admin</div>';
               return json_encode($responce);
@@ -699,7 +699,7 @@ class MyBetsController extends Controller
             }
           }
         }else if($lockUnlockModel->lockType == 'BOOKMAKER'){
-         
+
           if($lockUnlockModel->type == 'LOCK' && $requestData['bet_type'] == 'BOOKMAKER'){
             if(is_array($extra) && count($extra) > 0 && in_array(Auth::user()->id, $extra)){
               $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Lock By Admin</div>';
@@ -732,7 +732,7 @@ class MyBetsController extends Controller
             $expAmt += (($betamount*$bet_oddsK)/100);
          }else{
             $betamount = $requestData['bet_amount'];
-            $expAmt += $betamount;  
+            $expAmt += $betamount;
          }
       }
 
@@ -802,12 +802,12 @@ class MyBetsController extends Controller
                                 $newExArr['betTeam3'] = $requestData['bet_amount']-abs($betprofit3);
                             }
                         }
-                        
+
                         $newTeamExMin = MIN($newExArr);
                         if($isExBalEq){
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
                                 $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
-                                return json_encode($responce); 
+                                return json_encode($responce);
                             }
                         }else{
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
@@ -883,17 +883,17 @@ class MyBetsController extends Controller
                         }
                         if($betprofit2 < 0){
                             $newExArr['betTeam2'] = $betprofit2-$requestData['bet_amount'];
-                            
+
                         }
                         if($betprofit3 < 0){
                             $newExArr['betTeam3'] = $betprofit3-$requestData['bet_amount'];
                         }
-                        
+
                         $newTeamExMin = MIN($newExArr);
                         if($isExBalEq){
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
                                 $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
-                                return json_encode($responce); 
+                                return json_encode($responce);
                             }
                         }else{
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
@@ -909,7 +909,7 @@ class MyBetsController extends Controller
                                     return json_encode($responce);
                                 }
                             }
-                        } 
+                        }
                     }else{
                         $newExArr = array();
                         $amt = abs($betamount)+abs($betprofit);
@@ -922,7 +922,7 @@ class MyBetsController extends Controller
                         }
                         if($betprofit2 < 0){
                             $newExArr['betTeam2'] = $betprofit2-$requestData['bet_amount'];
-                            
+
                         }
                         if($betprofit3 < 0){
                             $newExArr['betTeam3'] = $betprofit3-$requestData['bet_amount'];
@@ -931,7 +931,7 @@ class MyBetsController extends Controller
                         if($isExBalEq){
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
                                 $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
-                                return json_encode($responce); 
+                                return json_encode($responce);
                             }
                         }else{
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
@@ -947,7 +947,7 @@ class MyBetsController extends Controller
                                     return json_encode($responce);
                                 }
                             }
-                        } 
+                        }
                     }
                 }
             }else{
@@ -972,12 +972,13 @@ class MyBetsController extends Controller
                 }
             }
         }
-      
+
       $sportsModel =  Sports::where(['id'=>$requestData['sportID']])->first();
+
       switch($requestData['bet_type']){
         case "ODDSPAIR":
         case "ODDS":{
-          if(isset($sportsModel->odd_min_limit) && empty($sportsModel->odd_min_limit) && 
+          if(isset($sportsModel->odd_min_limit) && empty($sportsModel->odd_min_limit) &&
             (isset($sportsModel->odd_max_limit) && empty($sportsModel->odd_max_limit))){
             $responce['message'] = '<div id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Limit not Set.</div>';
             return json_encode($responce);
@@ -993,7 +994,7 @@ class MyBetsController extends Controller
           break;
         }
         case 'BOOKMAKER':{
-          if(isset($sportsModel->bookmaker_min_limit) && empty($sportsModel->bookmaker_min_limit) && 
+          if(isset($sportsModel->bookmaker_min_limit) && empty($sportsModel->bookmaker_min_limit) &&
             (isset($sportsModel->bookmaker_max_limit) && empty($sportsModel->bookmaker_max_limit))){
             $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Limit not Set.</div>';
             return json_encode($responce);
@@ -1009,7 +1010,7 @@ class MyBetsController extends Controller
           break;
         }
         case 'SESSION':{
-          if(isset($sportsModel->fancy_min_limit) && empty($sportsModel->fancy_min_limit) && 
+          if(isset($sportsModel->fancy_min_limit) && empty($sportsModel->fancy_min_limit) &&
             (isset($sportsModel->fancy_max_limit) && empty($sportsModel->fancy_max_limit))){
             $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Limit not Set.</div>';
             return json_encode($responce);
@@ -1025,7 +1026,7 @@ class MyBetsController extends Controller
           break;
         }
       }
-      
+
       $teamNameArr = array();
       if(isset($requestData['teamname1']) && !empty($requestData['teamname1'])){
         $requestData['teamname1'] = str_replace('#', '+',$requestData['teamname1']);
@@ -1043,7 +1044,7 @@ class MyBetsController extends Controller
         $requestData['teamname4'] = str_replace('#', '+',$requestData['teamname4']);
         $teamNameArr['teamname4'] = $requestData['teamname4'];
       }
-      
+
       $betModel = new MyBets();
       $betModel->sportID = $requestData['sportID'];
       $betModel->user_id = AuthNew::user()->id;
@@ -1075,7 +1076,7 @@ class MyBetsController extends Controller
       }
       return json_encode($responce);
     }
-    
+
     /*** CRICKET SESSION CALCULATION SHOW BOOK BUTTON DATA ****/
     public function getsessionsetsata(Request $request){
       $requestData = $request->all();
@@ -1092,7 +1093,7 @@ class MyBetsController extends Controller
                                     'match_id'=>$requestData['match_id'],
                                     'user_id'=>AuthNew::user()->id
                                   ])->min('bet_odds');
-      
+
       $myBetsModelBackMax = MyBets::where([
                                     'bet_side'=>'back',
                                     'bet_type'=>'SESSION',
@@ -1111,20 +1112,20 @@ class MyBetsController extends Controller
         $min = ($myBetsModelBackMax- 2);
         $max = ($myBetsModelBackMax+2);
       }
-      
+
       $i = $min;
       $ResultArr = array();
       while($max >= $i){
         $amtB = self::getCalBackSession($requestData['teamName'],$requestData['match_id'],AuthNew::user()->id,$i);
         $ResultArr['back'][$i] = $amtB;
-        
+
         $amtL = self::getCalLaySession($requestData['teamName'],$requestData['match_id'],AuthNew::user()->id,$i);
         $ResultArr['lay'][$i] = $amtL;
         $i++;
       }
       return view("frontend.my-bets.getBetSession",compact('ResultArr'))->render();
     }
-    
+
     public static function getSessionValueByArr($match_id,$teamName,$userID,$winnerRun = NULL){
       $myBetsModelLayMin = MyBets::where([
                                     'bet_side'=>'lay',
@@ -1134,7 +1135,7 @@ class MyBetsController extends Controller
                                     'user_id'=>$userID,
                                     'isDeleted'=>0
                                   ])->min('bet_odds');
-      
+
       $myBetsModelBackMax = MyBets::where([
                                     'bet_side'=>'back',
                                     'bet_type'=>'SESSION',
@@ -1169,7 +1170,7 @@ class MyBetsController extends Controller
       while($max >= $i){
         $amtB = self::getCalBackSession($teamName,$match_id,$userID,$i);
         $ResultArr['back'][$i] = $amtB;
-        
+
         $amtL = self::getCalLaySession($teamName,$match_id,$userID,$i);
         $ResultArr['lay'][$i] = $amtL;
         $i++;
@@ -1223,8 +1224,8 @@ class MyBetsController extends Controller
       }
       return $dataArr;
     }
-    
-    
+
+
     public static function getCalBackSession($teanName,$matchID,$userID,$run){
       $myBetsModelBack = MyBets::where([
                                     'bet_side'=>'back',
@@ -1233,7 +1234,7 @@ class MyBetsController extends Controller
                                     'match_id'=>$matchID,
                                     'user_id'=>$userID,
                                     'isDeleted'=>0
-                                  ])->get();      
+                                  ])->get();
       $backAmount = 0;
 //      $run = 46;
       foreach($myBetsModelBack as $key=>$backVal){
@@ -1251,7 +1252,7 @@ class MyBetsController extends Controller
       }
       return $backAmount;
     }
-    
+
      public static function getCalLaySession($teanName,$matchID,$userID,$run){
       $myBetsModelLay = MyBets::where([
                                     'bet_side'=>'lay',
@@ -1260,13 +1261,13 @@ class MyBetsController extends Controller
                                     'match_id'=>$matchID,
                                     'user_id'=>$userID,
                                     'isDeleted'=>0
-                                  ])->get();   
+                                  ])->get();
       $layAmount = 0;
       foreach($myBetsModelLay as $key=>$layVal){
         // 73 >= 73
         if($run >= $layVal->bet_odds){
           $amt = (($layVal->bet_oddsk*$layVal->bet_amount)/100);
-          
+
           if($layAmount > 0){
             $layAmount = $amt;
           }else{
@@ -1286,7 +1287,7 @@ class MyBetsController extends Controller
       }
       return $layAmount;
     }
-    
+
     /**** OLD FUNCTION CAL SESSION ***/
     public static function getCalSession($teanName,$matchID,$userID,$run){
       $responce = array();
@@ -1298,7 +1299,7 @@ class MyBetsController extends Controller
                                     'user_id'=>$userID,
                                     'isDeleted'=>0
                                   ])->get();
-      
+
       $myBetsModelBack = MyBets::where([
                                     'bet_side'=>'back',
                                     'bet_type'=>'SESSION',
@@ -1307,16 +1308,16 @@ class MyBetsController extends Controller
                                     'user_id'=>$userID,
                                     'isDeleted'=>0
                                   ])->get();
-  
-      
+
+
     }
-    
-    
-    
+
+
+
     /************************************* SOCCER *******************************************/
-    
+
     /*** SOCCER LIST BETS AND SESSION ***/
-    
+
     public function soccerindex(Request $request)
     {
       $requestData = $request->all();
@@ -1393,7 +1394,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['ODDS'][$extra['teamname3']]['ODDS_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
@@ -1408,7 +1409,7 @@ class MyBetsController extends Controller
                 $response['SESSION'][$betTypeArr[1]][$bet['team_name']]['SESSION_profitLost'] += $profitAmt;
 //                $response['SESSION'][$betTypeArr[1]][$bet['team_name']]['SESSION_bet_amount'] += $bet['bet_amount'];
               }
-              
+
               if(isset($extra['teamname1']) && !empty($extra['teamname1'])){
                 if(!isset($response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'])){
                   $response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'] = $bet['bet_amount'];
@@ -1431,7 +1432,7 @@ class MyBetsController extends Controller
               }else{
                 $response['SESSION'][$betTypeArr[1]][$bet['team_name']]['SESSION_profitLost'] += $profitAmt;
             }
-              
+
               if(isset($extra['teamname1']) && !empty($extra['teamname1'])){
                 if(!isset($response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'])){
                   $response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'] = $bet_amt;
@@ -1448,25 +1449,25 @@ class MyBetsController extends Controller
                 }
               }
             }
-            
+
             break;
           }
-        }  
+        }
       }
       $response['exposureAmt'] = SELF::getExAmount();
       $response['headerUserBalance'] = SELF::getBlanceAmount();
       $response['matchSuspended'] = SELF::getMatchSuspended($requestData['sportID']);
       $response['myBetData'] = view("frontend.my-bets.getBet",compact('myBetsModel'))->render();
-              
+
       return json_encode($response);
     }
-    
+
     /****** END OF SOCCER LIST *******/
-    
+
     /**** SOCCER STORE ****/
-    
+
     public function soccerstore(Request $request){
-      
+
         $requestData = $request->all();
         $requestData = $request->all();
         if(isset($requestData['team_name']) && !empty($requestData['team_name'])){
@@ -1487,25 +1488,25 @@ class MyBetsController extends Controller
             $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Lock By Admin</div>';
             return json_encode($responce);
         }
-      
+
         $userChild = self::getParentUser(Auth::user()->id);
         krsort($userChild);
         foreach($userChild as $key=>$userID){
-            $exp = explode('-',$requestData['bet_type']);  
+            $exp = explode('-',$requestData['bet_type']);
             $lockUnlockModel = LockUnlockBet::where(['sportID'=>$requestData['sportID'],'user_id'=>$userID,'lockType'=>$exp[0]])->first();
             if(isset($lockUnlockModel->id) && $lockUnlockModel->type != 'UNLOCK'){
               break;
             }
         }
         $extra = array();
-      
+
       if(isset($lockUnlockModel->extra) && !empty($lockUnlockModel->extra)){
         $extra = explode(',', $lockUnlockModel->extra);
-      } 
+      }
       if($lockUnlockModel){
         if($lockUnlockModel->lockType == 'ODDS'){
           if($lockUnlockModel->type == 'LOCK'  && $requestData['bet_type'] == 'ODDS'){
-            
+
             if(is_array($extra) && count($extra) > 0 && in_array(Auth::user()->id, $extra)){
               $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Lock By Admin</div>';
               return json_encode($responce);
@@ -1516,7 +1517,7 @@ class MyBetsController extends Controller
             }
           }
         }else if($lockUnlockModel->lockType == 'BOOKMAKER'){
-         
+
           if($lockUnlockModel->type == 'LOCK' && $requestData['bet_type'] == 'BOOKMAKER'){
             if(is_array($extra) && count($extra) > 0 && in_array(Auth::user()->id, $extra)){
               $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Lock By Admin</div>';
@@ -1541,7 +1542,7 @@ class MyBetsController extends Controller
           }
         }
       }
-      
+
         if((int)$requestData['bet_amount'] > (int)$user->exposelimit){
           $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Exposure Limit Exceed</div>';
           return json_encode($responce);
@@ -1561,7 +1562,7 @@ class MyBetsController extends Controller
           $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
           return json_encode($responce);
         }
-      
+
         $exposureAmt = SELF::getExAmount();
         $isExBalEq = false;
         if($headerUserBalance == $exposureAmt){
@@ -1624,12 +1625,12 @@ class MyBetsController extends Controller
                                 $newExArr['betTeam3'] = $requestData['bet_amount']-abs($betprofit3);
                             }
                         }
-                        
+
                         $newTeamExMin = MIN($newExArr);
                         if($isExBalEq){
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
                                 $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
-                                return json_encode($responce); 
+                                return json_encode($responce);
                             }
                         }else{
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
@@ -1705,17 +1706,17 @@ class MyBetsController extends Controller
                         }
                         if($betprofit2 < 0){
                             $newExArr['betTeam2'] = $betprofit2-$requestData['bet_amount'];
-                            
+
                         }
                         if($betprofit3 < 0){
                             $newExArr['betTeam3'] = $betprofit3-$requestData['bet_amount'];
                         }
-                        
+
                         $newTeamExMin = MIN($newExArr);
                         if($isExBalEq){
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
                                 $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
-                                return json_encode($responce); 
+                                return json_encode($responce);
                             }
                         }else{
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
@@ -1731,7 +1732,7 @@ class MyBetsController extends Controller
                                     return json_encode($responce);
                                 }
                             }
-                        } 
+                        }
                     }else{
                         $newExArr = array();
                         $amt = abs($betamount)+abs($betprofit);
@@ -1744,7 +1745,7 @@ class MyBetsController extends Controller
                         }
                         if($betprofit2 < 0){
                             $newExArr['betTeam2'] = $betprofit2-$requestData['bet_amount'];
-                            
+
                         }
                         if($betprofit3 < 0){
                             $newExArr['betTeam3'] = $betprofit3-$requestData['bet_amount'];
@@ -1753,7 +1754,7 @@ class MyBetsController extends Controller
                         if($isExBalEq){
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
                                 $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Insufficent Balance</div>';
-                                return json_encode($responce); 
+                                return json_encode($responce);
                             }
                         }else{
                             if(abs($teamMaxEx) < abs($newTeamExMin)){
@@ -1769,7 +1770,7 @@ class MyBetsController extends Controller
                                     return json_encode($responce);
                                 }
                             }
-                        } 
+                        }
                     }
                 }
                 }else{
@@ -1792,12 +1793,12 @@ class MyBetsController extends Controller
                         }
                 }
         }
-      
+
       $requestData['bet_type'] = $betTypeOld;
-      
+
       switch($exArr[0]){
         case "ODDS":{
-          if(isset($sportsModel->odd_min_limit) && empty($sportsModel->odd_min_limit) && 
+          if(isset($sportsModel->odd_min_limit) && empty($sportsModel->odd_min_limit) &&
             (isset($sportsModel->odd_max_limit) && empty($sportsModel->odd_max_limit))){
             $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Limit not Set.</div>';
             return json_encode($responce);
@@ -1813,7 +1814,7 @@ class MyBetsController extends Controller
           break;
         }
         case 'BOOKMAKER':{
-          if(isset($sportsModel->bookmaker_min_limit) && empty($sportsModel->bookmaker_min_limit) && 
+          if(isset($sportsModel->bookmaker_min_limit) && empty($sportsModel->bookmaker_min_limit) &&
             (isset($sportsModel->bookmaker_max_limit) && empty($sportsModel->bookmaker_max_limit))){
             $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Limit not Set.</div>';
             return json_encode($responce);
@@ -1829,7 +1830,7 @@ class MyBetsController extends Controller
           break;
         }
         case 'SESSION':{
-          if(isset($sportsModel->fancy_min_limit) && empty($sportsModel->fancy_min_limit) && 
+          if(isset($sportsModel->fancy_min_limit) && empty($sportsModel->fancy_min_limit) &&
             (isset($sportsModel->fancy_max_limit) && empty($sportsModel->fancy_max_limit))){
             $responce['message'] = '<div  id="msg-alert" class="alert alert-danger"><button type="button" class="close" style="margin-top: -7px;" data-dismiss="alert">x</button>Bet Limit not Set.</div>';
             return json_encode($responce);
@@ -1855,7 +1856,7 @@ class MyBetsController extends Controller
       if(isset($requestData['teamname3']) && !empty($requestData['teamname3'])){
         $teamNameArr['teamname3'] = $requestData['teamname3'];
       }
-      
+
       $betModel = new MyBets();
       $betModel->sportID = $requestData['sportID'];
       $betModel->user_id = AuthNew::user()->id;
@@ -1883,45 +1884,45 @@ class MyBetsController extends Controller
       return json_encode($responce);
     }
 
-    
-    
-    
-    
-    
-   
-    
+
+
+
+
+
+
+
     public static function getsoccersession($teanName,$matchID,$userID){
 //      $amt = self::getExAmountByMatchWithDetail($userID,$matchID,$teanName);
 //      dd($amt);
     }
-    
-    
-   
-   /*********** GENERALK FUNCTION ************/ 
-    
+
+
+
+   /*********** GENERALK FUNCTION ************/
+
     /************* EXPENSE CAL DATA **************/
-    
+
    Public Static function getExAmount($sportID='',$id = ''){
       if(!empty($sportID)){
         $sportsModel =  Sports::where(["id" => $sportID])->first();
       }else{
         $sportsModel = DB::select( "SELECT * FROM `sports` WHERE winner = '' OR winner IS NULL");
       }
-      
+
       $exAmtTot = 0;
       foreach($sportsModel as $keyMatch=>$matchVal){
         $gameModel = Games::where(["id" => $matchVal->game_id])->first();
-        
-        if(strtoupper($gameModel->name) == 'CRICKET' || 
+
+        if(strtoupper($gameModel->name) == 'CRICKET' ||
            strtoupper($gameModel->name) == 'TENNIS' ||
            strtoupper($gameModel->name) == 'CASINO') {
-          
+
           if(strtoupper($gameModel->name) == 'CASINO'){
             $exAmtArr = self::getExAmountCricketAndTennis($matchVal->id,'',$id);
           }else{
             $matchid = $matchVal->match_id;
             $exAmtArr = self::getExAmountCricketAndTennis('',$matchid,$id);
-            
+
           }
           if(isset($exAmtArr['ODDS'])){
             $arr = array();
@@ -1935,7 +1936,7 @@ class MyBetsController extends Controller
             if(is_array($arr) && count($arr) > 0){
               $exAmtTot += max($arr);
             }
-            
+
           }
           if(isset($exAmtArr['BOOKMAKER'])){
               $arrB = array();
@@ -1954,12 +1955,12 @@ class MyBetsController extends Controller
               $exAmtTot += abs($sesVal['SESSION_profitLost']);
             }
           }
-         
+
         }else{
           $exAmtArr = self::getExAmountSoccer($matchVal->id,$id);
           $OddsTot = 0;
           if(isset($exAmtArr['ODDS'])){
-              $arr = array();  
+              $arr = array();
             foreach($exAmtArr['ODDS'] as $key=>$profitLos){
                 if($profitLos['ODDS_profitLost'] < 0){
                     $arr[abs($profitLos['ODDS_profitLost'])] = abs($profitLos['ODDS_profitLost']);
@@ -1982,7 +1983,7 @@ class MyBetsController extends Controller
           $sessionTot = 0;
           if(isset($exAmtArr['SESSION'])){
             foreach($exAmtArr['SESSION'] as $key=>$profitLosData){
-                $arr = array();  
+                $arr = array();
               foreach($profitLosData as $key1=>$profitLos){
                   if($profitLos['SESSION_profitLost'] < 0){
                     $arr[abs($profitLos['SESSION_profitLost'])] = abs($profitLos['SESSION_profitLost']);
@@ -2000,14 +2001,14 @@ class MyBetsController extends Controller
                 $exAmtTot += min($arr);
               }
             }
-            
+
           }
         }
-        
+
       }
       return round(abs($exAmtTot));
    }
-   
+
    Public Static function getExAmountCricketAndTennis($sportID='',$matchid='',$userID=''){
      if(empty($userID)){
        $userID = AuthNew::user()->id;
@@ -2102,7 +2103,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['ODDS'][$extra['teamname4']]['ODDS_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
@@ -2169,14 +2170,14 @@ class MyBetsController extends Controller
                 }else{
                   $response['BOOKMAKER'][$extra['teamname3']]['BOOKMAKER_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
           case 'SESSION':{
             $response['SESSION']['teamname'][$bet['team_name']] = $bet['team_name'];
             $exArrData = self::getSessionValueByArr($bet['match_id'],$bet['team_name'],$bet['user_id']);
-            
+
             $finalExSes = 0;
             foreach ($exArrData as $key=>$arr){
               if($finalExSes > $arr['profit']){
@@ -2184,7 +2185,7 @@ class MyBetsController extends Controller
               }
             }
             $response['SESSION']['exposure'][$bet['team_name']]['SESSION_profitLost'] = $finalExSes;
-            
+
 //            $response['SESSION']['exposure']['SESSION_profitLost'] = $exTot;
             break;
           }
@@ -2192,15 +2193,15 @@ class MyBetsController extends Controller
       }
 //      dd($response);
       return $response;
-   } 
-   
+   }
+
    Public Static function getExAmountSoccer($sportID='',$userID=''){
      if(empty($userID)){
        $userID = AuthNew::user()->id;
      }
 //     dd($sportID);
      $myBetsModel = MyBets::where(['sportID'=>$sportID,'user_id'=>$userID,'active'=>1,'isDeleted'=>0])->get();
-     
+
      $response = array();
       $arr = array();
       foreach($myBetsModel as $key=>$bet){
@@ -2271,7 +2272,7 @@ class MyBetsController extends Controller
                 }else{
                   $response['ODDS'][$extra['teamname3']]['ODDS_profitLost'] += $bet_amt;
                 }
-              }  
+              }
             }
             break;
           }
@@ -2284,7 +2285,7 @@ class MyBetsController extends Controller
               }else{
                 $response['SESSION'][$betTypeArr[1]][$bet['team_name']]['SESSION_profitLost'] += $profitAmt;
               }
-              
+
               if(isset($extra['teamname1']) && !empty($extra['teamname1'])){
                 if(!isset($response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'])){
                   $response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'] = $bet['bet_amount'];
@@ -2307,7 +2308,7 @@ class MyBetsController extends Controller
               }else{
                 $response['SESSION'][$betTypeArr[1]][$bet['team_name']]['SESSION_profitLost'] += $profitAmt;
             }
-              
+
               if(isset($extra['teamname1']) && !empty($extra['teamname1'])){
                 if(!isset($response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'])){
                   $response['SESSION'][$betTypeArr[1]][$extra['teamname1']]['SESSION_profitLost'] = $bet_amt;
@@ -2324,32 +2325,32 @@ class MyBetsController extends Controller
                 }
               }
             }
-            
+
             break;
           }
-        }  
+        }
       }
 //      dd($response);
       return $response;
    }
-   
+
    /**** BALANCE GET FUNCTION ****/
    Public Static function getBlanceAmount($id = ''){
       if(empty($id)){
         $id = AuthNew::user()->id;
       }
       //$exBalance = self::getExAmount();
-      
+
       $depTot = DB::table('user_deposites')->where(['deposite_user_id'=>$id])->sum('amount');
       $widTot = DB::table('user_deposites')->where(['withdrawal_user_id'=>$id])->sum('amount');
       $totBalance = ($depTot-$widTot);
-      
+
       return $totBalance;
-   } 
-   
-   
+   }
+
+
    /*********** MATCH BY MATCH WINNER GAME AMOUNT GET ALL **************/
-   
+
    public static function getExAmountByMatchWithDetail($sportID,$userID,$matchID,$winnerTeam){
     $sportsModel =  Sports::where(["id" => $sportID])->first();
     $gameModel = Games::where(["id" => $sportsModel->game_id])->first();
@@ -2360,7 +2361,7 @@ class MyBetsController extends Controller
         if(isset($exAmtArr['ODDS'])){
             if(isset($exAmtArr['ODDS'][$winnerTeam]['ODDS_profitLost'])){
               $exAmtTot += $exAmtArr['ODDS'][$winnerTeam]['ODDS_profitLost'];
-            }else{ 
+            }else{
               foreach($exAmtArr['ODDS'] as $key=>$profitLos){
                 if($profitLos['ODDS_profitLost'] < 0){
                   $exAmtTot += $profitLos['ODDS_profitLost'];
@@ -2371,7 +2372,7 @@ class MyBetsController extends Controller
         if(isset($exAmtArr['BOOKMAKER'])){
           if(isset($exAmtArr['BOOKMAKER'][$winnerTeam]['BOOKMAKER_profitLost'])){
             $exAmtTot += $exAmtArr['BOOKMAKER'][$winnerTeam]['BOOKMAKER_profitLost'];
-          }else{ 
+          }else{
             foreach($exAmtArr['BOOKMAKER'] as $key=>$profitLos){
               if($profitLos['BOOKMAKER_profitLost'] < 0){
                 $exAmtTot += $profitLos['BOOKMAKER_profitLost'];
@@ -2400,16 +2401,16 @@ class MyBetsController extends Controller
             $exAmtTot +=$OddsTot;
           }
         }
-        $exAmtTot += $OddsTot; 
+        $exAmtTot += $OddsTot;
       }
       return $exAmtTot;
     }
-  
-   
+
+
   public function getExBlance(){
     $response = array();
     $response['exposureAmt'] = SELF::getExAmount();
-    
+
     $response['headerUserBalance'] = SELF::getBlanceAmount();
     return json_encode($response);
   }

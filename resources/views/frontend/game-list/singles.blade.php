@@ -224,11 +224,11 @@
                               <div class="box-1 float-left"></div>
                             </div>
                             <div class="table-body BOOKMAKER">
-                            @if (!empty($data['bookmaker'])){
+                            @if (!empty($data['bookmaker']))
                                 @foreach($data['bookmaker'] as $key=>$team)
                                 <div data-title="ACTIVE" class="table-row oddsTot bookmaker{{$key}} ">
                                   <div class="float-left  country-name box-4">
-                                    <span class="bookmakerteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName font-size-14">{{$team['nat']}}</b></span>
+                                    <span class="bookmakerteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName font-size-14">{{$team['remark']}}</b></span>
                                     <p>
                                         <span class="float-left matchValClear matchValClearProfit finaltot" style="color: black;">0</span>
                                         <span class="float-right matchValClearProfit " style="display: none; color: black;">0</span>
@@ -263,7 +263,7 @@
 
 
                               @endforeach
-                            }
+
                             @endif
 
                             </div>
@@ -665,11 +665,11 @@
 
     getData();
     $( document ).ready(function() {
-      setInterval(function(){ getData(); }, 1000);
+      setInterval(function(){ getData(); }, 2000);
 
     });
     $( document ).ready(function() {
-      setInterval(function(){ getBetsList(); }, 4000);
+      setInterval(function(){ getBetsList(); }, 5000);
     });
     $( "#myModalBetView" ).on('shown.bs.modal', function (e) {
         $('.navbar ').hide();
@@ -717,7 +717,7 @@ function getData(){
                 }else{
                     $('.scorecard').hide();
                 }
-                setbookmaker(data.bookmaker);
+                setbookmaker(data.bookmaker['bm1']);
                 addnewSession(data.session);
             }
         }

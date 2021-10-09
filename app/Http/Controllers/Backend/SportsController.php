@@ -740,7 +740,7 @@ class SportsController extends Controller
       $txt = implode(',', $userChildArr);
     //  $count = MyBets::where(['match_id'=>$matchID,'active'=>'1','isDeleted'=>0])->count();
       $count = 0;
-      dd($txt);
+    //   dd($txt);
       if(!empty($txt)){
       $sportss = DB::select( "SELECT count(id) as tot FROM `my_bets` WHERE match_id='".$matchID."' AND active='1' AND isDeleted='0' AND user_id IN (".$txt.") LIMIT 1");
       $count = $sportss[0]->tot;
@@ -750,43 +750,43 @@ class SportsController extends Controller
 
     public static function getTeamName($gameName,$MatchID){
       $dataArr = array();
-    //   switch ($gameName){
-    //     case 'CRICKET':{
-    //       $url = 'http://172.105.60.132/json/1.'.$MatchID.'.json';
-    //       $ch = curl_init( $url );
-    //       curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-    //       curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    //       $result = curl_exec($ch);
-    //       curl_close($ch);
+      switch ($gameName){
+        case 'CRICKET':{
+          $url = 'http://139.177.188.73:3000/getBM?eventId='.$MatchID;
+          $ch = curl_init( $url );
+          curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+          curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+          $result = curl_exec($ch);
+          curl_close($ch);
 
-    //       $arr = json_decode($result,true);
+          $arr = json_decode($result,true);
+            // dd($arr);
+          $dataArr['ODDS'] = isset($arr['t1'][0]) ? $arr['t1'][0] : '';
+          $dataArr['BOOKMEKER'] = isset($arr['t2'][0]['bm1']) ? $arr['t2'][0]['bm1'] : '';
+          $dataArr['SESSION'] =   isset($arr['t3']) ?$arr['t3'] : '';
+          $dataArr['teamname'][1] = isset($arr['t1'][0][0]['nat']) ? $arr['t1'][0][0]['nat'] : '';
+          $dataArr['teamname'][2] = isset($arr['t1'][0][1]['nat']) ? $arr['t1'][0][1]['nat'] : '';
+          $team3 = isset($arr['t1'][0][2]['nat']) ? $arr['t1'][0][2]['nat'] : '';
+          if(!empty($team3)){
+            $dataArr['teamname'][3] = $team3;
+          }
+          break;
+        }
+        case 'TENNIS':{
+        //    $url = 'http://194.195.113.212/json/1.'.$MatchID.'.json';
+        //   $ch = curl_init( $url );
+        //   curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        //   curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        //   $result = curl_exec($ch);
+        //   curl_close($ch);
+        //   $arr = json_decode($result,true);
+        //   $dataArr['ODDS'] = isset($arr['market'][0]['events']) ? $arr['market'][0]['events'] : '';
+        //   $dataArr['teamname'][1] = isset($arr['market'][0]['events'][0]['RunnerName']) ? $arr['market'][0]['events'][0]['RunnerName'] : '';
+        //   $dataArr['teamname'][2] = isset($arr['market'][0]['events'][1]['RunnerName']) ? $arr['market'][0]['events'][1]['RunnerName'] : '';
 
-    //       $dataArr['ODDS'] = isset($arr['market'][0]['events']) ? $arr['market'][0]['events'] : '';
-    //       $dataArr['BOOKMEKER'] = isset($arr['bookmake'][0]['runners']) ? $arr['bookmake'][0]['runners'] : '';
-    //       $dataArr['SESSION'] =   isset($arr['session']) ?$arr['session'] : '';
-    //       $dataArr['teamname'][1] = isset($arr['market'][0]['events'][0]['RunnerName']) ? $arr['market'][0]['events'][0]['RunnerName'] : '';
-    //       $dataArr['teamname'][2] = isset($arr['market'][0]['events'][1]['RunnerName']) ? $arr['market'][0]['events'][1]['RunnerName'] : '';
-    //       $team3 = isset($arr['market'][0]['events'][2]['RunnerName']) ? $arr['market'][0]['events'][2]['RunnerName'] : '';
-    //       if(!empty($team3)){
-    //         $dataArr['teamname'][3] = $team3;
-    //       }
-    //       break;
-    //     }
-    //     case 'TENNIS':{
-    //        $url = 'http://194.195.113.212/json/1.'.$MatchID.'.json';
-    //       $ch = curl_init( $url );
-    //       curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-    //       curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    //       $result = curl_exec($ch);
-    //       curl_close($ch);
-    //       $arr = json_decode($result,true);
-    //       $dataArr['ODDS'] = isset($arr['market'][0]['events']) ? $arr['market'][0]['events'] : '';
-    //       $dataArr['teamname'][1] = isset($arr['market'][0]['events'][0]['RunnerName']) ? $arr['market'][0]['events'][0]['RunnerName'] : '';
-    //       $dataArr['teamname'][2] = isset($arr['market'][0]['events'][1]['RunnerName']) ? $arr['market'][0]['events'][1]['RunnerName'] : '';
-
-    //       break;
-    //     }
-    //     case 'SOCCER':{
+        //   break;
+        }
+        case 'SOCCER':{
     //       $url = 'http://194.195.114.164/json/1.'.$MatchID.'.json';
     //       $ch = curl_init( $url );
     //       curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
@@ -820,9 +820,9 @@ class SportsController extends Controller
     //       if(!isset($dataArr['soccer']['odd'])){
     //          $dataArr['odd'] = array();
     //       }
-    //       break;
-    //     }
-    //   }
+          break;
+        }
+      }
       return $dataArr;
     }
 

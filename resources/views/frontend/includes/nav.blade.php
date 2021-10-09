@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\AdminSetting;
 use App\Http\Controllers\Frontend\MyBetsController;
 $message = '';
@@ -6,7 +6,7 @@ $exposureAmt = $headerUserBalance = 0.00;
 if (!Auth::guest()){
   $adminSetting = AdminSetting::first();
   $message =$adminSetting->user_message;
-  
+
   switch (Auth::user()->roles->first()->name){
     case 'administrator':
     case 'admin':
@@ -19,7 +19,7 @@ if (!Auth::guest()){
     }
   }
   $exposureAmt = MyBetsController::getExAmount();
-  $headerUserBalance = MyBetsController::getBlanceAmount();
+  $headerUserBalance = MyBetsController::getBlanceAmount() - $exposureAmt;
 }
 
 ?>
@@ -28,7 +28,7 @@ if (!Auth::guest()){
     <i class="fas fa-home-lg mobileView" style="margin-top: -20px;font-size: 15px;"></i>
     <i class="fas fa-search mobileView mobileView-search" style=""></i>
     <a style="" href="{{ route('frontend.index') }}" class="navbar-brand navbar-brand-m"><img src="{{ url('/new/img/logo.png')}}" class="logo-login"></a>
-    
+
     <div class="mobileView mobile-menu">
         <!--<span onclick="mainRules();">Rules</span>-->
         <span><i class="far fa-university"></i></span>
@@ -36,9 +36,9 @@ if (!Auth::guest()){
         <span>Exp:</span>
         <b><span style="padding-right: 5px;" id="headerExposureLimit">{{$exposureAmt}}</span></b>
         <ul class="navbar-nav navbar-nav-new" style="margin-top: 0px;">
-            
+
             @guest
-               
+
             @else
             <li  class="nav-item dropdown">
                     <a href="#" class="rules-link m-r-5 dropdown-toggle chnagePass" id="navbarDropdownMenuUser" data-toggle="dropdown" style="vertical-align: -moz-middle-with-baseline;"
@@ -55,7 +55,7 @@ if (!Auth::guest()){
                         <a style="color:#000;" href="{{ route('frontend.casinoresultreport') }}" class="dropdown-item">Casino Result Report</a>
                         <a style="color:#000;" href="{{ route('frontend.changebtnvalue') }}" class="dropdown-item">Set Button Values</a>
                         <a style="color:#000;" href="{{ route('frontend.changepassword') }}" class="dropdown-item">Change Password</a>
-                        
+
                         <a style="color:#000;" href="{{ route('frontend.auth.logout') }}" class="dropdown-item chnagePass">signout</a>
                     </div>
                 </li>
@@ -66,7 +66,7 @@ if (!Auth::guest()){
           <marquee style="bottom: 2px;width: 94%;" scrollamount="3">{{$message}}</marquee>
         @endif
     </div>
-    
+
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav destopView">
@@ -74,17 +74,17 @@ if (!Auth::guest()){
                 <li class="float-left download-apklink">
                     <div>
                         <a href="javascript:void(0);" onclick="mainRules();" class="rules-link m-r-5"><b>Rules</b></a>
-                    </div> 
+                    </div>
                     <div style="margin-right: 12px;">
                       <a href="javascript:void(0)">
-                        <span><b>Download Apk</b> 
+                        <span><b>Download Apk</b>
                           <i class="fab fa-android"></i>
                         </span>
                       </a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);"  style="text-decoration: none;" 
+                    <a href="javascript:void(0);"  style="text-decoration: none;"
                        class="rules-link m-r-5">
                         <span>Balance:</span>
                         <b><span id="headerUserBalance">{{$headerUserBalance}}</span></b>
@@ -131,7 +131,7 @@ if (!Auth::guest()){
           <marquee style="bottom: 2px;" scrollamount="3">{{$message}}</marquee>
         @endif
     </div>
-    
+
 </nav>
 <div class="m-t-10 col-md-12 mobileView note-top" style="" >
 <p>IPL 2021</p>
@@ -143,7 +143,7 @@ if (!Auth::guest()){
     <a class="matchbets" href="javascript:void(0);" >OTHER</a>
 </div>
 <div class="header-bottom m-t-10 m-t-10-none col-md-12" >
-    
+
         <nav class="navbar navbar-expand-md btco-hover-menu">
                 <ul class="list-unstyled navbar-nav navbar-nav123" style="display: none;">
 <!--                    <li class="nav-item active">
@@ -151,29 +151,29 @@ if (!Auth::guest()){
                     </li> -->
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.cricket')}}" class=""><i class="fas fa-baseball-ball menu-font"></i><br><b>Cricket</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.tennis')}}" class=""><i class="fas fa-tennis-ball menu-font"></i><br><b>Tennis</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.footboll')}}" class=""><i class="far fa-futbol menu-font"></i><br><b>Football</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.icehockey')}}" class=""><i class="fas fa-field-hockey menu-font"></i><br><b>ICE HOCKEY</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.volleball')}}" class=""><i class="fas fa-volleyball-ball menu-font"></i><br><b>VOLLEBALL</b></a>
                     </li> <li class="nav-item">
                         <a href="{{ route('frontend.game-list.basketball')}}" class=""><i class="fal fa-basketball-ball menu-font"></i><br><b>BASKETBALL</b></a>
                     </li> <li class="nav-item">
                         <a href="{{ route('frontend.game-list.tabletennis')}}" class=""><i class="fas fa-table-tennis menu-font"></i><br><b>TABLE TENNIS</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.darts')}}" class=""><i class="fas fa-bullseye-arrow menu-font"></i></i><br><b>DARTS</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.badminton')}}" class=""><i class="fal fa-shuttlecock menu-font"></i><br><b>BADMINTON</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.kabdi')}}" class=""><i class="fas fa-skating menu-font"></i><br><b>KABADDI</b></a>
                     </li> <li class="nav-item">
@@ -181,42 +181,42 @@ if (!Auth::guest()){
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.mixedmartialarts')}}" class=""><span><i class="fad fa-baby menu-font"></i><br><b>MIXED MARTIAL ARTS</b></span></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.motorsport')}}" class=""><span><i class="fas fa-motorcycle menu-font"></i><br><b>MOTOR SPORT</b></span></a>
-                    </li> 
+                    </li>
                 </ul>
-            <!--</button>--> 
+            <!--</button>-->
             <div class="collapse navbar-collapse">
                 <ul class="list-unstyled navbar-nav">
                     <li class="nav-item active">
                         <a href="/" class="router-link-exact-active router-link-active"><b>Home</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.cricket')}}" class=""><b>Cricket</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.tennis')}}" class=""><b>Tennis</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.footboll')}}" class=""><b>Football</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.icehockey')}}" class=""><b>ICE HOCKEY</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.volleball')}}" class=""><b>VOLLEBALL</b></a>
                     </li> <li class="nav-item">
                         <a href="{{ route('frontend.game-list.basketball')}}" class=""><b>BASKETBALL</b></a>
                     </li> <li class="nav-item">
                         <a href="{{ route('frontend.game-list.tabletennis')}}" class=""><b>TABLE TENNIS</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.darts')}}" class=""><b>DARTS</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.badminton')}}" class=""><b>BADMINTON</b></a>
-                    </li> 
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.game-list.kabdi')}}" class=""><b>KABADDI</b></a>
                     </li> <li class="nav-item">

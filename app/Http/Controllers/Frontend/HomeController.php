@@ -40,7 +40,7 @@ class HomeController extends Controller
         if (!empty($result)) {
             $arr = json_decode($result, true);
         }
-
+        // dd($arr);
         if (isset($arr['t1'][0])) {
             $aaa['odd'] = $arr['t1'][0];
         } else {
@@ -52,12 +52,12 @@ class HomeController extends Controller
         } else {
             $aaa['bookmaker'] = array();
         }
-        if (isset($arr['t2'][0])) {
+        if (isset($arr['t3'])) {
             $aaa['session'] = $arr['t3'];
-        }{
+        }else{
             $aaa['session'] = array();
         }
-
+        // dd($arr['t3']);
 //        $aaa['session'] = $arr['session'];
 
         // $url = 'http://139.177.188.73:3000/getBM?eventId='.$token;

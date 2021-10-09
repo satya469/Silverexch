@@ -555,7 +555,8 @@ class MyBetsController extends Controller
 //      dd($response);
 //      dd($tot);
       $response['exposureAmt'] = SELF::getExAmount();
-      $response['headerUserBalance'] = SELF::getBlanceAmount();
+      $response['headerUserBalance'] = SELF::getBlanceAmount() - SELF::getExAmount() ;
+  
       $response['matchSuspended'] = SELF::getMatchSuspended($requestData['sportID']);
       $response['myBetData'] = view("frontend.my-bets.getBet",compact('myBetsModel'))->render();
 // dd($response);
@@ -2411,7 +2412,8 @@ class MyBetsController extends Controller
     $response = array();
     $response['exposureAmt'] = SELF::getExAmount();
 
-    $response['headerUserBalance'] = SELF::getBlanceAmount();
+    $response['headerUserBalance'] = SELF::getBlanceAmount() - $response['exposureAmt'];
+    // dd($response);
     return json_encode($response);
   }
 }

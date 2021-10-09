@@ -139,6 +139,7 @@
                         </div>
                         <div data-title="OPEN" class="table-body ODDS">
 
+                          @if (!empty($data['odd']))
                           @foreach($data['odd'] as $key=>$team)
                           <div data-title="ACTIVE" class="table-row oddsTot oddssteam{{$key}}">
                             <div class="float-left country-name mbox-4 box-4">
@@ -174,6 +175,7 @@
                             </div>
                           </div>
                             @endforeach
+                            @endif
                         </div>
 
                       </div>

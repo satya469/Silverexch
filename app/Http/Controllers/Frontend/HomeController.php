@@ -102,9 +102,11 @@ class HomeController extends Controller
         $aaa=[];
         if (!empty($result)) {
             $arr = json_decode($result, true);
-            $aaa['odd'] = $arr['market'][0]['events'];
-            $aaa['bookmaker'] = $arr['bookmake'][0]['runners'];
-            $aaa['session'] = $arr['session'];
+
+            $aaa['odd'] = $arr['t1'][0];
+
+            $aaa['bookmaker'] = $arr['t2'][0]['bm1'] ?? '';
+            $aaa['session'] = $arr['t3'] ?? '';
         }
             $sportModel = Sports::where(['match_id' => $token, 'active' => 1])->first();
             $aaa['matchDeclear'] = false;

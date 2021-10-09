@@ -712,8 +712,8 @@ class SportsController extends Controller
                                     'RunnerName' => $val['nat'],
                                     'LayPrice1' => $val['l1'],
                                     'LaySize1' => $val['ls1'],
-                                    'BackPrice1' => $val['b2'],
-                                    'BackSize1' => $val['bs2'],
+                                    'BackPrice1' => $val['b1'],
+                                    'BackSize1' => $val['bs1'],
                                 );
                             }
                         }

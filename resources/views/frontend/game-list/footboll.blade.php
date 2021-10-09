@@ -7,12 +7,12 @@
 
 <div class="row" style="margin-left: 0px;margin-right: 0px;">
   @include('frontend.game-list.leftSide')
-  <!----> 
+  <!---->
   <div class="col-md-10 featured-box" >
     <div>
-      <!----> 
+      <!---->
       <div class="pb-4 mt-4">
-        
+
         <div class="tab-content">
           <div class="tab-pane active">
             <div class="coupon-card coupon-card-first">
@@ -27,7 +27,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                      
+
                   @foreach($sports as $key => $match)
                     <tr class="rows">
                       <td>
@@ -38,26 +38,26 @@
                         </div>
                         <div class="game-icons">
                           <span class="game-icon">
-                            @if($match->inplay_status == 1)  
+                            @if($match->inplay_status == 1)
                               <span class="dot"></span>
                             @endif
-                          </span> 
-                          <span class="game-icon">
-                            @if($match->tv_status == 1)  
-                              <i class="fas fa-tv v-m icon-tv"></i>
-                            @endif  
                           </span>
                           <span class="game-icon">
-                            @if($match->fancy_status == 1)  
-                              <img src="/front/img/icons/ic_fancy.png" class="fancy-icon">
-                            @endif 
-                          </span> 
+                            @if($match->tv_status == 1)
+                              <i class="fas fa-tv v-m icon-tv"></i>
+                            @endif
+                          </span>
                           <span class="game-icon">
-                            @if($match->bookmaker_status == 1)  
+                            @if($match->fancy_status == 1)
+                              <img src="/front/img/icons/ic_fancy.png" class="fancy-icon">
+                            @endif
+                          </span>
+                          <span class="game-icon">
+                            @if($match->bookmaker_status == 1)
                               <img src="/front/img/icons/ic_bm.png" class="bookmaker-icon">
-                            @endif   
-                          </span> 
-                          
+                            @endif
+                          </span>
+
                         </div>
                       </td>
                       <td>
@@ -94,11 +94,11 @@
                       </td>
                     </tr>
                   @endforeach
-                    
+
                   </tbody>
                 </table>
                 <div class="mobileView mobileViewOdds">
-                  @foreach($sports as $key => $match)  
+                  @foreach($sports as $key => $match)
                     <div class="row bottom20 pb10 bbottom rows">
                       <div class="col-sm-8 pl0">
                         <div class="game-name">
@@ -110,65 +110,65 @@
                       <div class="col-sm-4">
                         <div class="game-icons">
                           <span class="game-icon">
-                            @if($match->inplay_status == 1)  
+                            @if($match->inplay_status == 1)
                               <span class="dot"></span>
                             @endif
-                          </span> 
-                          <span class="game-icon">
-                            @if($match->tv_status == 1)  
-                              <i class="fas fa-tv v-m icon-tv"></i>
-                            @endif  
                           </span>
                           <span class="game-icon">
-                            @if($match->fancy_status == 1)  
-                              <img src="/front/img/icons/ic_fancy.png" class="fancy-icon">
-                            @endif 
-                          </span> 
+                            @if($match->tv_status == 1)
+                              <i class="fas fa-tv v-m icon-tv"></i>
+                            @endif
+                          </span>
                           <span class="game-icon">
-                            @if($match->bookmaker_status == 1)  
+                            @if($match->fancy_status == 1)
+                              <img src="/front/img/icons/ic_fancy.png" class="fancy-icon">
+                            @endif
+                          </span>
+                          <span class="game-icon">
+                            @if($match->bookmaker_status == 1)
                               <img src="/front/img/icons/ic_bm.png" class="bookmaker-icon">
-                            @endif   
-                          </span> 
+                            @endif
+                          </span>
                         </div>
                       </div>
-                      
+
                       <div class="col-sm-4 text-center">1</div>
                       <div class="col-sm-4 text-center">X</div>
                       <div class="col-sm-4 text-center">2</div>
-                      
+
                       <div class="col-sm-2 back1 text-center">
-                        
+
                           <span class="odd  back0no1">-</span>
-                        
+
                       </div>
                       <div class="col-sm-2 lay1 text-center">
-                        
+
                           <span class="odd lay0no1">-</span>
-                        
+
                       </div>
                       <div class="col-sm-2 back text-center">
-                        
+
                           <span class="odd back2no1">-</span>
-                        
+
                       </div>
                       <div class="col-sm-2 lay text-center">
-                        
+
                           <span class="odd lay2no1">-</span>
-                       
+
                       </div>
                       <div class="col-sm-2 back2 text-center">
-                        
+
                           <span class="odd back1no1">-</span>
-                        
+
                       </div>
                       <div class="col-sm-2 lay2 text-center">
-                        
+
                           <span class="odd lay1no1">-</span>
                         </button>                      </div>
-                    </div>  
-                  @endforeach  
-                    
-                </div>   
+                    </div>
+                  @endforeach
+
+                </div>
               </div>
             </div>
           </div>
@@ -202,7 +202,7 @@
 @push('after-scripts')
   <script type="text/javascript">
     $( document ).ready(function() {
-      setInterval(function(){ getData(); }, 3000);
+      setInterval(function(){ getData(); }, 10000);
     });
     getData();
     function getData(){
@@ -216,15 +216,15 @@
           success: function(data){
             $.each(data.odd, function(i, item) {
 //              alert(item.BackPrice1+"="+item.LayPrice1);
-              $(rootThis).closest('.rows').find('.back'+i+'no1').text(item.BackPrice1);
+              $(rootThis).closest('.rows').find('.back'+i+'no1').text(item.b1);
 //              $(rootThis).closest('tr').find('.back'+i+'no2').text(item.BackSize1+'k');
-              $(rootThis).closest('.rows').find('.lay'+i+'no1').text(item.LayPrice1);
+              $(rootThis).closest('.rows').find('.lay'+i+'no1').text(item.l1);
 //              $(rootThis).closest('tr').find('.lay'+i+'no2').text(item.LayPrice1+'k');
             });
           }
         });
       });
     }
-    
+
   </script>
 @endpush

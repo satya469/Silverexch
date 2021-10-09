@@ -228,7 +228,7 @@
                                 @foreach($data['bookmaker'] as $key=>$team)
                                 <div data-title="ACTIVE" class="table-row oddsTot bookmaker{{$key}} ">
                                   <div class="float-left  country-name box-4">
-                                    <span class="bookmakerteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName font-size-14">{{$team['remark']}}</b></span>
+                                    <span class="bookmakerteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName font-size-14">{{$team['nat']}}</b></span>
                                     <p>
                                         <span class="float-left matchValClear matchValClearProfit finaltot" style="color: black;">0</span>
                                         <span class="float-right matchValClearProfit " style="display: none; color: black;">0</span>
@@ -669,7 +669,7 @@
 
     });
     $( document ).ready(function() {
-      setInterval(function(){ getBetsList(); }, 5000);
+      setInterval(function(){ getBetsList(); }, 3000);
     });
     $( "#myModalBetView" ).on('shown.bs.modal', function (e) {
         $('.navbar ').hide();

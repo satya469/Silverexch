@@ -243,7 +243,7 @@ function setodd(data) {
 function setbookmaker(data) {
     // console.log(data);
     $.each(data, function(i, item) {
-        $('.bookmaker' + i + ' .team-name' + i + ' > b').text(item.remark);
+        $('.bookmaker' + i + ' .team-name' + i + ' > b').text(item.nat);
         $('.bookmaker' + i + ' .back1t').text(item.b1);
         $('.bookmaker' + i + ' .back2t').text(item.b2);
         $('.bookmaker' + i + ' .back3t').text(item.b3);

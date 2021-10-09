@@ -25,7 +25,7 @@
     <!-- Check if the language is set to RTL, so apply the RTL layouts -->
     <!-- Otherwise apply the normal LTR layouts -->
     {{ style(mix('css/backend.css')) }}
-    
+
     <!--<link rel="stylesheet" href="{{asset('backend/css/all.css')}}">-->
     <link rel="stylesheet" href="{{asset('backend/css/bootstrap-datepicker.standalone.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/css/fontawesome-all.min.css')}}">
@@ -34,9 +34,9 @@
     <link rel="stylesheet" href="{{asset('backend/css/jquery-ui.min.css')}}">
     <!--<link rel="stylesheet" href="{{asset('backend/css/style.css')}}">-->
     <link rel="stylesheet" href="{{asset('backend/css/theme.css')}}">
-    <link rel="stylesheet" href="{{asset('backend/css/custome.css')}}">    
-    <link rel="stylesheet" href="{{asset('backend/custom.css')}}"> 
-    
+    <link rel="stylesheet" href="{{asset('backend/css/custome.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/custom.css')}}">
+
     <link rel="stylesheet" href="{{asset('backend/css/b_css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/css/b_css/fontawesome-all.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/css/b_css/jquery.dataTables.min.css')}}">
@@ -55,8 +55,8 @@
 <link rel="stylesheet" type="text/css" href="https://dzm0kbaskt4pv.cloudfront.net/v1/static/backend/css/all.css">
 <link rel="stylesheet" type="text/css" href="https://dzm0kbaskt4pv.cloudfront.net/v1/static/backend/css/style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   
-    
+
+
 @stack('after-styles')
 @include('frontend.includes.sideColor')
 <style>
@@ -80,7 +80,7 @@
                 100% { transform: rotate(360deg); }
               }
                 @media only screen and (max-width: 768px) {
-                    .mobile-menu-pass{    
+                    .mobile-menu-pass{
                         margin-top: 0px;
                         text-align: right;
                         font-size: 12px;
@@ -152,7 +152,7 @@
     {!! script(mix('js/manifest.js')) !!}
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
-    
+
     <script src="{{asset('backend/js/jquery.min.js')}}"></script>
     <script src="{{asset('backend/js/jquery-ui.min.js')}}"></script>
     <!--<script src="{{asset('backend/js/jquery-ui.min.js')}}"></script>-->
@@ -166,31 +166,31 @@
     <!--<script src="{{asset('backend/js/jquery.beefup.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/jquery.dataTables.min.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>-->
-    
+
     <script src="{{asset('backend/js/b_js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/buttons.flash.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/pdfmake.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/buttons.html5.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/vfs_fonts.js')}}"></script>
-    
+
 <!--    <script src="{{asset('backend/js/lodash.min.js')}}"></script>
     <script src="{{asset('backend/js/select2.min.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/socket.io.js')}}"></script>-->
     <script type="module">
-      $( document ).ready(function() {
-        if(window.devtools.isOpen){
-          logout();
-        }
-        window.addEventListener('devtoolschange', event => {
-          if(event.detail.isOpen){
-            logout();
-          }
-        });
-      });
-      function logout(){
-        window.location.href ='/logout';
-      }
+    //   $( document ).ready(function() {
+    //     if(window.devtools.isOpen){
+    //       logout();
+    //     }
+    //     window.addEventListener('devtoolschange', event => {
+    //       if(event.detail.isOpen){
+    //         logout();
+    //       }
+    //     });
+    //   });
+    //   function logout(){
+    //     window.location.href ='/logout';
+    //   }
     </script>
     @stack('after-scripts')
     <script>
@@ -207,9 +207,9 @@
       }
       $(function () {
           $(document).ajaxError(function (event, request, options) {
-            
+
               if (request.status === 401) {
-                if(isCallLogout == false){  
+                if(isCallLogout == false){
                     reloadpage();
                     isCallLogout = true;
                 }

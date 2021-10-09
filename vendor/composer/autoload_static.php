@@ -858,7 +858,7 @@ class ComposerStaticInit648e9eadc6f5b213a4733195aff5957b
         'App\\Http\\Controllers\\Backend\\MyBetsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/MyBetsController.php',
         'App\\Http\\Controllers\\Backend\\PrivilegeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/PrivilegeController.php',
         'App\\Http\\Controllers\\Backend\\SportsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/SportsController.php',
-        'App\\Http\\Controllers\\Backend\\UserDepositesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/UserDepositesController (copy).php',
+        'App\\Http\\Controllers\\Backend\\UserDepositesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/UserDepositesController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Frontend\\AccountsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/AccountsController.php',
         'App\\Http\\Controllers\\Frontend\\Auth\\AdminLoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/Auth/AdminLoginController.php',

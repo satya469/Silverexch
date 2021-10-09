@@ -105,7 +105,7 @@ return array(
     'App\\Http\\Controllers\\Backend\\MyBetsController' => $baseDir . '/app/Http/Controllers/Backend/MyBetsController.php',
     'App\\Http\\Controllers\\Backend\\PrivilegeController' => $baseDir . '/app/Http/Controllers/Backend/PrivilegeController.php',
     'App\\Http\\Controllers\\Backend\\SportsController' => $baseDir . '/app/Http/Controllers/Backend/SportsController.php',
-    'App\\Http\\Controllers\\Backend\\UserDepositesController' => $baseDir . '/app/Http/Controllers/Backend/UserDepositesController (copy).php',
+    'App\\Http\\Controllers\\Backend\\UserDepositesController' => $baseDir . '/app/Http/Controllers/Backend/UserDepositesController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\Frontend\\AccountsController' => $baseDir . '/app/Http/Controllers/Frontend/AccountsController.php',
     'App\\Http\\Controllers\\Frontend\\Auth\\AdminLoginController' => $baseDir . '/app/Http/Controllers/Frontend/Auth/AdminLoginController.php',

@@ -149,7 +149,7 @@ use App\Http\Controllers\Backend\SportsController;
               @foreach($data['odd'] as $key=>$team)
               <div data-title="ACTIVE" class="table-row oddsTot oddssteam{{$key}}">
                 <div class="float-left country-name box-4 mbox-4">
-                    <span class="oddteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName font-size-14">{{$team['RunnerName']}}</b></span>
+                    <span class="oddteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName font-size-14">{{$team['nat']}}</b></span>
                   <p>
                       <span class="float-left matchValClear finaltot" style="color: black;">0</span>
                       <span class="float-right" style="display: none; color: black;">0</span>
@@ -231,10 +231,11 @@ use App\Http\Controllers\Backend\SportsController;
                   <div class="box-1 float-left"></div>
                 </div>
                 <div class="table-body BOOKMAKER">
+                @if(!empty($data['bookmaker']))
                 @foreach($data['bookmaker'] as $key=>$team)
                   <div data-title="ACTIVE" class="table-row oddsTot bookmaker{{$key}} ">
                     <div class="float-left country-name box-4">
-                      <span class="bookmakerteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName">{{$team['RunnerName']}}</b></span>
+                      <span class="bookmakerteamname<?= $key+1 ?> team-name{{$key}}"><b class="teamName">{{$team['nat']}}</b></span>
                       <p>
                           <span class="float-left matchValClear finaltot" style="color: black;">0</span>
                           <span class="float-right " style="display: none; color: black;">0</span>
@@ -266,6 +267,7 @@ use App\Http\Controllers\Backend\SportsController;
                     </div>
                   </div>
                 @endforeach
+                @endif
                 </div>
               </div>
             </div>

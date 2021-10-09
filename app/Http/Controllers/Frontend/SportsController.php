@@ -474,6 +474,7 @@ class SportsController extends Controller
     public function liveteenpati()
     {
         $gameModel = self::getCasinoGameObj();
+
         if (!isset($gameModel->id) || empty($gameModel->id)) {
             return redirect('/');
         }
@@ -489,6 +490,7 @@ class SportsController extends Controller
         if (!isset($sports->id) || empty($sports->id)) {
             return redirect('/');
         }
+
         return view('frontend.game-list.liveteenpati', compact('sports', 'adminSetting', 'buttonValue'));
     }
 
@@ -646,7 +648,7 @@ class SportsController extends Controller
         $delay = 0;
         $sports = DB::select("SELECT sp.* FROM `sports` sp JOIN games g ON(g.id= sp.game_id and status=1) WHERE sp.match_id='" . $token . "' AND sp.active='1' AND (sp.winner ='' OR sp.winner IS NULL) LIMIT 1");
 
-        //  $sports = Sports::where(['match_id'=>$token])->first();
+
         if (!isset($sports[0])) {
             return redirect('/');
         }
@@ -654,8 +656,7 @@ class SportsController extends Controller
         if (empty($sports->game_id)) {
             return redirect('/');
         }
-        //   dd($sports);
-        // $teamNames = json_decode($sports->extra,true);
+
         $gameModel = Games::where(['id' => $sports->game_id])->first();
         $adminSetting = AdminSetting::first();
         $buttonValueModel = ButtonValue::where(['user_id' => Auth::user()->id])->first();
@@ -686,17 +687,20 @@ class SportsController extends Controller
 
                     $arr = json_decode($result, true);
                     $dataArr = array();
-                    //   dd($arr);
-                    $data['odd'] = $arr['t1'][0];
+                    // dd($arr);
+                    $data = array();
+                    if (isset($arr['t1'][0])) {
+                        $data['odd'] = $arr['t1'][0];
+                    }
 
-                    //   dd($arr['t1']);
+
                     if (isset($arr['t2'][0])) {
                         $data['bookmaker'] = $arr['t2'][0]['bm1'];
                     }
 
-                    // dd($arr['t3']);
+                    // dd($arr['t2']);
 
-                    if (isset($arr['t2'][0])) {
+                    if (isset($arr['t3'][0])) {
                         $data['session'] = $arr['t3'];
                     }
 

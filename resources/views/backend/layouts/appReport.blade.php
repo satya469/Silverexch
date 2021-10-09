@@ -18,7 +18,7 @@
     {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
     @stack('before-styles')
     <style>
-    .app-body { 
+    .app-body {
     margin-top: 73px;
 }
     </style>
@@ -32,8 +32,8 @@
     <link rel="stylesheet" href="{{asset('backend/css/jquery-ui.min.css')}}">
     <!--<link rel="stylesheet" href="{{asset('backend/css/style.css')}}">-->
     <link rel="stylesheet" href="{{asset('backend/css/theme.css')}}">
-    <link rel="stylesheet" href="{{asset('backend/css/custome.css')}}">    
-    <link rel="stylesheet" href="{{asset('backend/custom.css')}}"> 
+    <link rel="stylesheet" href="{{asset('backend/css/custome.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/custom.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('new/css/backend_mobileView.css')}}">
     <link rel="icon" href="https://dzm0kbaskt4pv.cloudfront.net/v1/static/fav-icon.png">
@@ -78,7 +78,7 @@
                 100% { transform: rotate(360deg); }
               }
                 @media only screen and (max-width: 768px) {
-                    .mobile-menu-pass{    
+                    .mobile-menu-pass{
                         margin-top: 0px;
                         text-align: right;
                         font-size: 12px;
@@ -147,7 +147,7 @@
     {!! script(mix('js/manifest.js')) !!}
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
-    
+
     <script src="{{asset('backend/js/jquery.min.js')}}"></script>
     <script src="{{asset('backend/js/jquery-ui.min.js')}}"></script>
     <!--<script src="{{asset('backend/js/bet.js')}}"></script>-->
@@ -157,9 +157,9 @@
     <!--<script src="{{asset('backend/js/jquery.beefup.js')}}"></script>-->
     <script src="{{asset('backend/js/jquery.dataTables.min.js')}}"></script>
     <!--<script src="{{asset('backend/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>-->
-    
- 
-    
+
+
+
     <!--<script src="{{asset('backend/js/jquery.min.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/jquery-ui.min.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/all.js')}}"></script>-->
@@ -172,50 +172,50 @@
     <!--<script src="{{asset('backend/js/jquery.beefup.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/jquery.dataTables.min.js')}}"></script>-->
     <!--<script src="{{asset('backend/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>-->
-    
+
     <script src="{{asset('backend/js/b_js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/buttons.flash.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/pdfmake.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/buttons.html5.min.js')}}"></script>
     <script src="{{asset('backend/js/b_js/vfs_fonts.js')}}"></script>
- 
-    
+
+
     <script src="{{asset('new/index.js')}}"></script>
     <script type="module">
-      $( document ).ready(function() {
-        if(window.devtools.isOpen){
-          logout();
-        }
-        window.addEventListener('devtoolschange', event => {
-          if(event.detail.isOpen){
-            logout();
-          }
-        });
-      });
-      function logout(){
-        window.location.href ='/logout';
-      }
+    //   $( document ).ready(function() {
+    //     if(window.devtools.isOpen){
+    //       logout();
+    //     }
+    //     window.addEventListener('devtoolschange', event => {
+    //       if(event.detail.isOpen){
+    //         logout();
+    //       }
+    //     });
+    //   });
+    //   function logout(){
+    //     window.location.href ='/logout';
+    //   }
     </script>
     @stack('after-scripts')
     <script>
-      var isCallLogout = false;  
+      var isCallLogout = false;
       function showLoading(id){
         $('#'+id).addClass('loader1');
       }
       function hideLoading(id){
         $('#'+id).removeClass('loader1');
       }
-      
+
       function reloadpage(){
 //        $('head').append("<meta http-equiv=\"refresh\" content=\"5; {{ route('frontend.auth.login') }}\" />");
          window.location.href ='/login';
       }
       $(function () {
           $(document).ajaxError(function (event, request, options) {
-            
+
             if (request.status === 401) {
-                if(isCallLogout == false){  
+                if(isCallLogout == false){
                     reloadpage();
                     isCallLogout = true;
                 }

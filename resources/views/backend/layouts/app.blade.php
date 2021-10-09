@@ -20,7 +20,7 @@
     <!-- Check if the language is set to RTL, so apply the RTL layouts -->
     <!-- Otherwise apply the normal LTR layouts -->
     {{ style(mix('css/backend.css')) }}
-    
+
 <!--     <link rel="stylesheet" href="{{asset('new/css_new/fontawesome-all.min.css')}}">
         <link rel="stylesheet" href="{{asset('new/css_new/jquery-ui.min.css')}}">-->
         <link rel="stylesheet" href="{{asset('new/css/style.css')}}">
@@ -31,7 +31,7 @@
         <link rel="stylesheet" href="{{asset('new/css/flipclock.css')}}">
         <link rel="stylesheet" href="{{asset('new/css/owl.carousel.css')}}">
         <link rel="stylesheet" href="{{asset('new/css/owl.theme.default.css')}}">-->
-    
+
     <!--<link rel="stylesheet" href="{{asset('backend/css/all.css')}}">-->
     <link rel="stylesheet" href="{{asset('backend/css/bootstrap-datepicker.standalone.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/css/fontawesome-all.min.css')}}">
@@ -41,7 +41,7 @@
     <!--<link rel="stylesheet" href="{{asset('backend/css/style.css')}}">-->
     <link rel="stylesheet" href="{{asset('backend/css/theme.css')}}">
     <link rel="stylesheet" href="{{asset('backend/css/custome.css')}}">
-    <link rel="stylesheet" href="{{asset('backend/custom.css')}}"> 
+    <link rel="stylesheet" href="{{asset('backend/custom.css')}}">
     <link rel="stylesheet" href="{{asset('new/css/backend_mobileView.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
@@ -50,7 +50,7 @@
     <style>
     .app-body {
           margin-top: 73px;
-      } 
+      }
     .lay1k,.lay2k,.lay3k,
     .back1k,.back2k,.back3k{
         font-size: 10px !important;
@@ -67,7 +67,7 @@
         height: 44px;
         margin-top: -485px;
     }
-    
+
     @media only screen and (max-width: 768px) {
         .mobile-menu-pass {
             margin-top: -11px;
@@ -156,7 +156,7 @@
     {!! script(mix('js/manifest.js')) !!}
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
-    
+
     <!--<script src="{{asset('backend/js/jquery.min.js')}}"></script>-->
     <script src="{{asset('backend/js/jquery-ui.min.js')}}"></script>
     <!--<script src="{{asset('backend/js/jquery-ui.min.js')}}"></script>-->
@@ -171,7 +171,7 @@
     <script src="{{asset('backend/js/jquery.dataTables.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <!--<script src="{{asset('backend/js/jquery.mCustomScrollbar.concat.min.js')}}"></script>-->
-    
+
 <!--    <script src="{{asset('backend/js/lodash.min.js')}}"></script>
     <script src="{{asset('backend/js/select2.min.js')}}"></script>-->
     <script src="{{asset('backend/js/socket.io.js')}}"></script>
@@ -179,34 +179,34 @@
     <!--DEV TOOT OOPEN JS-->
 <script src="{{asset('new/index.js')}}"></script>
     <script type="module">
-        
-    $( document ).ready(function() {
-        
-        if(window.devtools.isOpen){
-          logout();
-        }
-        window.addEventListener('devtoolschange', event => {
-          if(event.detail.isOpen){
-            logout();
-          }
-        });
-      });
-      function logout(){
-        window.location.href ='/logout';
-      }
+
+    // $( document ).ready(function() {
+
+    //     if(window.devtools.isOpen){
+    //       logout();
+    //     }
+    //     window.addEventListener('devtoolschange', event => {
+    //       if(event.detail.isOpen){
+    //         logout();
+    //       }
+    //     });
+    //   });
+    //   function logout(){
+    //     window.location.href ='/logout';
+    //   }
     </script>
 
     <script>
-       var isCallLogout = false; 
+       var isCallLogout = false;
        var isRedirectHome = false;
       $( document ).ready(function() {
         $("#msg-alert").fadeTo(2000, 500).slideUp(500, function(){
-         
+
             $("#msg-alert").slideUp(500);
         });
-        
+
       });
-      
+
       function showLoading(id){
         $('#'+id).addClass('loader1');
       }
@@ -218,16 +218,16 @@
         window.location.replace("/login");
       }
       function  redirectHome(){
-          if(isRedirectHome == false){  
+          if(isRedirectHome == false){
                 window.location.replace("/admin/market-analysis");
                 isRedirectHome = true;
             }
-         
+
       }
       $(function () {
           $(document).ajaxError(function (event, request, options) {
             if (request.status === 401) {
-                if(isCallLogout == false){  
+                if(isCallLogout == false){
                     reloadpage();
                     isCallLogout = true;
                 }

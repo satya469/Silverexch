@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+
 use App\ButtonValue;
-use Auth;
-use App\Sports;
 use App\Games;
+use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
-use Illuminate\Hashing\BcryptHasher;
-use Illuminate\Support\Facades\Hash;
+use App\Sports;
+use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
 /**
  * Class HomeController.
  */
@@ -19,37 +20,39 @@ class HomeController extends Controller
     /**
      * @return \Illuminate\View\View
      */
-    public function gamesextra() {
+    public function gamesextra()
+    {
         return view('frontend.norecordfound');
     }
-    public function getdata($token){
-        
-        $url = 'http://139.177.188.73:3000/getBM?eventId='.$token;
-        $ch = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+    public function getdata($token)
+    {
+
+        $url = 'http://139.177.188.73:3000/getBM?eventId=' . $token;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
         curl_close($ch);
 
-  //      $result = file_get_contents($url);
-  //      $result = '{"market": [{"marketId": "1.30042557", "inplay": false, "totalMatched": null, "totalAvailable": null, "priceStatus": null, "events": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "2.08", "LaySize1": "215.83", "LayPrice2": "2.1", "LaySize2": "219.43", "LayPrice3": "2.12", "LaySize3": "3.2", "BackPrice1": "2.04", "BackSize1": "210.07", "BackPrice2": "2.02", "BackSize2": "550", "BackPrice3": "1.96", "BackSize3": "83.2"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "1.95", "LaySize1": "8.99", "LayPrice2": "1.96", "LaySize2": "195.13", "LayPrice3": "1.97", "LaySize3": "14.5", "BackPrice1": "1.94", "BackSize1": "9.78", "BackPrice2": "1.93", "BackSize2": "213.31", "BackPrice3": "1.92", "BackSize3": "249.51"}]}], "bookmake": [{"runners": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "96", "LaySize1": "100", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "92", "BackSize1": "100", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}]}], "session": [{"SelectionId": "", "RunnerName": "Match 1st over run(KKR vs CSK)adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs KKR(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs CSK(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs KKR(KKR vs CSK)adv", "LayPrice1": "165", "LaySize1": "100", "BackPrice1": "167", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs CSK(KKR vs CSK)adv", "LayPrice1": "167", "LaySize1": "100", "BackPrice1": "169", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt KKR(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt CSK(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill run(KKR vs CSK)adv", "LayPrice1": "26", "LaySize1": "110", "BackPrice1": "26", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine run(KKR vs CSK)adv", "LayPrice1": "16", "LaySize1": "110", "BackPrice1": "16", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis run(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "110", "BackPrice1": "25", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson run(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "110", "BackPrice1": "20", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "115", "BackPrice1": "3", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis Boundaries(KKR vs CSK)adv", "LayPrice1": "4", "LaySize1": "115", "BackPrice1": "4", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs KKR(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs CSK(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fours(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "100", "BackPrice1": "27", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Sixes(KKR vs CSK)adv", "LayPrice1": "11", "LaySize1": "100", "BackPrice1": "12", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Boundaries(KKR vs CSK)adv", "LayPrice1": "36", "LaySize1": "100", "BackPrice1": "38", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wkts(KKR vs CSK)adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "13", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wides(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Extras(KKR vs CSK)adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Caught Outs(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Bowled(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match LBW(KKR vs CSK)adv", "LayPrice1": "1", "LaySize1": "100", "BackPrice1": "2", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fifties(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Highest Scoring over in match(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "100", "BackPrice1": "21", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Top batsman runs in match(KKR vs CSK)adv", "LayPrice1": "66", "LaySize1": "100", "BackPrice1": "68", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "3 wkt or more by bowler in match(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Fours KKR and CSK adv", "LayPrice1": "150", "LaySize1": "100", "BackPrice1": "157", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Sixes KKR and CSK adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "31", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wkts KKR and CSK adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "37", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wides KKR and CSK adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Extras KKR and CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "57", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 2 over Runs Session adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 4 over Runs Session adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "30", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 4 over Runs Session adv", "LayPrice1": "31", "LaySize1": "100", "BackPrice1": "33", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras KKR adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours KKR adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls KKR adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs KKR adv", "LayPrice1": "26", "LaySize1": "100", "BackPrice1": "28", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras KKR adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls KKR adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs KKR adv", "LayPrice1": "48", "LaySize1": "100", "BackPrice1": "50", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs KKR adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours KKR adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras CSK adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls CSK adv", "LayPrice1": "21", "LaySize1": "100", "BackPrice1": "23", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs CSK adv", "LayPrice1": "23", "LaySize1": "100", "BackPrice1": "25", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours CSK adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls CSK adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs CSK adv", "LayPrice1": "27", "LaySize1": "100", "BackPrice1": "29", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras CSK adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls CSK adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "52", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs CSK adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours CSK adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}]}';
+        //      $result = file_get_contents($url);
+        //      $result = '{"market": [{"marketId": "1.30042557", "inplay": false, "totalMatched": null, "totalAvailable": null, "priceStatus": null, "events": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "2.08", "LaySize1": "215.83", "LayPrice2": "2.1", "LaySize2": "219.43", "LayPrice3": "2.12", "LaySize3": "3.2", "BackPrice1": "2.04", "BackSize1": "210.07", "BackPrice2": "2.02", "BackSize2": "550", "BackPrice3": "1.96", "BackSize3": "83.2"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "1.95", "LaySize1": "8.99", "LayPrice2": "1.96", "LaySize2": "195.13", "LayPrice3": "1.97", "LaySize3": "14.5", "BackPrice1": "1.94", "BackSize1": "9.78", "BackPrice2": "1.93", "BackSize2": "213.31", "BackPrice3": "1.92", "BackSize3": "249.51"}]}], "bookmake": [{"runners": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "96", "LaySize1": "100", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "92", "BackSize1": "100", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}]}], "session": [{"SelectionId": "", "RunnerName": "Match 1st over run(KKR vs CSK)adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs KKR(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs CSK(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs KKR(KKR vs CSK)adv", "LayPrice1": "165", "LaySize1": "100", "BackPrice1": "167", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs CSK(KKR vs CSK)adv", "LayPrice1": "167", "LaySize1": "100", "BackPrice1": "169", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt KKR(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt CSK(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill run(KKR vs CSK)adv", "LayPrice1": "26", "LaySize1": "110", "BackPrice1": "26", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine run(KKR vs CSK)adv", "LayPrice1": "16", "LaySize1": "110", "BackPrice1": "16", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis run(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "110", "BackPrice1": "25", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson run(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "110", "BackPrice1": "20", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "115", "BackPrice1": "3", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis Boundaries(KKR vs CSK)adv", "LayPrice1": "4", "LaySize1": "115", "BackPrice1": "4", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs KKR(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs CSK(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fours(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "100", "BackPrice1": "27", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Sixes(KKR vs CSK)adv", "LayPrice1": "11", "LaySize1": "100", "BackPrice1": "12", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Boundaries(KKR vs CSK)adv", "LayPrice1": "36", "LaySize1": "100", "BackPrice1": "38", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wkts(KKR vs CSK)adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "13", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wides(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Extras(KKR vs CSK)adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Caught Outs(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Bowled(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match LBW(KKR vs CSK)adv", "LayPrice1": "1", "LaySize1": "100", "BackPrice1": "2", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fifties(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Highest Scoring over in match(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "100", "BackPrice1": "21", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Top batsman runs in match(KKR vs CSK)adv", "LayPrice1": "66", "LaySize1": "100", "BackPrice1": "68", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "3 wkt or more by bowler in match(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Fours KKR and CSK adv", "LayPrice1": "150", "LaySize1": "100", "BackPrice1": "157", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Sixes KKR and CSK adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "31", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wkts KKR and CSK adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "37", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wides KKR and CSK adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Extras KKR and CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "57", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 2 over Runs Session adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 4 over Runs Session adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "30", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 4 over Runs Session adv", "LayPrice1": "31", "LaySize1": "100", "BackPrice1": "33", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras KKR adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours KKR adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls KKR adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs KKR adv", "LayPrice1": "26", "LaySize1": "100", "BackPrice1": "28", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras KKR adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls KKR adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs KKR adv", "LayPrice1": "48", "LaySize1": "100", "BackPrice1": "50", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs KKR adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours KKR adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras CSK adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls CSK adv", "LayPrice1": "21", "LaySize1": "100", "BackPrice1": "23", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs CSK adv", "LayPrice1": "23", "LaySize1": "100", "BackPrice1": "25", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours CSK adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls CSK adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs CSK adv", "LayPrice1": "27", "LaySize1": "100", "BackPrice1": "29", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras CSK adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls CSK adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "52", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs CSK adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours CSK adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}]}';
         $arr = array();
-        if(!empty($result)){
-          $arr = json_decode($result,true);
+        if (!empty($result)) {
+            $arr = json_decode($result, true);
         }
 
-            if(isset($arr['t1'][0])){
-                $aaa['odd'] = $arr['t1'][0];
-            }else{
-                $aaa['odd'] = array();
-            }
+        if (isset($arr['t1'][0])) {
+            $aaa['odd'] = $arr['t1'][0];
+        } else {
+            $aaa['odd'] = array();
+        }
 
-        if(isset($arr['t2'][0])){
+        if (isset($arr['t2'][0])) {
             $aaa['bookmaker'] = $arr['t2'][0];
-        }else{
+        } else {
             $aaa['bookmaker'] = array();
         }
-        if(isset($arr['t2'][0])){
+        if (isset($arr['t2'][0])) {
             $aaa['session'] = $arr['t3'];
         }{
             $aaa['session'] = array();
@@ -69,12 +72,11 @@ class HomeController extends Controller
         //     $aaa['SB'] = json_decode($SBresult,true);
         // }
 
-
-        $sportModel = Sports::where(['match_id'=>$token,'active'=>1])->first();
+        $sportModel = Sports::where(['match_id' => $token, 'active' => 1])->first();
         $aaa['matchDeclear'] = false;
-        if(isset($sportModel->winner) && $sportModel->winner !== ''){
-          $aaa['matchDeclear'] = true;
-        }else{
+        if (isset($sportModel->winner) && $sportModel->winner !== '') {
+            $aaa['matchDeclear'] = true;
+        } else {
             $aaa['matchDeclear'] = false;
         }
         // dd($sportModel->id);
@@ -84,76 +86,92 @@ class HomeController extends Controller
         return json_encode($aaa);
     }
 
-    public function getdatatennis($token){
-      $url = 'http://194.195.113.212/json/1.'.$token.'.json';
-      $ch = curl_init( $url );
-      curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-      curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-      $result = curl_exec($ch);
-      curl_close($ch);
+    public function getdatatennis($token)
+    {
+
+        $url = 'http://65.1.65.188:3000/getdata/' . $token;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
 //      $result = file_get_contents($url);
-//      $result = '{"market": [{"marketId": "1.30042557", "inplay": false, "totalMatched": null, "totalAvailable": null, "priceStatus": null, "events": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "2.08", "LaySize1": "215.83", "LayPrice2": "2.1", "LaySize2": "219.43", "LayPrice3": "2.12", "LaySize3": "3.2", "BackPrice1": "2.04", "BackSize1": "210.07", "BackPrice2": "2.02", "BackSize2": "550", "BackPrice3": "1.96", "BackSize3": "83.2"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "1.95", "LaySize1": "8.99", "LayPrice2": "1.96", "LaySize2": "195.13", "LayPrice3": "1.97", "LaySize3": "14.5", "BackPrice1": "1.94", "BackSize1": "9.78", "BackPrice2": "1.93", "BackSize2": "213.31", "BackPrice3": "1.92", "BackSize3": "249.51"}]}], "bookmake": [{"runners": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "96", "LaySize1": "100", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "92", "BackSize1": "100", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}]}], "session": [{"SelectionId": "", "RunnerName": "Match 1st over run(KKR vs CSK)adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs KKR(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs CSK(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs KKR(KKR vs CSK)adv", "LayPrice1": "165", "LaySize1": "100", "BackPrice1": "167", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs CSK(KKR vs CSK)adv", "LayPrice1": "167", "LaySize1": "100", "BackPrice1": "169", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt KKR(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt CSK(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill run(KKR vs CSK)adv", "LayPrice1": "26", "LaySize1": "110", "BackPrice1": "26", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine run(KKR vs CSK)adv", "LayPrice1": "16", "LaySize1": "110", "BackPrice1": "16", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis run(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "110", "BackPrice1": "25", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson run(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "110", "BackPrice1": "20", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "115", "BackPrice1": "3", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis Boundaries(KKR vs CSK)adv", "LayPrice1": "4", "LaySize1": "115", "BackPrice1": "4", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs KKR(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs CSK(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fours(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "100", "BackPrice1": "27", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Sixes(KKR vs CSK)adv", "LayPrice1": "11", "LaySize1": "100", "BackPrice1": "12", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Boundaries(KKR vs CSK)adv", "LayPrice1": "36", "LaySize1": "100", "BackPrice1": "38", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wkts(KKR vs CSK)adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "13", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wides(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Extras(KKR vs CSK)adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Caught Outs(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Bowled(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match LBW(KKR vs CSK)adv", "LayPrice1": "1", "LaySize1": "100", "BackPrice1": "2", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fifties(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Highest Scoring over in match(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "100", "BackPrice1": "21", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Top batsman runs in match(KKR vs CSK)adv", "LayPrice1": "66", "LaySize1": "100", "BackPrice1": "68", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "3 wkt or more by bowler in match(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Fours KKR and CSK adv", "LayPrice1": "150", "LaySize1": "100", "BackPrice1": "157", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Sixes KKR and CSK adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "31", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wkts KKR and CSK adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "37", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wides KKR and CSK adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Extras KKR and CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "57", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 2 over Runs Session adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 4 over Runs Session adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "30", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 4 over Runs Session adv", "LayPrice1": "31", "LaySize1": "100", "BackPrice1": "33", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras KKR adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours KKR adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls KKR adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs KKR adv", "LayPrice1": "26", "LaySize1": "100", "BackPrice1": "28", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras KKR adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls KKR adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs KKR adv", "LayPrice1": "48", "LaySize1": "100", "BackPrice1": "50", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs KKR adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours KKR adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras CSK adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls CSK adv", "LayPrice1": "21", "LaySize1": "100", "BackPrice1": "23", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs CSK adv", "LayPrice1": "23", "LaySize1": "100", "BackPrice1": "25", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours CSK adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls CSK adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs CSK adv", "LayPrice1": "27", "LaySize1": "100", "BackPrice1": "29", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras CSK adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls CSK adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "52", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs CSK adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours CSK adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}]}';
-      $arr = json_decode($result,true);
-      $aaa['odd'] = $arr['market'][0]['events'];
-      $aaa['bookmaker'] = $arr['bookmake'][0]['runners'];
-      $aaa['session'] = $arr['session'];
-      $sportModel = Sports::where(['match_id'=>$token,'active'=>1])->first();
-      $aaa['matchDeclear'] = false;
-      if(!empty($sportModel->winner)){
-        $aaa['matchDeclear'] = true;
-      }
-      $aaa['matchSuspended'] = MyBetsController::getMatchSuspended($sportModel->id);
-      return json_encode($aaa);
+        //      $result = '{"market": [{"marketId": "1.30042557", "inplay": false, "totalMatched": null, "totalAvailable": null, "priceStatus": null, "events": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "2.08", "LaySize1": "215.83", "LayPrice2": "2.1", "LaySize2": "219.43", "LayPrice3": "2.12", "LaySize3": "3.2", "BackPrice1": "2.04", "BackSize1": "210.07", "BackPrice2": "2.02", "BackSize2": "550", "BackPrice3": "1.96", "BackSize3": "83.2"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "1.95", "LaySize1": "8.99", "LayPrice2": "1.96", "LaySize2": "195.13", "LayPrice3": "1.97", "LaySize3": "14.5", "BackPrice1": "1.94", "BackSize1": "9.78", "BackPrice2": "1.93", "BackSize2": "213.31", "BackPrice3": "1.92", "BackSize3": "249.51"}]}], "bookmake": [{"runners": [{"SelectionId": "", "RunnerName": "Kolkata Knight Riders", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}, {"SelectionId": "", "RunnerName": "Chennai Super Kings", "LayPrice1": "96", "LaySize1": "100", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "92", "BackSize1": "100", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}]}], "session": [{"SelectionId": "", "RunnerName": "Match 1st over run(KKR vs CSK)adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs KKR(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "6 over runs CSK(KKR vs CSK)adv", "LayPrice1": "46", "LaySize1": "100", "BackPrice1": "48", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs KKR(KKR vs CSK)adv", "LayPrice1": "165", "LaySize1": "100", "BackPrice1": "167", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "20 over runs CSK(KKR vs CSK)adv", "LayPrice1": "167", "LaySize1": "100", "BackPrice1": "169", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt KKR(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Fall of 1st wkt CSK(KKR vs CSK)adv", "LayPrice1": "23", "LaySize1": "110", "BackPrice1": "23", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill run(KKR vs CSK)adv", "LayPrice1": "26", "LaySize1": "110", "BackPrice1": "26", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine run(KKR vs CSK)adv", "LayPrice1": "16", "LaySize1": "110", "BackPrice1": "16", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis run(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "110", "BackPrice1": "25", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson run(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "110", "BackPrice1": "20", "BackSize1": "90", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Gill Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "115", "BackPrice1": "3", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "F du Plessis Boundaries(KKR vs CSK)adv", "LayPrice1": "4", "LaySize1": "115", "BackPrice1": "4", "BackSize1": "85", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Watson Boundaries(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs KKR(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "How many balls for 50 runs CSK(KKR vs CSK)adv", "LayPrice1": "38", "LaySize1": "100", "BackPrice1": "40", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fours(KKR vs CSK)adv", "LayPrice1": "25", "LaySize1": "100", "BackPrice1": "27", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Sixes(KKR vs CSK)adv", "LayPrice1": "11", "LaySize1": "100", "BackPrice1": "12", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Boundaries(KKR vs CSK)adv", "LayPrice1": "36", "LaySize1": "100", "BackPrice1": "38", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wkts(KKR vs CSK)adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "13", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Wides(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Extras(KKR vs CSK)adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Caught Outs(KKR vs CSK)adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Bowled(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match LBW(KKR vs CSK)adv", "LayPrice1": "1", "LaySize1": "100", "BackPrice1": "2", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Total match Fifties(KKR vs CSK)adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Highest Scoring over in match(KKR vs CSK)adv", "LayPrice1": "20", "LaySize1": "100", "BackPrice1": "21", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Top batsman runs in match(KKR vs CSK)adv", "LayPrice1": "66", "LaySize1": "100", "BackPrice1": "68", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "3 wkt or more by bowler in match(KKR vs CSK)adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Fours KKR and CSK adv", "LayPrice1": "150", "LaySize1": "100", "BackPrice1": "157", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Sixes KKR and CSK adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "31", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wkts KKR and CSK adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "37", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Wides KKR and CSK adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Multiplication of Total Extras KKR and CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "57", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "P Cummins 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Mavi 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "V Chakravarthy 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 2 over Runs Session adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Narine 4 over Runs Session adv", "LayPrice1": "28", "LaySize1": "100", "BackPrice1": "30", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "A Russell 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "D Chahar 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Curran 4 over Runs Session adv", "LayPrice1": "32", "LaySize1": "100", "BackPrice1": "34", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 2 over Runs Session adv", "LayPrice1": "15", "LaySize1": "100", "BackPrice1": "17", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "S Thakur 4 over Runs Session adv", "LayPrice1": "33", "LaySize1": "100", "BackPrice1": "35", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 2 over Runs Session adv", "LayPrice1": "14", "LaySize1": "100", "BackPrice1": "16", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Dwayne Bravo 4 over Runs Session adv", "LayPrice1": "31", "LaySize1": "100", "BackPrice1": "33", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 2 over Runs Session adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "15", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "R Jadeja 4 over Runs Session adv", "LayPrice1": "30", "LaySize1": "100", "BackPrice1": "32", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras KKR adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs KKR adv", "LayPrice1": "22", "LaySize1": "100", "BackPrice1": "24", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours KKR adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes KKR adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls KKR adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs KKR adv", "LayPrice1": "26", "LaySize1": "100", "BackPrice1": "28", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs KKR adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes KKR adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras KKR adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls KKR adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs KKR adv", "LayPrice1": "48", "LaySize1": "100", "BackPrice1": "50", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs KKR adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours KKR adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes KKR adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Wkts CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Extras CSK adv", "LayPrice1": "3", "LaySize1": "100", "BackPrice1": "4", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Dot balls CSK adv", "LayPrice1": "21", "LaySize1": "100", "BackPrice1": "23", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 1 runs CSK adv", "LayPrice1": "23", "LaySize1": "100", "BackPrice1": "25", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total 2 runs CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Fours CSK adv", "LayPrice1": "7", "LaySize1": "100", "BackPrice1": "8", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 10 overs Total Sixes CSK adv", "LayPrice1": "2", "LaySize1": "100", "BackPrice1": "3", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Wkts CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Extras CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Dot balls CSK adv", "LayPrice1": "12", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 1 runs CSK adv", "LayPrice1": "27", "LaySize1": "100", "BackPrice1": "29", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total 2 runs CSK adv", "LayPrice1": "5", "LaySize1": "100", "BackPrice1": "6", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Fours CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 11 to 20 overs Total Sixes CSK adv", "LayPrice1": "4", "LaySize1": "100", "BackPrice1": "5", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Wkts CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Extras CSK adv", "LayPrice1": "8", "LaySize1": "100", "BackPrice1": "9", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Dot balls CSK adv", "LayPrice1": "34", "LaySize1": "100", "BackPrice1": "36", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 1 runs CSK adv", "LayPrice1": "50", "LaySize1": "100", "BackPrice1": "52", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total 2 runs CSK adv", "LayPrice1": "9", "LaySize1": "100", "BackPrice1": "10", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Fours CSK adv", "LayPrice1": "13", "LaySize1": "100", "BackPrice1": "14", "BackSize1": "100", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "1st Inn 0 to 20 overs Total Sixes CSK adv", "LayPrice1": "6", "LaySize1": "100", "BackPrice1": "7", "BackSize1": "100", "GameStatus": ""}]}';
+
+        //   dd($arr);
+        $aaa=[];
+        if (!empty($result)) {
+            $arr = json_decode($result, true);
+            $aaa['odd'] = $arr['market'][0]['events'];
+            $aaa['bookmaker'] = $arr['bookmake'][0]['runners'];
+            $aaa['session'] = $arr['session'];
+        }
+            $sportModel = Sports::where(['match_id' => $token, 'active' => 1])->first();
+            $aaa['matchDeclear'] = false;
+            if (!empty($sportModel->winner)) {
+                $aaa['matchDeclear'] = true;
+            }
+            $aaa['matchSuspended'] = MyBetsController::getMatchSuspended($sportModel->id);
+
+        return json_encode($aaa);
     }
-    public function getdatasoccer($token){
-      $url = 'http://194.195.114.164/json/1.'.$token.'.json';
-      $ch = curl_init( $url );
-      curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-      curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-      $result = curl_exec($ch);
-      curl_close($ch);
+    public function getdatasoccer($token)
+    {
+        // $result = [];
+        $url = "http://65.1.65.188:3000/getdata/$token";
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
 
 //      $result = '{"market": [{"marketId": "1.30165965", "inplay": false, "totalMatched": null, "totalAvailable": null, "priceStatus": null, "events": [{"SelectionId": "", "RunnerName": "Seattle Sounders", "LayPrice1": "1.72", "LaySize1": "68.99", "LayPrice2": "1.73", "LaySize2": "35.51", "LayPrice3": "1.74", "LaySize3": "11.25", "BackPrice1": "1.69", "BackSize1": "19", "BackPrice2": "1.68", "BackSize2": "11.87", "BackPrice3": "1.67", "BackSize3": "422.15"}, {"SelectionId": "", "RunnerName": "Minnesota Utd", "LayPrice1": "5.4", "LaySize1": "201.35", "LayPrice2": "5.5", "LaySize2": "6.62", "LayPrice3": "5.6", "LaySize3": "8.48", "BackPrice1": "5.1", "BackSize1": "10.97", "BackPrice2": "5", "BackSize2": "11.77", "BackPrice3": "4.9", "BackSize3": "72.98"}, {"SelectionId": "", "RunnerName": "The Draw", "LayPrice1": "4.6", "LaySize1": "10.23", "LayPrice2": "4.7", "LaySize2": "195.28", "LayPrice3": "4.8", "LaySize3": "22.31", "BackPrice1": "4.5", "BackSize1": "14.46", "BackPrice2": "4.4", "BackSize2": "36.29", "BackPrice3": "4.3", "BackSize3": "71.87"}]}], "bookmake": [{"runners": [{"SelectionId": "", "RunnerName": "", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}, {"SelectionId": "", "RunnerName": "", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}, {"SelectionId": "", "RunnerName": "", "LayPrice1": "0", "LaySize1": "0", "LayPrice2": "0", "LaySize2": "0", "LayPrice3": "0", "LaySize3": "0", "BackPrice1": "0", "BackSize1": "0", "BackPrice2": "0", "BackSize2": "0", "BackPrice3": "0", "BackSize3": "0"}]}], "session": [{"SelectionId": "", "RunnerName": "Under 1.5 Goals", "LayPrice1": "6.4", "LaySize1": "6.94", "LayPrice2": "6.6", "LaySize2": "6.67", "LayPrice3": "7", "LaySize3": "24.95", "BackPrice1": "5.1", "BackSize1": "1.99", "BackPrice2": "4.8", "BackSize2": "13.07", "BackPrice3": "3.5", "BackSize3": "1.15", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Over 1.5 Goals", "LayPrice1": "1.25", "LaySize1": "10.1", "LayPrice2": "1.27", "LaySize2": "47.51", "LayPrice3": "1.33", "LaySize3": "2.5", "BackPrice1": "1.19", "BackSize1": "37.32", "BackPrice2": "1.18", "BackSize2": "37.32", "BackPrice3": "1.17", "BackSize3": "149.28", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Under 0.5 Goals", "LayPrice1": "26", "LaySize1": "93.87", "LayPrice2": "36", "LaySize2": "78.21", "LayPrice3": "55", "LaySize3": "1.51", "BackPrice1": "21", "BackSize1": "3.78", "BackPrice2": "16.5", "BackSize2": "10", "BackPrice3": "3.4", "BackSize3": "2.7", "GameStatus": ""}, {"SelectionId": "", "RunnerName": "Over 0.5 Goals", "LayPrice1": "1.05", "LaySize1": "75.57", "LayPrice2": "1.07", "LaySize2": "155.68", "LayPrice3": "1.42", "LaySize3": "6.2", "BackPrice1": "1.04", "BackSize1": "2.3K", "BackPrice2": "1.03", "BackSize2": "2.7K", "BackPrice3": "1.02", "BackSize3": "81.43", "GameStatus": ""}]}';
-      $arr = json_decode($result,true);
-      $aaa['odd'] = $arr['market'][0]['events'];
-      $aaa['bookmaker'] = $arr['bookmake'][0]['runners'];
-      $aaa['session'] = $arr['session'];
 
-      $sportModel = Sports::where(['match_id'=>$token,'active'=>1])->first();
-      $aaa['matchDeclear'] = false;
-      if(!empty($sportModel->winner)){
-        $aaa['matchDeclear'] = true;
-      }
-      $aaa['matchSuspended'] = MyBetsController::getMatchSuspended($sportModel->id);
-      return json_encode($aaa);
+        if (!empty($result)) {
+
+            $arr = json_decode($result, true);
+            $aaa['odd'] = $arr['t1'][0];
+            $aaa['bookmaker'] = $arr['t2'];
+            $aaa['session'] = $arr['t3'];
+        }
+
+
+        $sportModel = Sports::where(['match_id' => $token, 'active' => 1])->first();
+        $aaa['matchDeclear'] = false;
+        if (!empty($sportModel->winner)) {
+            $aaa['matchDeclear'] = true;
+        }
+        $aaa['matchSuspended'] = MyBetsController::getMatchSuspended($sportModel->id);
+        return json_encode($aaa);
     }
-    public function userchangepassword(){
-      return view('frontend.changepassword');
+    public function userchangepassword()
+    {
+        return view('frontend.changepassword');
     }
 
-    public function userchangepasswordstore(Request $request){
+    public function userchangepasswordstore(Request $request)
+    {
 
-      $requestData = $request->all();
-      $userId = Auth::user()->id;
+        $requestData = $request->all();
+        $userId = Auth::user()->id;
 
-      $m_pwd =  $requestData['old_password'];
-      $user = User::find($userId);
-      if (!Hash::check($m_pwd, $user->password)) {
-        return redirect()->route('frontend.userchangepassword')->withFlashSuccess('old Password Wrong');
-      }
+        $m_pwd = $requestData['old_password'];
+        $user = User::find($userId);
+        if (!Hash::check($m_pwd, $user->password)) {
+            return redirect()->route('frontend.userchangepassword')->withFlashSuccess('old Password Wrong');
+        }
 
-
-      if($requestData['new_password'] != $requestData['c_password']){
-        return redirect()->route('frontend.userchangepassword')->withFlashSuccess('Password Not Match');
-      }
-      $model = User::where(['id'=>$userId])->first();
-      $model->password = Hash::make($requestData['new_password']);
-      $model->isChangePassParent = '0';
-      if($model->save()){
-        return redirect()->route('frontend.auth.logout')->withFlashSuccess('User Password Updated successfully');
-      }else{
-        return redirect()->route('frontend.userchangepassword')->withFlashSuccess('User Password Not Updated');
-      }
+        if ($requestData['new_password'] != $requestData['c_password']) {
+            return redirect()->route('frontend.userchangepassword')->withFlashSuccess('Password Not Match');
+        }
+        $model = User::where(['id' => $userId])->first();
+        $model->password = Hash::make($requestData['new_password']);
+        $model->isChangePassParent = '0';
+        if ($model->save()) {
+            return redirect()->route('frontend.auth.logout')->withFlashSuccess('User Password Updated successfully');
+        } else {
+            return redirect()->route('frontend.userchangepassword')->withFlashSuccess('User Password Not Updated');
+        }
     }
 
     public function showAdminLoginForm()
@@ -163,125 +181,133 @@ class HomeController extends Controller
     public function index()
     {
 
-      $gameModel = Games::where(["name" => "CRICKET",'status'=>1])->first();
-      if(!isset($gameModel->id) || empty($gameModel->id)){
-        $sports = array();
-      }else{
-        $sports = DB::select( "SELECT  * FROM `sports` WHERE game_id='".$gameModel->id."' AND active='1' AND (winner ='' OR winner IS NULL)");
-      }
-      self::setButtonVal(Auth::user()->id);
-      return view('frontend.game-list.cricket', compact('sports'));
+        $gameModel = Games::where(["name" => "CRICKET", 'status' => 1])->first();
+        if (!isset($gameModel->id) || empty($gameModel->id)) {
+            $sports = array();
+        } else {
+            $sports = DB::select("SELECT  * FROM `sports` WHERE game_id='" . $gameModel->id . "' AND active='1' AND (winner ='' OR winner IS NULL)");
+        }
+        self::setButtonVal(Auth::user()->id);
+        return view('frontend.game-list.cricket', compact('sports'));
     }
-     public static function setButtonVal($userID){
-      $buttonValueModel = ButtonValue::where(['user_id'=>$userID])->first();
-      if(!isset($buttonValueModel->btnSetting)){
-        $buttonValueModel = new ButtonValue();
-        $buttonValueModel->user_id = $userID;
-        $buttonValueModel->btnSetting = '{"label":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"],"price":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"]}';
-        $buttonValueModel->save();
-      }else if(empty($buttonValueModel->btnSetting)){
-        $buttonValueModel->btnSetting = '{"label":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"],"price":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"]}';
-        $buttonValueModel->save();
-      }
+    public static function setButtonVal($userID)
+    {
+        $buttonValueModel = ButtonValue::where(['user_id' => $userID])->first();
+        if (!isset($buttonValueModel->btnSetting)) {
+            $buttonValueModel = new ButtonValue();
+            $buttonValueModel->user_id = $userID;
+            $buttonValueModel->btnSetting = '{"label":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"],"price":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"]}';
+            $buttonValueModel->save();
+        } else if (empty($buttonValueModel->btnSetting)) {
+            $buttonValueModel->btnSetting = '{"label":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"],"price":["1000","2000","3000","4000","5000","6000","7000","8000","9000","10000"]}';
+            $buttonValueModel->save();
+        }
     }
     public function cricket()
     {
-      return view('frontend.game-list.cricket');
+        return view('frontend.game-list.cricket');
     }
-    public function singles($token){
+    public function singles($token)
+    {
 //      return view('frontend.game-list.singles');
-//      return view('frontend.game-list.tennisSingles');
+        //      return view('frontend.game-list.tennisSingles');
 
-      return view('frontend.game-list.footbollSingles');
+        return view('frontend.game-list.footbollSingles');
     }
-    public function changebtnvalue(){
+    public function changebtnvalue()
+    {
 
-      $model = ButtonValue::where('user_id',Auth::user()->id)->first();
-      if(!$model){
-        $array = array(
-            'label' => array(1,2,3,4,5,6,7,8,9,10),
-            'price'=> array(1,2,3,4,5,6,7,8,9,10)
-        );
-        $model = new ButtonValue();
-        $model->user_id = Auth::user()->id;
+        $model = ButtonValue::where('user_id', Auth::user()->id)->first();
+        if (!$model) {
+            $array = array(
+                'label' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                'price' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+            );
+            $model = new ButtonValue();
+            $model->user_id = Auth::user()->id;
 
-        $model->btnSetting = json_encode($array);
-        $model->save();
-      }
+            $model->btnSetting = json_encode($array);
+            $model->save();
+        }
 
-      $setting = json_decode($model->btnSetting,true);
+        $setting = json_decode($model->btnSetting, true);
 //      ddd($setting);
-      return view('frontend.button-value.create', compact('setting'));
+        return view('frontend.button-value.create', compact('setting'));
     }
 
-    public function btnvaluestore(Request $request){
-      $returnArr = array();
-      $returnArr['status'] = false;
-      $returnArr['message'] = 'Enter required values';
+    public function btnvaluestore(Request $request)
+    {
+        $returnArr = array();
+        $returnArr['status'] = false;
+        $returnArr['message'] = 'Enter required values';
 
-      $model = ButtonValue::where(['user_id'=>Auth::user()->id])->first();
-      if(!$model){
-        $model = new ButtonValue();
-      }
-      $model->user_id = Auth::user()->id;
-      $model->btnSetting = json_encode($request->input('btnSetting'));
-      if($model->save()){
-        $returnArr['status'] = true;
-        $returnArr['message'] = 'Successfully updated!';
-      }
-      die(json_encode($returnArr));
-    }
-    public function changepassword(){
-       return view('frontend.button-value.change-password');
-    }
-    public function pwStore(Request $request){
-      $this->validate($request, [
-        'oldpassword' => 'required',
-        'newpassword' => 'required',
-      ]);
-      $resp = array();
-      $hashedPassword = Auth::user()->password;
-
-      if (\Hash::check($request->oldpassword , $hashedPassword )) {
-
-        if (!\Hash::check($request->newpassword , $hashedPassword)) {
-
-          $users = \App\Models\Auth\User::find(Auth::user()->id);
-          $users->password = bcrypt($request->newpassword);
-          \App\Models\Auth\User::where( 'id' , Auth::user()->id)->update( array( 'password' =>  $users->password));
-          $resp['status'] = true;
-          $resp['message'] = 'password updated successfully';
-
-        }else{
-          $resp['status'] = false;
-          $resp['message'] = 'new password can not be the old password!';
+        $model = ButtonValue::where(['user_id' => Auth::user()->id])->first();
+        if (!$model) {
+            $model = new ButtonValue();
         }
-
-      } else{
-        $resp['status'] = false;
-        $resp['message'] = 'old password doesnt matched';
-      }
-      die(json_encode($resp));
-    }
-    public static function getActiveStatus($userID){
-      $userModel = User::find($userID);
-      if($userModel->active == 0){
-        return true;
-      }
-      if($userModel->parent_id != 0){
-        $data = self::getActiveStatus($userModel->parent_id);
-        if($data){
-          return true;
+        $model->user_id = Auth::user()->id;
+        $model->btnSetting = json_encode($request->input('btnSetting'));
+        if ($model->save()) {
+            $returnArr['status'] = true;
+            $returnArr['message'] = 'Successfully updated!';
         }
-      }
-      return false;
+        die(json_encode($returnArr));
+    }
+    public function changepassword()
+    {
+        return view('frontend.button-value.change-password');
+    }
+    public function pwStore(Request $request)
+    {
+        $this->validate($request, [
+            'oldpassword' => 'required',
+            'newpassword' => 'required',
+        ]);
+        $resp = array();
+        $hashedPassword = Auth::user()->password;
+
+        if (\Hash::check($request->oldpassword, $hashedPassword)) {
+
+            if (!\Hash::check($request->newpassword, $hashedPassword)) {
+
+                $users = \App\Models\Auth\User::find(Auth::user()->id);
+                $users->password = bcrypt($request->newpassword);
+                \App\Models\Auth\User::where('id', Auth::user()->id)->update(array('password' => $users->password));
+                $resp['status'] = true;
+                $resp['message'] = 'password updated successfully';
+
+            } else {
+                $resp['status'] = false;
+                $resp['message'] = 'new password can not be the old password!';
+            }
+
+        } else {
+            $resp['status'] = false;
+            $resp['message'] = 'old password doesnt matched';
+        }
+        die(json_encode($resp));
+    }
+    public static function getActiveStatus($userID)
+    {
+        $userModel = User::find($userID);
+        if ($userModel->active == 0) {
+            return true;
+        }
+        if ($userModel->parent_id != 0) {
+            $data = self::getActiveStatus($userModel->parent_id);
+            if ($data) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public function getRules(Request $request){
-      $type = $request->input('type');
-      switch($type){
-        case 'ODDS':{
-          $html = '<div class="container-fluid">
+    public function getRules(Request $request)
+    {
+        $type = $request->input('type');
+        switch ($type) {
+            case 'ODDS':{
+                    $html = '<div class="container-fluid">
                       <div data-typeid="" class="row rules-container">
                         <!---->
                         <div class="col nopading rules-description">
@@ -300,10 +326,10 @@ class HomeController extends Controller
                         </div>
                       </div>
                     </div>';
-          break;
-        }
-        case 'BOOKMAKER':{
-          $html = '<div class="container-fluid">
+                    break;
+                }
+            case 'BOOKMAKER':{
+                    $html = '<div class="container-fluid">
                     <div data-typeid="" class="row rules-container">
                       <!---->
                       <div class="col nopading rules-description">
@@ -342,10 +368,10 @@ class HomeController extends Controller
                       </div>
                     </div>
                   </div>';
-          break;
-        }
-        case 'SESSION':{
-          $html = '<div class="container-fluid">
+                    break;
+                }
+            case 'SESSION':{
+                    $html = '<div class="container-fluid">
             <div data-typeid="" class="row rules-container">
               <!---->
               <div class="col nopading rules-description">
@@ -867,11 +893,10 @@ class HomeController extends Controller
               </div>
             </div>
           </div>';
-          break;
+                    break;
+                }
         }
-      }
-      return $html;
+        return $html;
     }
-
 
 }

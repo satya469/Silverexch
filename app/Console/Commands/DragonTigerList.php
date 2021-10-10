@@ -46,7 +46,7 @@ class DragonTigerList extends Command
             $result = json_decode($result,true);
             $match_id = $result[0]['mid'];
             if(!empty($match_id)){
-                $res = Sports::where(['match_id' =>$match_id])->get();
+                $res = Sports::where(['roundID' =>$match_id])->get();
                 if($res == '[]'){
                     $sportsModel = new Sports();
                     $sportsModel->match_name = 'Dragon Tiger';
@@ -60,6 +60,8 @@ class DragonTigerList extends Command
             }
             // dd($match_id);
         }
+        sleep(2);
+        Self::handle();
     }
 
     public static function CallAPI($method, $url, $data = false)

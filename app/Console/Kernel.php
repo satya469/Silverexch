@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->command('matchlist:update')->everyFifteenMinutes();
-        $schedule->command('dragontiger:list')->everySeconds(3);
+        $schedule->command('dragontiger:list')->daily();
     }
 
     /**

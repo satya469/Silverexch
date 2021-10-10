@@ -110,13 +110,17 @@ class MatchListUpdate extends Command
 
             } else {
 
+                if(!empty($value->eventName)){
+                    $name_date = explode('/', $value->eventName);
+                }
                 $sportsModel = new Sports();
-                $sportsModel->match_name = $value->eventName;
+                $sportsModel->match_name = $name_date[0];
+                $sportsModel->match_date_time = $name_date[1];
                 $sportsModel->match_id = $value->gameId;
                 $sportsModel->inplay_status = $value->inPlay;
                 $sportsModel->game_id = $game_id;
                 $sportsModel->active = '1';
-                
+
                 $sportsModel->save();
 
 

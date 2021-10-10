@@ -6,7 +6,7 @@
 <div class="row">
    <div class="col-md-8 featured-box-detail">
       <div class="coupon-card">
-         <div class="game-heading"> 
+         <div class="game-heading">
              <span class="card-header-title">
                  <?= $sports->match_name ?>
              </span>
@@ -17,16 +17,17 @@
                   @if(!empty($sports->odd_min_limit))
                     <span style="padding-right: 10px;">Min : <span>{{$sports->odd_min_limit}}</span></span>
                   @endif
-                  @if(!empty($sports->odd_max_limit))    
+                  @if(!empty($sports->odd_max_limit))
                     <span> Max : <span>{{$sports->odd_max_limit}}</span></span>
                   @endif
               </span>
              </span>
          </div>
-          
+
           <script src="https://demo.nanocosmos.de/nanoplayer/api/release/nanoplayer.4.min.js?20200302"></script>
             <div class="casinoVideo">
               <div id="playerDiv"></div>
+              <iframe src="http://176.58.120.211/diamond_teen_patti_tv/20_20_dragon_tiger.html" height="100%" width="100%"></iframe>
             </div>
             <!--END GAME VIDEO PLAY-->
             <div class="cardsDiv">
@@ -40,10 +41,10 @@
                 </div>
             </div>
             <div  class="timerClass" style="display:none;"><label id="time">00:00</label></div>
-          
+
             <br>
-          <div class="game-heading"> 
-             <span class="card-header-title">MATCH ODDS</span> 
+          <div class="game-heading">
+             <span class="card-header-title">MATCH ODDS</span>
           </div>
           <div class="card-content">
             <div class="table-header">
@@ -58,141 +59,141 @@
               <div data-title="OPEN" class="table-body  ODDS">
                 <div data-title="ACTIVE" class="table-row oddsTot oddssteam0">
                   <div class="float-left country-name box-4">
-                      <span class="oddteamname1 team-name0"><b class="teamName"></b></span> 
+                      <span class="oddteamname1 team-name0"><b class="teamName"></b></span>
                     <p>
-                        <span class="float-left matchValClear" style="color: black;">0</span> 
+                        <span class="float-left matchValClear" style="color: black;">0</span>
                         <span class="float-right matchValClear" style="display: none; color: black;">0</span>
                     </p>
                   </div>
                   <div class="box-1 back2 float-left back-2 text-center">
-                      <span class="odd d-block back3t"></span> 
+                      <span class="odd d-block back3t"></span>
                       <span class="oddk d-block back3k"></span>
                   </div>
                   <div class="box-1 back1 float-left back-1 text-center">
-                      <span class="odd d-block back2t"></span> 
+                      <span class="odd d-block back2t"></span>
                       <span class="oddk d-block back2k"></span>
                   </div>
                   <div class="box-1 back float-left back lock text-center">
-                      <span class="odd d-block back1t"></span> 
+                      <span class="odd d-block back1t"></span>
                       <span class="oddk d-block back1k"></span>
                   </div>
                   <div class="box-1 lay float-left text-center">
-                      <span class="odd d-block lay1t"></span> 
+                      <span class="odd d-block lay1t"></span>
                       <span class="oddk d-block lay1k"></span>
                   </div>
                   <div class="box-1 lay1 float-left text-center">
-                      <span class="odd d-block lay2t"></span> 
+                      <span class="odd d-block lay2t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                   <div class="box-1 lay2 float-left text-center">
-                      <span class="odd d-block lay3t"></span> 
+                      <span class="odd d-block lay3t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                 </div>
                 <div data-title="ACTIVE" class="table-row oddsTot oddssteam1">
                   <div class="float-left country-name box-4">
-                    <span class="oddteamname2 team-name1"><b class="teamName"></b></span> 
+                    <span class="oddteamname2 team-name1"><b class="teamName"></b></span>
                     <p>
-                        <span class="float-left matchValClear" style="color: black;">0</span> 
+                        <span class="float-left matchValClear" style="color: black;">0</span>
                         <span class="float-right matchValClear" style="display: none; color: black;">0</span>
                     </p>
                   </div>
                   <div class="box-1 back2 float-left back-2 text-center">
-                      <span class="odd d-block back3t"></span> 
+                      <span class="odd d-block back3t"></span>
                       <span class="oddk d-block back3k"></span>
                   </div>
                   <div class="box-1 back1 float-left back-1 text-center">
-                      <span class="odd d-block back2t"></span> 
+                      <span class="odd d-block back2t"></span>
                       <span class="oddk d-block back2k"></span>
                   </div>
                   <div class="box-1 back float-left back lock text-center">
-                      <span class="odd d-block back1t"></span> 
+                      <span class="odd d-block back1t"></span>
                       <span class="oddk d-block back1k"></span>
                   </div>
                   <div class="box-1 lay float-left text-center">
-                      <span class="odd d-block lay1t"></span> 
+                      <span class="odd d-block lay1t"></span>
                       <span class="oddk d-block lay1k"></span>
                   </div>
                   <div class="box-1 lay1 float-left text-center">
-                      <span class="odd d-block lay2t"></span> 
+                      <span class="odd d-block lay2t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                   <div class="box-1 lay2 float-left text-center">
-                      <span class="odd d-block lay3t"></span> 
+                      <span class="odd d-block lay3t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                 </div>
                   <div data-title="ACTIVE" class="table-row oddsTot oddssteam2">
                   <div class="float-left country-name box-4">
-                    <span class="oddteamname2 team-name2"><b class="teamName"></b></span> 
+                    <span class="oddteamname2 team-name2"><b class="teamName"></b></span>
                     <p>
-                        <span class="float-left matchValClear" style="color: black;">0</span> 
+                        <span class="float-left matchValClear" style="color: black;">0</span>
                         <span class="float-right matchValClear" style="display: none; color: black;">0</span>
                     </p>
                   </div>
                   <div class="box-1 back2 float-left back-2 text-center">
-                      <span class="odd d-block back3t"></span> 
+                      <span class="odd d-block back3t"></span>
                       <span class="oddk d-block back3k"></span>
                   </div>
                   <div class="box-1 back1 float-left back-1 text-center">
-                      <span class="odd d-block back2t"></span> 
+                      <span class="odd d-block back2t"></span>
                       <span class="oddk d-block back2k"></span>
                   </div>
                   <div class="box-1 back float-left back lock text-center">
-                      <span class="odd d-block back1t"></span> 
+                      <span class="odd d-block back1t"></span>
                       <span class="oddk d-block back1k"></span>
                   </div>
                   <div class="box-1 lay float-left text-center">
-                      <span class="odd d-block lay1t"></span> 
+                      <span class="odd d-block lay1t"></span>
                       <span class="oddk d-block lay1k"></span>
                   </div>
                   <div class="box-1 lay1 float-left text-center">
-                      <span class="odd d-block lay2t"></span> 
+                      <span class="odd d-block lay2t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                   <div class="box-1 lay2 float-left text-center">
-                      <span class="odd d-block lay3t"></span> 
+                      <span class="odd d-block lay3t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                 </div>
                 <div data-title="ACTIVE" class="table-row oddsTot oddssteam3">
                   <div class="float-left country-name box-4">
-                    <span class="oddteamname3 team-name3"><b class="teamName"></b></span> 
+                    <span class="oddteamname3 team-name3"><b class="teamName"></b></span>
                     <p>
-                        <span class="float-left matchValClear" style="color: black;">0</span> 
+                        <span class="float-left matchValClear" style="color: black;">0</span>
                         <span class="float-right matchValClear" style="display: none; color: black;">0</span>
                     </p>
                   </div>
                   <div class="box-1 back2 float-left back-2 text-center">
-                      <span class="odd d-block back3t"></span> 
+                      <span class="odd d-block back3t"></span>
                       <span class="oddk d-block back3k"></span>
                   </div>
                   <div class="box-1 back1 float-left back-1 text-center">
-                      <span class="odd d-block back2t"></span> 
+                      <span class="odd d-block back2t"></span>
                       <span class="oddk d-block back2k"></span>
                   </div>
                   <div class="box-1 back float-left back lock text-center">
-                      <span class="odd d-block back1t"></span> 
+                      <span class="odd d-block back1t"></span>
                       <span class="oddk d-block back1k"></span>
                   </div>
                   <div class="box-1 lay float-left text-center">
-                      <span class="odd d-block lay1t"></span> 
+                      <span class="odd d-block lay1t"></span>
                       <span class="oddk d-block lay1k"></span>
                   </div>
                   <div class="box-1 lay1 float-left text-center">
-                      <span class="odd d-block lay2t"></span> 
+                      <span class="odd d-block lay2t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                   <div class="box-1 lay2 float-left text-center">
-                      <span class="odd d-block lay3t"></span> 
+                      <span class="odd d-block lay3t"></span>
                       <span class="oddk d-block lay2k"></span>
                   </div>
                 </div>
               </div>
-         </div>  
+         </div>
          <br>
-         <div class="game-heading"> 
-            <span class="card-header-title">LAST RESULT</span> 
+         <div class="game-heading">
+            <span class="card-header-title">LAST RESULT</span>
         </div>
         <div class="card-content">
           <div class="table-responsive m-b-10 main-market market-bf" data-marketid="1.167146463">
@@ -200,7 +201,7 @@
           </div>
         </div>
       </div>
-   </div>   
+   </div>
   @include('backend.games.game.rightSide')
 </div>
 @endsection
@@ -249,10 +250,10 @@
       dataType: 'json',
       type: "POST",
       cache: false,
-      async: false, 
+      async: false,
       data : "gameName=DragOnTiger&sportID={{$sports->id}}&_token={{csrf_token()}}",
       success: function(data){
-       setDetails(data.detail,'DragOnTiger');
+       setDetails(data,'DragOnTiger');
         setodd(data.runner,'DragOnTiger');
         setResult(data.result,'DragOnTiger');
         getBetsList();

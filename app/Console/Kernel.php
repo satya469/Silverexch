@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use \Spatie\ShortSchedule\ShortSchedule;
+
 
 /**
  * Class Kernel.
@@ -26,8 +28,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        
+
         $schedule->command('matchlist:update')->everyFifteenMinutes();
+        $schedule->command('dragontiger:list')->everySeconds(3);
     }
 
     /**
@@ -40,4 +43,5 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
 
     }
+
 }

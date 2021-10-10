@@ -114,8 +114,8 @@ class MatchListUpdate extends Command
                     $name_date = explode('/', $value->eventName);
                 }
                 $sportsModel = new Sports();
-                $sportsModel->match_name = $name_date[0];
-                $sportsModel->match_date_time = $name_date[1];
+                $sportsModel->match_name = $name_date[0] ?? '';
+                $sportsModel->match_date_time = $name_date[1] ?? '';
                 $sportsModel->match_id = $value->gameId;
                 $sportsModel->inplay_status = $value->inPlay;
                 $sportsModel->game_id = $game_id;

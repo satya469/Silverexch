@@ -264,7 +264,7 @@
         <!---->
         <!---->
         <p class="text-center">
-            © Copyright <?= date('Y') ?>. All Rights Reserved. Powered by HPEXCH.</p>
+            © Copyright <?= date('Y') ?>. All Rights Reserved. Powered by Mohit.</p>
     </footer>
 </body>
 

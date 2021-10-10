@@ -63,11 +63,11 @@ class SportsController extends Controller
         }
         foreach ($details['result'] as $key => $result) {
 
-            $sportModel = Casino::where(['sportID' => $sportID, 'roundID' => $result['roundid'], 'status' => 1])->first();
+            $sportModel = Casino::where(['sportID' => $sportID, 'roundID' => $result['mid'], 'status' => 1])->first();
 
             if (isset($sportModel->status) && $sportModel->status == 1) {
 
-                $betModel = MyBets::where(['sportID' => $sportID, 'match_id' => $result['roundid']])->get();
+                $betModel = MyBets::where(['sportID' => $sportID, 'match_id' => $result['mid']])->get();
                 $userBetList = array();
 
                 foreach ($betModel as $key => $data) {
@@ -143,7 +143,7 @@ class SportsController extends Controller
                     $sport->save();
                     unset($sport);
 
-                    $exTot = MyBetsController::getExAmountByMatchWithDetail($sportID, $data->user_id, $result['roundid'], $winnerTeam);
+                    $exTot = MyBetsController::getExAmountByMatchWithDetail($sportID, $data->user_id, $result['mid'], $winnerTeam);
                     $amount = $exTot;
                     $userModel = User::find($data->user_id);
                     if ($exTot == 0) {
@@ -152,7 +152,7 @@ class SportsController extends Controller
                         $model->deposite_user_id = $userModel->id;
                         $model->withdrawal_user_id = $userModel->parent_id;
                         $model->amount = '0';
-                        $model->match_id = $result['roundid'];
+                        $model->match_id = $result['mid'];
                         $model->type = "ODDS_BOOKMEKER";
                         $model->note = $result['result'] . " is Winner to get P/L";
                         $model->callType = $callType;
@@ -163,7 +163,7 @@ class SportsController extends Controller
                         $model->deposite_user_id = $userModel->id;
                         $model->withdrawal_user_id = $userModel->parent_id;
                         $model->amount = abs($exTot);
-                        $model->match_id = $result['roundid'];
+                        $model->match_id = $result['mid'];
                         $model->type = "ODDS_BOOKMEKER";
                         $model->note = $result['result'] . " is Winner to get P/L";
                         $model->callType = $callType;
@@ -446,29 +446,36 @@ class SportsController extends Controller
                     break;
                 }
             case 'DragOnTiger':{
-                    $url = 'http://172.105.49.149/json/dragont.json';
+
+                    $url = 'http://52.66.42.244/api/lastresults?Id=2595';
                     $ch = curl_init($url);
                     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $result = curl_exec($ch);
                     curl_close($ch);
-                    $arr = json_decode($result, true);
+                    $arr['details'] = json_decode($result, true);
+
                     self::teenpatiresult($requestData['sportID'], $arr, 'DragOnTiger');
-                    $sportModel = Casino::where(['sportID' => $requestData['sportID'], 'roundID' => $arr['detail']['roundId']])->first();
+                    // dd($arr[0]['mid']);
+                    $sportModel = Casino::where(['sportID' => $requestData['sportID'], 'roundID' => $arr['details'][0]['mid']])->first();
+
                     if (isset($sportModel->id) && $sportModel->id > 0) {
                         $sportModel->sportID = $requestData['sportID'];
-                        $sportModel->roundID = $arr['detail']['roundId'];
+                        $sportModel->roundID = $arr['details'][0]['mid'];
                         $sportModel->save();
                     } else {
                         $sportModel = new Casino();
                         $sportModel->sportID = $requestData['sportID'];
-                        $sportModel->roundID = $arr['detail']['roundId'];
+                        $sportModel->roundID = $arr['details'][0]['mid'];
                         $sportModel->save();
                     }
                     break;
+
+
                 }
         }
-        return $arr;
+        // dd($arr);
+        return $arr['details'];
     }
 
     public function liveteenpati()
@@ -617,6 +624,7 @@ class SportsController extends Controller
     public function dragontiger()
     {
         $gameModel = self::getCasinoGameObj();
+        // dd($gameModel->id);
         if (!isset($gameModel->id) || empty($gameModel->id)) {
             return redirect('/');
         }
@@ -625,12 +633,14 @@ class SportsController extends Controller
         $buttonValueArr = json_decode($buttonValueModel->btnSetting, true);
         $buttonValue = $buttonValueArr;
         $sports = DB::select("SELECT  * FROM `sports` WHERE game_id='" . $gameModel->id . "' AND match_name='Dragon Tiger' AND active='1'");
+        // dd($sports);
         if (isset($sports[0])) {
             $sports = $sports[0];
         }
         if (!isset($sports->id) || empty($sports->id)) {
             return redirect('/');
         }
+
         return view('frontend.game-list.dragontiger', compact('sports', 'adminSetting', 'buttonValue'));
     }
 

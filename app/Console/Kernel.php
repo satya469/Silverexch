@@ -26,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('matchlist:update')->everyFifteenMinutes();
+        $file = 'command1_output.log';
+        $schedule->command('matchlist:update')->everyMinute()->sendOutputTo($file);
     }
 
     /**

@@ -42,7 +42,7 @@ class MatchListUpdate extends Command
         $result = '';
         $result = Self::CallAPI('GET', 'http://139.177.188.73:3000/getcricketmatches');
         Self::process_task($result, 1);
-
+        $this->info($result);
         // Soccer
         $result = '';
         $result = Self::CallAPI('GET', 'http://139.177.188.73:3000/getsoccermatches');

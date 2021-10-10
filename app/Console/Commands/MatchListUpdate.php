@@ -42,7 +42,7 @@ class MatchListUpdate extends Command
         $result = '';
         $result = Self::CallAPI('GET', 'http://139.177.188.73:3000/getcricketmatches');
         Self::process_task($result, 1);
-        $this->info($result);
+        // $this->info($result);
         // Soccer
         $result = '';
         $result = Self::CallAPI('GET', 'http://139.177.188.73:3000/getsoccermatches');
@@ -62,8 +62,9 @@ class MatchListUpdate extends Command
 
             // $sql = "SELECT * FROM sports WHERE match_id=$value->gameId";
             $res = Sports::where(['match_id' =>$value->gameId])->get();
-            // dd($res);
-            if (!empty($res)) {
+
+            if ($res != '[]') {
+                // var_dump($res == '[]');die;
                 switch ($game_id) {
                     case '1':
                         $result1 = Self::CallAPI('GET', "http://139.177.188.73:3000/getBM?eventId=$value->gameId");
@@ -108,13 +109,16 @@ class MatchListUpdate extends Command
                 }
 
             } else {
+
                 $sportsModel = new Sports();
                 $sportsModel->match_name = $value->eventName;
                 $sportsModel->match_id = $value->gameId;
                 $sportsModel->inplay_status = $value->inPlay;
                 $sportsModel->game_id = $game_id;
                 $sportsModel->active = '1';
+                
                 $sportsModel->save();
+
 
             }
 

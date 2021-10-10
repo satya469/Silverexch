@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\MatchListUpdate',
+        'App\Console\Commands\DragonTigerList',
     ];
 
     /**

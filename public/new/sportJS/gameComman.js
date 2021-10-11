@@ -15,15 +15,16 @@ function setDetails(data, gametype) {
     $('.timerClass').css("display", 'block');
     $('#time').text(data[0]['autotime']);
     var timerArr = (data[0]['autotime']);
-    // console.log(data);
-    // var fiveMinutes = (parseInt(timerArr[1]) + (parseInt(timerArr[0] * 60)));
-    //    if(parseInt(fiveMinutes) == 0){
-    //      $('.ODDS').addClass("suspended");
-    //      $('.ODDS').attr('data-title','SUSPENDED');
-    //    }else{
-    //      $('.ODDS').removeClass("suspended");
-    //      $('.ODDS').attr('data-title','OPEN');
-    //    }
+    // console.log(timerArr);
+    var fiveMinutes = (parseInt(timerArr));
+
+    if (parseInt(fiveMinutes) == 0) {
+        $('.ODDS').addClass("suspended");
+        $('.ODDS').attr('data-title', 'SUSPENDED');
+    } else {
+        $('.ODDS').removeClass("suspended");
+        $('.ODDS').attr('data-title', 'OPEN');
+    }
 }
 
 function betMsgEmpty() {

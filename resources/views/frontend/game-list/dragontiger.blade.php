@@ -33,8 +33,12 @@
 
             <script src="https://demo.nanocosmos.de/nanoplayer/api/release/nanoplayer.4.min.js?20200302"></script>
             <div class="casinoVideo" style="">
-              <div id="playerDiv">
-              </div>
+                <div>
+                    <iframe src="https://vdo.contestgod.com/dt20.html" height="100%" width="100%"></iframe>
+                </div>
+
+              {{-- <div id="playerDiv">
+              </div> --}}
             </div>
             <!--END GAME VIDEO PLAY-->
             <div class="cardsDiv">
@@ -61,7 +65,7 @@
                 <div class="box-1 float-left not-active mobileOddsHide"></div>
                 <div class="box-1 float-left not-active mobileOddsHide"></div>
               </div>
-              <div data-title="OPEN" class="table-body  ODDS">
+              <div data-title="OPEN" class="table-body ODDS">
                 <div data-title="ACTIVE" class="table-row oddsTot oddssteam0">
                   <div class="float-left country-name box-4 mbox-4">
                       <span class="oddteamname1 team-name0"><b class="teamName">Dragon</b></span>
@@ -377,9 +381,9 @@
       async: false,
       data : "gameName=DragOnTiger&sportID={{$sports->id}}&_token={{csrf_token()}}",
       success: function(data){
-        setDetails(data,'DragOnTiger');
-        setodd(data,'DragOnTiger');
-        setResult(data,'DragOnTiger');
+        setDetails(data['odds'],'DragOnTiger');
+        // setodd(data,'DragOnTiger');
+        setResult(data['details'],'DragOnTiger');
 
       }
     });

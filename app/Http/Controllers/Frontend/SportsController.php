@@ -58,6 +58,10 @@ class SportsController extends Controller
     public static function teenpatiresult($sportID, $details, $callType)
     {
 
+        if($callType == 'DragOnTiger'){
+            $details['result'] = $details['details'];
+        }
+
         if (!isset($details['result'])) {
             return false;
         }
@@ -69,7 +73,7 @@ class SportsController extends Controller
 
                 $betModel = MyBets::where(['sportID' => $sportID, 'match_id' => $result['mid']])->get();
                 $userBetList = array();
-
+                // dd($betModel);
                 foreach ($betModel as $key => $data) {
 
                     if (isset($userBetList[$data->user_id])) {
@@ -436,11 +440,13 @@ class SportsController extends Controller
                     if (isset($sportModel->id) && $sportModel->id > 0) {
                         $sportModel->sportID = $requestData['sportID'];
                         $sportModel->roundID = $arr['detail']['roundId'];
+                        $sportModel->status = 1;
                         $sportModel->save();
                     } else {
                         $sportModel = new Casino();
                         $sportModel->sportID = $requestData['sportID'];
                         $sportModel->roundID = $arr['detail']['roundId'];
+                        $sportModel->status = 1;
                         $sportModel->save();
                     }
                     break;
@@ -455,10 +461,18 @@ class SportsController extends Controller
                     curl_close($ch);
                     $arr['details'] = json_decode($result, true);
 
+                    $url = 'http://52.66.42.244/api/codds?id=2595';
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+                    $arr['odds'] = json_decode($result, true);
+
                     self::teenpatiresult($requestData['sportID'], $arr, 'DragOnTiger');
                     // dd($arr[0]['mid']);
                     $sportModel = Casino::where(['sportID' => $requestData['sportID'], 'roundID' => $arr['details'][0]['mid']])->first();
-
+                // dd($arr['details'][0]);
                     if (isset($sportModel->id) && $sportModel->id > 0) {
                         $sportModel->sportID = $requestData['sportID'];
                         $sportModel->roundID = $arr['details'][0]['mid'];
@@ -474,8 +488,7 @@ class SportsController extends Controller
 
                 }
         }
-        // dd($arr);
-        return $arr['details'];
+        return $arr;
     }
 
     public function liveteenpati()

@@ -60,8 +60,8 @@ class DragonTigerList extends Command
             }
             // dd($match_id);
         }
-        sleep(2);
-        Self::handle();
+
+
     }
 
     public static function CallAPI($method, $url, $data = false)
